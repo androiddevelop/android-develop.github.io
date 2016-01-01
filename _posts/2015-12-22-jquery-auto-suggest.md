@@ -14,10 +14,6 @@ author: 'Codeboy'
 
 # autosuggest.js
 
-适用于Bootstrap的轻量级Ajax输入提示控件([Demo](https://example.codeboy.me/autosuggest/index.html))
-
-# autosuggest.js
-
 适用于Bootstrap的Ajax输入建议控件([Demo](https://example.codeboy.me/autosuggest/index.html))
 
 在[bootcomplete.js](https://github.com/getwebhelp/bootcomplete.js)的基础上大幅度改进，改动如下:
@@ -84,6 +80,10 @@ author: 'Codeboy'
 #### maxNum(非必须):
 
 最大建议数目,默认最多给出 `10` 个建议提示
+
+#### highlight(非必须):
+
+是否高亮显示匹配内容, 默认 `false`
 
 #### split(非必须):
 分隔符, 例如我们需要文本框中输入多个省份,使用逗号分开,那么我们可以设定 `split` 为 `,` , 之后 `autosuggest.js` 会根据最后一个逗号后面的内容进行建议.  默认为 `null` ，即把文本框中所有输入视为一个文本进行建议.
