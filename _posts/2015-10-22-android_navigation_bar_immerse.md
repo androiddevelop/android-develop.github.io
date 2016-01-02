@@ -178,7 +178,7 @@ Android M已经发布了很久了，很多新的特性也非常的吸引人，�
 
 - ⑤刷入system.img
 	
-		adb reboot bootload 
+		adb reboot bootloader
 		fastboot flash system system.img
 		
 这样一个定制过导航栏的nexus5(hammerhead)系统已经制作完成了。
