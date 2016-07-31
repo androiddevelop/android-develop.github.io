@@ -22,7 +22,7 @@ Android M已经发布了很久了，很多新的特性也非常的吸引人，�
 	
 ### 下载并编译源码
 
-源码的下载编译可以参考google官方教程[https://source.android.com/source/downloading.html](https://source.android.com/source/downloading.html)
+源码的下载编译可以参考google官方教程[https://source.android.com/source/downloading.html](https://source.android.com/source/downloading.html),本文编译的源码分支android-6.0.1_r50。
 
 #### 这里需要注意几点：
 
@@ -150,7 +150,8 @@ Android M已经发布了很久了，很多新的特性也非常的吸引人，�
         mNavigationBarView.setBar(this);
         prepareNavigationBarView();
         addNavigationBar();
-        
+		isNavigationShow = true;        
+
         //防止在桌面时上拉出导航栏时，导航栏背景为黑色
         mNavigationBarView.setBackgroundColor(Color.TRANSPARENT);
         Log.d("===>LYD", "show navigation");
@@ -167,6 +168,7 @@ Android M已经发布了很久了，很多新的特性也非常的吸引人，�
 - ②编译PhoneWindowManager.java所在模块(core)
 
 		mmm ./frameworks/base/services/core/
+		mmm ./frameworks/base/services/
 	
 - ③编译PhoneStatusBar.java所在模块(SystemUI) 
 
