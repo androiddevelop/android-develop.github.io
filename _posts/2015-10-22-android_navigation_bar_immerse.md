@@ -56,7 +56,7 @@ Android M已经发布了很久了，很多新的特性也非常的吸引人，�
                 mWindowManager.removeView(mNavigationBarView);
                 mNavigationBarView = null ;
                 //isNavigationShow用于记录当前导航栏状态，定义在PhoneStatusBar的全局变量中
-                isNavigationShow = false ;
+				isNavigationShow = false ;
                 Log.d("===>LYD", "remove navigation bar");
 
                 return true;
@@ -150,7 +150,7 @@ Android M已经发布了很久了，很多新的特性也非常的吸引人，�
         mNavigationBarView.setBar(this);
         prepareNavigationBarView();
         addNavigationBar();
-		isNavigationShow = true;        
+        isNavigationShow = true;
 
         //防止在桌面时上拉出导航栏时，导航栏背景为黑色
         mNavigationBarView.setBackgroundColor(Color.TRANSPARENT);
