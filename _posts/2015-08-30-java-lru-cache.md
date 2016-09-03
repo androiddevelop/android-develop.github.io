@@ -84,7 +84,7 @@ public class LruCache<K, V> {
      * @param item 项
      * @return value 值
      */
-    public synchronized V get(String item) {
+    public V get(String item) {
         lock.readLock().lock();
         V value = map.get(item);
         lock.readLock().unlock();
