@@ -12,10 +12,10 @@ author: 'Codeboy'
 不论是研究生系统还是EPC网站，登陆的时候都需要输入验证码，识别验证码是所有其他工作的开始。近来对SVM（支持向量机）看了一些，打算使用SVM对验证码进行学习后预测。
 
 下面首先看一下验证码的样式：
-![img](/img/svm-checkcode1.png)
+![img](/img/svm-checkcode1.jpg)
 
 对其中的若干张放大一下如下图：
-![img](/img/svm-checkcode2.png)
+![img](/img/svm-checkcode2.jpg)
 
 从图中我们可以很好的将验证码只有数字，且整体图片只有2种颜色，白色与红色。我们只需要按照以下步骤操作即可：
 
@@ -36,10 +36,10 @@ author: 'Codeboy'
 对其中一张2856的验证码进行操作，
 
 
-![img](/img/svm-checkcode3.png)
+![img](/img/svm-checkcode3.jpg)
 
 使用空格代替0之后的结果如下：
-![img](/img/svm-checkcode4.png)
+![img](/img/svm-checkcode4.jpg)
 
 由上图可以很清楚的看到验证码数字了。
 
@@ -49,7 +49,7 @@ author: 'Codeboy'
 第一步已经将图片数字化与格式化了，但是里面还是有一些干扰的，我们可以很明确的看出，如果一个点（1）周围全部是背景色（0）的话，这个点完全可以被认为成噪声，也即干扰点。简单处理后结果如下：
 
 
-![img](/img/svm-checkcode5.png)
+![img](/img/svm-checkcode5.jpg)
 
 这样看起来就更好了。
 
@@ -62,11 +62,13 @@ author: 'Codeboy'
 使用第三步中建立的模型对剩余的9900张验证码就行识别，经验证，识别率为100%。
 
 这一个验证码是比较的简单，没有旋转，没有缩放，非常的规则，所以我们可以很轻松的进行识别。我在另一个网站上也看到了下面的这种也是比较简单的验证码;
-![img](/img/svm-checkcode6.png)
+![img](/img/svm-checkcode6.jpg)
 
 这一种验证码比上面的略微复杂一点，不再是只有数字，而是数字和字母混在一起，颜色比较的多样，不过原理和上面的一样，无非在不同区域选择不同的主色，其他的全部作为背景色而已。使用相同的方法，最终此种验证码识别率也为100% 。
 
 验证码识别做完了，下面做Android应用基本就是体力活了，整体上都是网页的分析，数据的获取了。经过几天的奋战，科大小秘书做完了，虽然做的比较丑陋，但是至少比较实用吧，还为它做了个小主页点击打开主页，也把应用上传到了google play中。
+
+**收到很多朋友的来信，询问具体的代码实现，经过整理后，代码已经分享到github上，[https://github.com/androiddevelop/SimpleCheckcodeRecognition](https://github.com/androiddevelop/SimpleCheckcodeRecognition).**
 
 > 后面对科大小秘书整体上进行了改进，现在已经涵盖android，ios，web端，欢迎下载使用。 
 >
