@@ -11,7 +11,9 @@ author: 'Codeboy'
 Linux下常用的权限的有读、写和执行，也即常说的rwx，但是除了rwx权限外，Linux系统还有着一些特殊权限，他们是setUID、setGID和setBIT，同时还有一个chattr命令来修改文件的隐藏属性，具体介绍如下:
 
 <br/>
-### setUID
+
+## setUID
+
 <hr/>
 
 ##### 1.功能
@@ -37,7 +39,8 @@ find / -perm -4000
 
 
 <br/>
-### setGID
+
+## setGID
 <hr/>
 
 ##### 1.功能
@@ -64,7 +67,8 @@ find / -perm -2000
 ```
 
 <br/>
-### setBIT
+
+## setBIT
 <hr/>
 
 ##### 1.功能
@@ -90,7 +94,8 @@ find / -perm -1000
 ```
 
 <br/>
-### chattr
+
+## chattr
 <hr/>
 
 ##### 1.功能
@@ -112,7 +117,8 @@ lsattr file/dir
 
 
 <br/>
-### 小结
+
+## 小结
 
  特征 | setUID | setGID| setBIT |chattr
  ----| --- | ----- | ----- | ---
