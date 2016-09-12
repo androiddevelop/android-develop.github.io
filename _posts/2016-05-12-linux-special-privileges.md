@@ -39,8 +39,7 @@ find / -perm -4000
 
 
 <p/>
-
-## setGID
+N## setGID
 <hr/>
 
 ##### 1.功能
