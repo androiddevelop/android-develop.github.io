@@ -76,7 +76,7 @@ public static final String ACCESSIBILITY_ENHANCE_NAVIGATION_BAR = "enhance_navig
 
 修改文件 `packages/apps/Settings/src/com/android/settings/accessibility/AccessibilitySettings.java`, 修改部分基本和 `Large text` 的相同，下面提供修改前和修改后的文件，可以使用 `diff` 工具对比查看。
 
-[AccessibilitySettings修改前](file/AccessibilitySettings_before.java)     [AccessibilitySettings修改后](file/AccessibilitySettings_after.java) 
+[AccessibilitySettings修改前](/file/AccessibilitySettings_before.java)     [AccessibilitySettings修改后](/file/AccessibilitySettings_after.java) 
 
 
 ## 读取状态，控制功能开关 
