@@ -112,7 +112,7 @@ if (!enhanceNavigationSwitch) {
 
 ## 小结
 
-二次的结合完整的解决了导航栏的隐藏与浮现，终于可以不用一直看着不搭配的导航栏了。下面是隐藏前后QQ音乐的截图。
+两次的结合完整的解决了导航栏的隐藏与浮现，终于可以不用一直看着不搭配的导航栏了。下面是隐藏前后QQ音乐的截图:
 
 <img src="/img/android-navigation-enhance-qqmusic-before.png" style="max-width:49.5%;display:inline-block;">
 <img src="/img/android-navigation-enhance-qqmusic-after.png" style="max-width:49.5%;display:inline-block;">
