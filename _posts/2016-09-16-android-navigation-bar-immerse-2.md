@@ -40,6 +40,7 @@ author: 'Codeboy'
 ```
 <string name="accessibility_toggle_enhance_navigation_bar_preference_title">Enhance navigation bar</string>
 ```
+
 #### ③ 添加选择开关
 
 修改 `packages/apps/Settings/res/xml/accessibility_settings.xml`，添加开关：
