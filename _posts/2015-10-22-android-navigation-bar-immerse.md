@@ -187,7 +187,7 @@ Android M已经发布了很久了，很多新的特性也非常的吸引人，�
 
 ###  后记
 
-能够给该功能在设置中加一个开关就完美了，快来查看[Android导航栏隐藏与浮现(二)](2015/10/22/android-navigation-bar-immerse-2/)吧。
+能够给该功能在设置中加一个开关就完美了，快来查看[Android导航栏隐藏与浮现(二)](/2015/10/22/android-navigation-bar-immerse-2/)吧。
 
 由于笔者一般都是使用手机都是竖屏的，为了减少误操作，所以仅仅上滑时(swipeFromBottom)才显示导航栏，从右侧滑动(swipeFromRight)不触发操作。
 

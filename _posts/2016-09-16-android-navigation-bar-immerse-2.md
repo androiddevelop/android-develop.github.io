@@ -8,9 +8,9 @@ tags:
 author: 'Codeboy'
 ---
 
-在[Android导航栏隐藏与浮现(一)](2015/10/22/android-navigation-bar-immerse/)中已经以 `Nexus5` 为例，`Android M` 为基础介绍了怎么实现底部导航栏的隐藏与浮现，本文将介绍怎么在设置(辅助功能)中加入控制该功能的开关。
+在[Android导航栏隐藏与浮现(一)](/2015/10/22/android-navigation-bar-immerse/)中已经以 `Nexus5` 为例，`Android M` 为基础介绍了怎么实现底部导航栏的隐藏与浮现，本文将介绍怎么在设置(辅助功能)中加入控制该功能的开关。
 
-<img src="img/android-navigation-enhance.png" style="max-width:49.5%;  clear: both;
+<img src="/img/android-navigation-enhance.png" style="max-width:49.5%;  clear: both;
  display: block;
  margin:auto;">
 
@@ -113,8 +113,8 @@ if (!enhanceNavigationSwitch) {
 
 二次的结合完整的解决了导航栏的隐藏与浮现，终于可以不用一直看着不搭配的导航栏了。下面是隐藏前后QQ音乐的截图。
 
-<img src="img/android-navigation-enhance-qqmusic-before.png" style="max-width:49.5%;">
-<img src="img/android-navigation-enhance-qqmusic-after.png" style="max-width:49.5%;">
+<img src="/img/android-navigation-enhance-qqmusic-before.png" style="max-width:49.5%;">
+<img src="/img/android-navigation-enhance-qqmusic-after.png" style="max-width:49.5%;">
 
 刷机需谨慎！刷机需谨慎！刷机需谨慎！如若刷机请提前备份数据！
 
