@@ -27,7 +27,7 @@ author: 'Codeboy'
 
 在 `Settings.apk` 中修改相应的资源文件即可，修改中可以参考系统设置中的 `Large text`, 步骤如下：
 
-修改 `/home/yuedong/WORKING_DIRECTORY/packages/apps/Settings/res/values-zh-rCN/strings.xml`，添加资源名称：
+修改 `./WORKING_DIRECTORY/packages/apps/Settings/res/values-zh-rCN/strings.xml`，添加资源名称：
 
 ```
 <string name="accessibility_toggle_enhance_navigation_bar_preference_title">"增强导航栏功能"</string>
@@ -35,7 +35,7 @@ author: 'Codeboy'
 
 #### ② 添加英文资源名称
 
-修改 `/home/yuedong/WORKING_DIRECTORY/packages/apps/Settings/res/values/strings.xml`，添加资源名称：
+修改 `./WORKING_DIRECTORY/packages/apps/Settings/res/values/strings.xml`，添加资源名称：
 
 ```
 <string name="accessibility_toggle_enhance_navigation_bar_preference_title">Enhance navigation bar</string>
