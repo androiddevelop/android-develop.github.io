@@ -11,7 +11,7 @@ author: 'Codeboy'
 
 Android M已经发布了很久了，很多新的特性也非常的吸引人，比如Doze模式可以使导航时间更长，刷到nexus5上，体验了一下确实不错。但是导航栏(虚拟按键)一直存在，感觉不是特别的爽。今天我们就从android M(6.0)进行源码的修改,使nexus5能够方便的进行导航栏的隐藏与恢复。
 
-修改源码前，看到了CSDN上的文章（[http://blog.csdn.net/way_ping_li/article/details/45727335](http://blog.csdn.net/way_ping_li/article/details/45727335)，记为文章A)，写的很好，但是写的有些省略，整体的操作也较为复杂，文本的操作步骤如下:
+修改源码前，看到了CSDN上的文章（[http://blog.csdn.net/way_ping_li/article/details/45727335](http://blog.csdn.net/way_ping_li/article/details/45727335)，记为文章A)，写的很好，但是写的有些省略，整体的操作也较为复杂，本文的操作步骤如下:
 
 	① 下载并编译源码
 	② 长点击隐藏导航栏
