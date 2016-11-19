@@ -9,16 +9,16 @@ author: 'Codeboy'
 ---
 
 
-Android M已经发布了很久了，很多新的特性也非常的吸引人，比如Doze模式可以使导航时间更长，刷到nexus5上，体验了一下确实不错。但是导航栏(虚拟按键)一直存在，感觉不是特别的爽。今天我们就从android M(6.0)进行源码的修改,使其能够方便的进行导航栏的隐藏与恢复。
+Android M已经发布了很久了，很多新的特性也非常的吸引人，比如Doze模式可以使导航时间更长，刷到nexus5上，体验了一下确实不错。但是导航栏(虚拟按键)一直存在，感觉不是特别的爽。今天我们就从android M(6.0)进行源码的修改,使nexus5能够方便的进行导航栏的隐藏与恢复。
 
-修改源码之前，看到了[http://blog.csdn.net/way_ping_li/article/details/45727335](http://blog.csdn.net/way_ping_li/article/details/45727335)地址的文章(记为文章A)，写的很好，但是写的有些省略，整体的操作也较为复杂，下面介绍下我的操作步骤:
+修改源码前，看到了CSDN上的文章（[http://blog.csdn.net/way_ping_li/article/details/45727335](http://blog.csdn.net/way_ping_li/article/details/45727335)，记为文章A)，写的很好，但是写的有些省略，整体的操作也较为复杂，文本的操作步骤如下:
 
 	① 下载并编译源码
 	② 长点击隐藏导航栏
 	③ 上滑显示导航栏
 	④ 编译部分修改代码，重新生成system.img
 
-文章A的整体思路是在导航栏上添加了一个图标按钮，点击后隐藏导航栏，上滑显示导航栏。首先说一下隐藏导航栏，感觉官方的导航栏还是很完美的，所以不打算添加任何元素，这里对任务键(虚拟正方形按键)进行长点击操作进行修改；之后是上滑显示导航栏，文章A的思路是通过各种系统内的很多回调与消息的传递完成的，改动幅度蛮大的，自己尝试按照文章中的进行修改，需要对文章A中提到的部分进行修改外，还需对部分aidl以及与此相关的类进行修改等，比较的繁琐，当然最后确实是实现了上滑显示，本文将直接通过广播进行上滑操作的传递。
+文章A的整体思路是在导航栏上添加了一个图标按钮，点击后隐藏导航栏，上滑显示导航栏。首先说一下隐藏导航栏，感觉官方的导航栏还是很完美的，所以不打算添加任何元素，这里对任务键(虚拟正方形按键)进行长点击操作进行修改；之后通过上滑来显示导航栏，文章A的思路是通过各种系统内的很多回调与消息的传递完成的，改动幅度蛮大的，自己尝试按照文章中的进行修改，需要对文章A中提到的部分进行修改外，还需对部分aidl以及与此相关的类进行修改等，比较的繁琐，当然最后实现了上滑显示，本文将通过广播来进行上滑操作的传递。
 	
 ### 下载并编译源码
 
@@ -26,7 +26,7 @@ Android M已经发布了很久了，很多新的特性也非常的吸引人，�
 
 #### 这里需要注意几点：
 
-- nexus5源码下载后需要下载[驱动](https://developers.google.com/android/nexus/drivers)，解压到根目录后执行，执行后产生vendor目录，之后编译代码
+- nexus5源码下载后需要下载驱动[https://developers.google.com/android/nexus/drivers](https://developers.google.com/android/nexus/drivers)，解压到根目录后执行，执行后产生vendor目录，之后编译代码
 
 - 源码编译完成后，之后的framework的修改不用再次重新编译，只需使用mmm命令编译部分模块即可，最后使用**make snod**生成system.img,刷进手机即可。
 
@@ -156,6 +156,8 @@ Android M已经发布了很久了，很多新的特性也非常的吸引人，�
         mNavigationBarView.setBackgroundColor(Color.TRANSPARENT);
         Log.d("===>LYD", "show navigation");
     }
+    
+> 注意导入android.graphics.Color类
 
 代码到此就修改完了，下面我们只需要对相应模块进行编译就行了。
 
@@ -164,6 +166,7 @@ Android M已经发布了很久了，很多新的特性也非常的吸引人，�
 - ①切换到源代码目录，运行 
 
 		source build/envsetup.sh 
+		lunch //切换编译平台
 	
 - ②编译PhoneWindowManager.java所在模块(core)
 
