@@ -43,23 +43,23 @@ author: 'Codeboy'
 
 #### ③ 添加选择开关
 
-修改 `packages/apps/Settings/res/xml/accessibility_settings.xml`，添加开关：
+修改 `./packages/apps/Settings/res/xml/accessibility_settings.xml`，添加开关：
 
 ```
 <SwitchPreference
   android:key="toggle_enhance_navigation_bar_preference"
   android:title="@string/accessibility_toggle_enhance_navigation_bar_preference_title"
   android:persistent="false"/>
-
 ```
 
+> 位置自己可以定义，文本放置在`Large text`功能下方。
 
 ## 控制逻辑
 
 
 #### ① 添加开关字段
 
-修改 `framework/base/core/java/android/provider/Settings.java`, 添加字段:
+修改 `./frameworks/base/core/java/android/provider/Settings.java`, 添加字段:
 
 ```
 public static final String ACCESSIBILITY_ENHANCE_NAVIGATION_BAR = "enhance_navigation_bar";
@@ -67,7 +67,7 @@ public static final String ACCESSIBILITY_ENHANCE_NAVIGATION_BAR = "enhance_navig
 
 #### ② 添加默认开关
 
-修改文件 `framework/packages/SettingsProvider/res/values/defaults.xml`,添加默认开关:
+修改文件 `./frameworks/base/packages/SettingsProvider/res/values/defaults.xml`,添加默认开关:
 
 ```
 <bool name="def_accessibility_enhance_navigation_bar">false</bool>
@@ -75,14 +75,14 @@ public static final String ACCESSIBILITY_ENHANCE_NAVIGATION_BAR = "enhance_navig
 
 #### ③ 添加控制逻辑
 
-修改文件 `packages/apps/Settings/src/com/android/settings/accessibility/AccessibilitySettings.java`, 修改部分基本和 `Large text` 的相同，下面提供修改前和修改后的文件，可以使用 `diff` 工具对比查看。
+修改文件 `./packages/apps/Settings/src/com/android/settings/accessibility/AccessibilitySettings.java`, 修改部分基本和 `Large text` 的相同，下面提供修改前和修改后的文件，可以使用 `diff` 工具对比查看。
 
 [AccessibilitySettings修改前](/file/AccessibilitySettings_before.java)     [AccessibilitySettings修改后](/file/AccessibilitySettings_after.java) 
 
 
 ## 读取状态，控制功能开关 
 
-修改 `packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java`,添加变量:
+修改 `./packages/apps/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java`,添加变量:
 
 ```
 private boolean enhanceNavigationSwitch = false; //默认关闭
