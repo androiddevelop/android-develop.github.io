@@ -21,7 +21,7 @@ author: 'Codeboy'
 - 在导航栏的操作中判断开关状态
 - 编译打包
 
-## 添加试图
+### 添加试图
 
 #### ① 添加中文资源名称
 
@@ -54,12 +54,12 @@ author: 'Codeboy'
 
 > 位置自己可以定义，文本放置在`Large text`功能下方。
 
-## 控制逻辑
+### 控制逻辑
 
 
 #### ① 添加开关字段
 
-修改 `./frameworks/base/core/java/android/provider/Settings.java`, 添加字段:
+修改 `./frameworks/base/core/java/android/provider/Settings.java`,在内部类`Secure`中添加字段:
 
 ```
 public static final String ACCESSIBILITY_ENHANCE_NAVIGATION_BAR = "enhance_navigation_bar";
@@ -81,7 +81,7 @@ public static final String ACCESSIBILITY_ENHANCE_NAVIGATION_BAR = "enhance_navig
 
 [AccessibilitySettings修改前](/file/AccessibilitySettings_before.java)     [AccessibilitySettings修改后](/file/AccessibilitySettings_after.java) 
 
-## 读取状态，控制功能开关 
+### 读取状态，控制功能开关 
 
 修改 `./frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java`,添加变量:
 
@@ -104,14 +104,27 @@ if (!enhanceNavigationSwitch) {
 ```
 > 在`public boolean onLongClick(View view)`的开始部分，用于判断是否执行长点击隐藏导航栏 
 
-## 编译打包
+### 编译打包
 
-使用 `mmm` 命令针对涉及的模块进行打包；
+使用 `mmm` 命令针对涉及的模块进行打包。
 
+```
+source build/envsetup.sh  //初始化环境变量
+lunch //切换编译平台
+
+mmm ./frameworks/base/packages/SettingsProvider
+
+## 重新编译framework.jar
+cd ./frameworks/base/core/
+mm
+cd ../../../
+
+mmm ./frameworks/base/packages/SystemUI/
+mmm ./packages/apps/Settings/
+```
 使用 `make snod` 命令生成 `system.img`。
 
-
-## 小结
+### 小结
 
 两次的结合完整的解决了导航栏的隐藏与浮现以及功能控制。
 
