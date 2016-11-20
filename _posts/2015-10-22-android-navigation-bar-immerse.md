@@ -24,13 +24,11 @@ Android M已经发布了很久了，很多新的特性也非常的吸引人，�
 
 源码的下载编译可以参考google官方教程[https://source.android.com/source/downloading.html](https://source.android.com/source/downloading.html),本文编译的源码分支android-6.0.1_r50。
 
-#### 这里需要注意几点：
+> nexus5源码下载后需要下载驱动[https://developers.google.com/android/nexus/drivers](https://developers.google.com/android/nexus/drivers)，解压到根目录后执行，执行后产生vendor目录，之后编译代码
 
-- nexus5源码下载后需要下载驱动[https://developers.google.com/android/nexus/drivers](https://developers.google.com/android/nexus/drivers)，解压到根目录后执行，执行后产生vendor目录，之后编译代码
+> 源码编译完成后，之后的framework的修改不用再次重新编译，只需使用mmm命令编译部分模块即可，最后使用**make snod**生成system.img,刷进手机即可。
 
-- 源码编译完成后，之后的framework的修改不用再次重新编译，只需使用mmm命令编译部分模块即可，最后使用**make snod**生成system.img,刷进手机即可。
-
-- 修改framework后生成的system.img,在进行刷机时仅仅刷进system.img即可，**首次刷机尽量把userdata.img, boot.img都进行刷入**。
+> 修改framework后生成的system.img,在进行刷机时仅仅刷进system.img即可，**首次刷机尽量把userdata.img, boot.img都进行刷入**。
 
 ### 长点击隐藏导航栏
 虚拟按键有3个，考虑到返回键一般有一定的作用，于是修改任务键(虚拟正方形按键)的长点击事件，使其在长点击后可以隐藏导航栏。
