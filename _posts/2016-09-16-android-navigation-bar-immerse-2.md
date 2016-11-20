@@ -81,7 +81,6 @@ public static final String ACCESSIBILITY_ENHANCE_NAVIGATION_BAR = "enhance_navig
 
 [AccessibilitySettings修改前](/file/AccessibilitySettings_before.java)     [AccessibilitySettings修改后](/file/AccessibilitySettings_after.java) 
 
-
 ## 读取状态，控制功能开关 
 
 修改 `./frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java`,添加变量:
@@ -114,10 +113,7 @@ if (!enhanceNavigationSwitch) {
 
 ## 小结
 
-两次的结合完整的解决了导航栏的隐藏与浮现，终于可以不用一直看着不搭配的导航栏了。下面是隐藏前后QQ音乐的截图:
-
-<img src="/img/android-navigation-enhance-qqmusic-before.png" style="max-width:49.5%;display:inline-block;">
-<img src="/img/android-navigation-enhance-qqmusic-after.png" style="max-width:49.5%;display:inline-block;">
+两次的结合完整的解决了导航栏的隐藏与浮现以及功能控制。
 
 刷机需谨慎！刷机需谨慎！刷机需谨慎！如若刷机请提前备份数据！
 

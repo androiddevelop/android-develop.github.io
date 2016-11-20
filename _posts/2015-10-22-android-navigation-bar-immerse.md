@@ -188,6 +188,14 @@ Android M已经发布了很久了，很多新的特性也非常的吸引人，�
 		
 这样一个定制过导航栏的nexus5(hammerhead)系统已经制作完成了。
 
+### 效果
+
+解决了导航栏的隐藏与浮现，终于可以不用一直看着不搭配的导航栏了。下面是隐藏前后QQ音乐的截图:
+
+<img src="/img/android-navigation-enhance-qqmusic-before.png" style="max-width:49.5%;display:inline-block;">
+<img src="/img/android-navigation-enhance-qqmusic-after.png" style="max-width:49.5%;display:inline-block;">
+
+
 ###  后记
 
 能够给该功能在设置中加一个开关就完美了，快来查看[Android导航栏隐藏与浮现(二)](/2016/09/16/android-navigation-bar-immerse-2/)吧。
