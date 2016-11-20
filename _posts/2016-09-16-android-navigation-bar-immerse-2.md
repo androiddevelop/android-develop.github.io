@@ -75,14 +75,16 @@ public static final String ACCESSIBILITY_ENHANCE_NAVIGATION_BAR = "enhance_navig
 
 #### ③ 添加控制逻辑
 
-修改文件 `./packages/apps/Settings/src/com/android/settings/accessibility/AccessibilitySettings.java`, 修改部分基本和 `Large text` 的相同，下面提供修改前和修改后的文件，可以使用 `diff` 工具对比查看。
+修改文件 `./packages/apps/Settings/src/com/android/settings/accessibility/AccessibilitySettings.java`, 修改部分基本和 `Large text` 的相同，diff后的试图如下，也可以根据下面提供修改前和修改后的文件，可以使用 `diff` 工具对比查看。
+
+[diff后的文件对比试图](/file/diff.html)
 
 [AccessibilitySettings修改前](/file/AccessibilitySettings_before.java)     [AccessibilitySettings修改后](/file/AccessibilitySettings_after.java) 
 
 
 ## 读取状态，控制功能开关 
 
-修改 `./packages/apps/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java`,添加变量:
+修改 `./frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java`,添加变量:
 
 ```
 private boolean enhanceNavigationSwitch = false; //默认关闭
@@ -100,8 +102,8 @@ try {
 if (!enhanceNavigationSwitch) {
     return true;
 }
-
 ```
+> 在`public boolean onLongClick(View view)`的开始部分，用于判断是否执行长点击隐藏导航栏 
 
 ## 编译打包
 
