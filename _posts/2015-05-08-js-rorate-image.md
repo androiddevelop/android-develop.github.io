@@ -10,6 +10,9 @@ author: 'Codeboy'
 
 gif可以实现旋转的图片，但是怎么使用js实现的。自己想了一下，打算实现一下，整体思路也很简单，每隔一段时间，旋转一下图片，看起来就像在一直旋转一样。[实例地址](http://example.codeboy.me/rotate/)
 
+<iframe src="http://example.codeboy.me/rotate/" width="100%" height="210px" frameborder="0" scrolling="no"></iframe>
+
+
 旋转rotate.js的代码如下:
 
 	/**
