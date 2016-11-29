@@ -25,6 +25,8 @@ author: 'Codeboy'
 5. **增加回车触发函数(nextStep)**
 6. **增加以分隔符分割的联想(split)**
 7. **增加匹配高亮(highlight)**
+8. **增加第一个item是否默认被选中操作(firstSelected)**
+
 
 ### 依赖
 
@@ -82,6 +84,9 @@ author: 'Codeboy'
 #### maxNum(非必须):
 
 最大建议数目,默认最多给出 `10` 个建议提示
+
+#### firstSelected(非必须):
+第一个是否默认被选中，默认false
 
 #### highlight(非必须):
 
