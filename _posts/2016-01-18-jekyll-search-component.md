@@ -8,7 +8,7 @@ tags:
 author: 'Codeboy'
 ---
 
-之前的文章<[给jekyll添加炫酷简洁的搜索](https://codeboy.me/2015/07/11/jekyll-search/)>中介绍了怎么给jekyll添加全局搜索功能，为了能够更快的加入搜索功能，现在已经将搜索功能提取出来，做成一个单独的组件，放在了[https://github.com/androiddevelop/jekyll-search](https://github.com/androiddevelop/jekyll-search).
+之前的文章<[给jekyll添加炫酷简洁的搜索](/2015/07/11/jekyll-search/)>中介绍了怎么给jekyll添加全局搜索功能，为了能够更快的加入搜索功能，现在已经将搜索功能提取出来，做成一个单独的组件，放在了[https://github.com/androiddevelop/jekyll-search](https://github.com/androiddevelop/jekyll-search).
 
 ### 截图
 
