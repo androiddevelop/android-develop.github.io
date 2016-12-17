@@ -79,11 +79,11 @@ redcarpet:
   use_coderay: true
   input: GFM
   
-    coderay:
-    coderay_wrap:              div
-    coderay_line_numbers:      nil
-    coderay_line_number_start: 1
-    coderay_tab_width:         4
-    coderay_bold_every:        10
-    coderay_css:               style
+  coderay:
+  coderay_wrap:              div
+  coderay_line_numbers:      nil
+  coderay_line_number_start: 1
+  coderay_tab_width:         4
+  coderay_bold_every:        10
+  coderay_css:               style
 
