@@ -13,7 +13,9 @@
   white-space: pre;       // forces <code> to respect <pre> formatting
 }
 
-
+.gutter .lineno{
+ display: none !important;
+}
 /*
  * GitHub style for Pygments syntax highlighter, for use with Jekyll
  * Courtesy of GitHub.com
