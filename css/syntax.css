@@ -13,7 +13,7 @@
   white-space: pre;       // forces <code> to respect <pre> formatting
 }
 
-.gutter .lineno{
+tr .gutter{
  display: none !important;
 }
 /*
