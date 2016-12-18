@@ -63,7 +63,7 @@ quiet:    false
 defaults: []
 
 # Markdown Processors
-
+  
 kramdown:
   auto_ids:       true
   footnote_nr:    1
