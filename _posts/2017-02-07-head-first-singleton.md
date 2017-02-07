@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '[转载]深入浅出单实例Singleton模式'
+title: '深入浅出单实例Singleton模式'
 date: '2017-02-07'
 header-img: "img/post-bg-java.jpg"
 tags:
@@ -192,7 +192,7 @@ author: 'Codeboy'
 
 Singleton的其它问题可以从原文中查看。
 
-转载自[http://coolshell.cn/articles/265.html](http://coolshell.cn/articles/265.html)部分,作者 陈浩，本文进行了轻微改动。
+转载自[http://coolshell.cn/articles/265.html](http://coolshell.cn/articles/265.html)的部分,作者陈浩，本文进行了轻微改动。
 
 > 如有任何知识产权、版权问题或理论错误，还请指正。
 >
