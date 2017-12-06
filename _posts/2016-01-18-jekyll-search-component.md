@@ -61,6 +61,7 @@ author: 'Codeboy'
 <!-- Bootstrap Core JavaScript -->
 <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 ```
+> **请保证jquery.js的引入早于cb-search.js,即jquery引入的script标签更靠前。**
 
 2.默认联想8个，如果需要更多的话，请检索 `bootstrap3-typeahead.min.js` 中的**items:8**, 将**8**替换成自己需要的数值。
 
