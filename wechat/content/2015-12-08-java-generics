@@ -1,8 +1,286 @@
----
-layout: null
----
-{% for post in site.posts %}
-    {% if forloop.rindex == 42  %}
-         {{ post.content }}
-    {% endif %}
-{% endfor %}
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+         <p>Java泛型是JDK 5中引入的一个新特性，允许在定义类和接口的时候使用类型参数。</p>
+
+<h2 id="泛型类">泛型类</h2>
+
+<p>泛型类是我们最经常使用的泛型形式了，如下:</p>
+
+<pre><code>/**
+ * 工具类
+ * Created by yuedong.li on 12/8/15.
+ */
+public class ToolsUtil&lt;T&gt; {
+    /**
+     * if-else替代
+     * @param condition 条件
+     * @param t1 对象1
+     * @param t2 对象2
+     * @return 结果
+     */
+    public T ifThenElse(boolean condition, T t1, T t2) {
+        if (condition) {
+            return t1;
+        }
+        return t2;
+    }
+}
+</code></pre>
+
+<blockquote>
+  <p>一个工具类，当前用来代替if-else</p>
+</blockquote>
+
+<p>使用方法也很简单</p>
+
+<pre><code>public class Main {
+    public static void main(String[] args) {
+        double res = new ToolsUtil&lt;Double&gt;().ifThenElse(1 &gt; 2, 1.0, 2.0);
+        System.out.println(res);
+    }
+}
+</code></pre>
+
+<h2 id="泛型方法">泛型方法</h2>
+
+<p>随着需求越来越多，工具类 <code>ToolsUtil</code> 可能需要增加很多的工具类，但是并非其他的方法的参数返回值等都是 <code>T</code> ,我们需要进行粒度调整，这时候就是泛型方法表现的时候了。</p>
+
+<pre><code>/**
+ * 工具类
+ * Created by yuedong.li on 12/8/15.
+ */
+public class ToolsUtil {
+    /**
+     * if-else替代
+     * @param condition 条件
+     * @param t1 对象1
+     * @param t2 对象2
+     * @param &lt;T&gt; 类型
+     * @return 结果
+     */
+    public &lt;T&gt; T ifThenElse(boolean condition, T t1, T t2) {
+        if (condition) {
+            return t1;
+        }
+        return t2;
+    }
+
+    /**
+     * 检查Email
+     *
+     * @param email
+     *         email
+     * @return 是否是合法邮件
+     */
+    public static boolean checkEmail(String email) {
+        boolean result = false;
+        //some code about checking email string
+        return result;
+    }
+}
+</code></pre>
+
+<p>上面的代码我们使用泛型方法将 <code>ifThenElse</code> 函数的独立出来了，不再必须在创建 <code>ToolsUtil</code> 类时必须指定了。</p>
+
+<p>使用方法依旧相对容易:</p>
+
+<pre><code>public class Main {
+    public static void main(String[] args) {
+        double res = new ToolsUtil().ifThenElse(1 &gt; 2, 1.0, 2.0);
+        System.out.println(res);
+        boolean checkRes = new ToolsUtil().checkEmail("app@codeboy.me");
+        System.out.println(checkRes);
+    }
+}
+</code></pre>
+
+<p>可以看出创建 <code>ToolsUtil</code> 的时候不需要再指定类型了，代码看起来清爽了很多。</p>
+
+<p>我们经常将工具类的方法写成静态下，当然泛型方法也是可以的:</p>
+
+<pre><code>/**
+ * 工具类
+ * Created by yuedong.li on 12/8/15.
+ */
+public class ToolsUtil {
+    /**
+     * 检查Email
+     *
+     * @param email
+     *         email
+     * @return 是否是合法邮件
+     */
+    public static boolean checkEmail(String email) {
+        boolean result = false;
+        //some code about checking email string
+        return result;
+    }
+
+
+    /**
+     * if-else替代
+     * @param condition 条件
+     * @param t1 对象1
+     * @param t2 对象2
+     * @param &lt;T&gt; 类型
+     * @return 结果
+     */
+    public static &lt;T&gt; T ifThenElse(boolean condition, T t1, T t2) {
+        if (condition) {
+            return t1;
+        }
+        return t2;
+    }
+}
+</code></pre>
+
+<p>使用更加的简洁，操作如下:</p>
+
+<pre><code>public class Main {
+    public static void main(String[] args) {
+        double res = ToolsUtil.ifThenElse(1 &gt; 2, 1.0, 2.0);
+        System.out.println(res);
+        boolean checkRes = ToolsUtil.checkEmail("app@codeboy.me");
+        System.out.println(checkRes);
+    }
+}
+</code></pre>
+
+<p><strong>需要注意的一点是 <code>&lt;T&gt;</code> 必须在<code> 修饰词 </code>(public private static final等)和<code>返回值</code>之间</strong></p>
+
+<h2 id="总结">总结</h2>
+
+<p>泛型方法在什么时候使用呢？</p>
+
+<h4 id="类型约束只是在局部">①类型约束只是在局部</h4>
+
+<p>泛型的作用于不是针对全局，而仅仅是针对局部的时候，如 <code>ToolsUtil</code> 类</p>
+
+<h4 id="静态方法需要处理泛型">②静态方法需要处理泛型</h4>
+
+<p>如上面例子中的<code>ifThenElse</code>,普通的静态方法是不能使用泛型的。</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
