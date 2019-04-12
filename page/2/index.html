@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keyword"
+          content="codeboy, @codeboy, 小胖轩, 玄恒, Blog, Github, 博客, 互联网, 前端, 服务端, 玄恒的个人网站, android, mobile, server, web, datamine ">
+    <meta name="description" content="编码生涯的点点滴滴">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <title>小胖轩</title>
+
+    <link rel="canonical" href="https://https://www.codeboy.me/page/2/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/codeboy.min.css">
+
+    <link rel="alternate" type="application/rss+xml" href="feed.xml" title="小胖轩">
+    <!-- Custom Fonts -->
+    <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .ds-powered-by {
+            display: none !important;
+        }
+
+        .ds-post-toolbar .ds-sync {
+            display: none !important;
+        }
+    </style>
+
+    <script type="text/javascript">
+        console.log("%c      ", "font-size:130px;background:url('http://www.codeboy.me/img/github.png') no-repeat ");
+    </script>
+</head>
+
+
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">小胖轩</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">首页</a>
+                </li>
+                <li>
+                    <a href="/open/">开源</a>
+                </li>
+
+                <li>
+                    <a href="/tags/">标签</a>
+                </li>
+
+                <li>
+                    <a href="/about/">关于</a>
+                </li>
+		<!--
+                
+                <li>
+                    <a href="/apps/">Apps</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/about/index2/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/open/">Open</a>
+                </li>
+                
+                <li>
+                    <a href="/tags/">Tags</a>
+                </li>
+                
+		-->
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>小胖轩</h1>
+                    <hr class="small">
+                    <span class="subheading">编码生涯的点点滴滴</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<article>
+    <div class="container">
+    	<div class="row">
+    		<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
+    			
+<div class="post-preview">
+    <a href="/2015/12/16/d3-force-layout-update/">
+        <h2 class="post-title">            d3力学图(force layout)更新
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            d3是javascript的一个可视化库，可以制作很漂亮的表格等，其中有一个非常好玩的力学图，可以方便的进行拖拽等，但是关于更新的操作网上介绍的很少，下面介绍下关于力学图的更新，先看一个例子(http://example.codeboy.me/d3/force-layout.html,点击一次下图后可以直接按回车键添加)：
+
+ 
+
+绘制图形的方式基本上可以分为svg与canvas两种，两者各...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on December 16, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/12/08/java-generics/">
+        <h2 class="post-title">            Java Generics(泛型)
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            Java泛型是JDK 5中引入的一个新特性，允许在定义类和接口的时候使用类型参数。
+
+泛型类
+
+泛型类是我们最经常使用的泛型形式了，如下:
+
+/**
+ * 工具类
+ * Created by yuedong.li on 12/8/15.
+ */
+public class ToolsUtil&lt;T&gt; {
+    /**
+     * if-else替代
+     * @param c...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on December 8, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/12/01/develop-feeling/">
+        <h2 class="post-title">            编码感悟
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            
+  这几天一直想写一下自己在编码上的一些感受与感悟，趁着这个晚上，大体的写一下，有问题还望大家多多指教。
+
+
+从本科开始接触编码，到现在已经有接近七年的时间。从最开始的伪代码，C语言，Java，到后面的JavaEE开发，Android开发，Ios开发，经历了很多。曾几何时自己一直是一种任务导向的写代码，虽然接触的很多，但是很多都是比较重复的事情，在重复的事情下面，并不去总结，去抽象，而是一...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on December 1, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/11/30/mysql-tomcat-character/">
+        <h2 class="post-title">            Mysql与Tomcat编码问题
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            日常中不论移动开发还是web开发，与中文相关的编码总是很奇怪，经常出现乱码。下面针对常用的数据库mysql与服务器tomcat进行编码配置说明，统一 UTF-8.
+
+Mysql
+
+数据库基本上是一个项目不可缺少的部分了，mysql作为最通用的数据库，用户量非常的大, 下面针对的mysql在ubuntu系统下的编码进行配置，其他系统基本相同。
+
+
+  
+    修正mysql配置文件/etc/...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on November 30, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/11/15/polya-cube-color/">
+        <h2 class="post-title">            正方体涂色问题
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            前些日子室友说了一道15年秋招的笔试题，题目如下:
+
+用三种颜色给立方体的六个面着色，颜色可以使用一种或多种，旋转后可以相同的涂色记为一种涂色方式，问一共有多少种涂色方式？
+
+
+当时一心想直接罗列出来，但是涂色的种类比较的多，而且立方体的旋转也有很多种，有按照面中心点连线，棱中心连线，顶点连线三种方式。人为的去列举很容易出现错误。下面讲一下使用Polya计数定理来进行计算，有关Polya定理...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on November 15, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/11/12/ssh-proxy/">
+        <h2 class="post-title">            SSH正向与反向代理
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            日常中经常遇到需要代理的问题，例如需要访问google，但是直接访问不了，那我们可以通过另外一台服务器来进行访问，这个称为正向代理，当然与之相对的就是反向代理，反向代理的用途也很多，例如在家不能直接登录公司里自己的电脑，那么可以使用反向代理将一台远程主机的端口映射到公司电脑的22端口(ssh)或3389端口(远程桌面)，下面具体总结一下正向代理与反向代理的使用与配置。
+
+准备工作
+
+开启ss...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on November 12, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/10/26/http-and-socket/">
+        <h2 class="post-title">            Http与Socket
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            一直对 Http 与 Socket 比较的疑惑，之前认为 Http 与 Socket 是两个完全不相关的概念，其实不然，这里对这两个词进行一下对比。
+
+
+
+　Socket则是对TCP/IP协议的封装和应用(程序员层面上)。
+　
+  TPC/IP协议是传输层协议，主要解决数据如何在网络中传输，
+
+　HTTP是应用层协议，主要解决如何包装数据。
+
+
+Socket跟TCP/IP协议没有必然的联系，...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on October 26, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/10/25/maven-repo/">
+        <h2 class="post-title">            同步aar到jCenter与maven central
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            目前gradle使用的越来越多了，自己平时也在github上放了一些代码，但是别人使用起来非常的麻烦，需要下载项目，导入项目，比较的繁碎。经历了一天的实战，终于成功了将自己在github上的一些项目规整后同步到了jcenter与maven central中。大家可以参考英文版的文档https://github.com/lopspower/gradle-jcenter-publish
+
+and...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on October 25, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/10/22/android-navigation-bar-immerse/">
+        <h2 class="post-title">            Android导航栏隐藏与浮现(一)
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            Android M已经发布了很久了，很多新的特性也非常的吸引人，比如Doze模式可以使导航时间更长，刷到nexus5上，体验了一下确实不错。但是导航栏(虚拟按键)一直存在，感觉不是特别的爽。今天我们就从android M(6.0)进行源码的修改,使nexus5能够方便的进行导航栏的隐藏与恢复。
+
+修改源码前，看到了CSDN上的文章（http://blog.csdn.net/way_ping_...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on October 22, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/10/08/apache-https-proxy/">
+        <h2 class="post-title">            Apache下Https反向代理Http
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            尽管很多加密算法都做的很好了，但是在网页登录或注册时还是存在一定的号码被盗风险。怎么才能进一步加强信息的安全的，https是一个很好的选择。
+
+
+  HTTPS（Hyper Text Transfer Protocol over Secure Socket Layer），是以安全为目标的HTTP通道，简单讲是HTTP的安全版。即HTTP下加入SSL层，HTTPS的安全基础是SSL，因此加密的...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on October 8, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/10/07/ios-certification/">
+        <h2 class="post-title">            IOS8与9配置企业证书签名的应用
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            ios8出来的时候，使用企业证书打出的包不能够下载，后来网上提供了一定的解决，在plist中的bundle id后面加上ios8fix，如下:
+
+ &lt;key&gt;bundle-identifier&lt;/key&gt;
+ &lt;string&gt;com.ahhailan.ios8fix&lt;/string&gt;
+ &lt;key&gt;bundle-version&lt;/...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on October 7, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/09/27/ios-uiwebview-optimization/">
+        <h2 class="post-title">            IOS UIWebView 优化
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            native体验好，但是每一次修正bug后都需要发版(特例除外)；web开发快，维护成本低，体验上比native上差一点。web方面怎么减少与native的差距的呢？一个很重要的优化就是尽可能较少网络传输。下面看一下ios开发中怎么减少UIWebView的网络数据传输。
+
+加载网页时需要加载页面以及页面相关的资源(js,css,img)，一般来说页面会经常的变动，但是大部分js,css,im...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on September 27, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/09/15/git-common/">
+        <h2 class="post-title">            git常用操作
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            Git是一个开源的分布式版本控制系统，用以有效、高速的处理从很小到非常大的项目版本管理。 Git 是 Linus Torvalds 为了帮助管理 Linux 内核开发而开发的一个开放源码的版本控制软件。
+
+复制完整项目
+
+git clone http://xxxxxx.xxx/xxxxx
+
+
+检出分支(a)到本地(b)
+
+git checkout -b [my_local_branch] [...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on September 15, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/08/31/shell-command/">
+        <h2 class="post-title">            实用的陌生Shell命令
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            有一些不经常的使用的bash命令可以帮我们省去写很多的脚本, 汇总如下:
+
+realpath
+
+获取文件的真实路径
+
+➜  ls
+haha
+➜  realpath haha
+/Volumes/Extra/Tmp/test/haha
+➜   
+➜  echo "`pwd`/haha"        
+/Users/YD/Tmp/test/haha
+
+
+rename
+批量重命名, -s ‘替换前...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on August 31, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/08/30/java-lru-cache/">
+        <h2 class="post-title">            Java LruCache
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            为了更好的使用内存，操作系统中有一种Lru(Least Recently Used)策略,将最近最少使用的项移出容量有限的内存。不仅仅操作系统这样做，平时做一些android应用等也需要在有限的空间内保存一些状态。下面来看分析我们要怎么做这个基于Lru策略的缓存:
+
+
+  能够快速的读取与写入 ①
+  能够实现Lru策略 ②
+  能够适应多线程并发访问操作 ③
+  多个线程可以同时读取,但是...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on August 30, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/08/28/round-up-to-power-of-two/">
+        <h2 class="post-title">            Round Up To Power Of Two
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            这个标题应该说明了我们要做什么了，中文的意思是找出一个2^n的数，使其不小于给出的数字。举个例子吧: 如果给一个数字63，那么我需要获取不小于63的数字，但是这个数字需要是2的n次方了，所以
+
+
+  63对应的是64(2^6)
+  64对应的依旧是64(2^6)
+  100对应的是128(2^7)
+
+
+问题来了:
+
+怎么快速的计算出这个结果呢？
+
+可能首先浮现在我们眼前的可能是计算log或者...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on August 28, 2015</p>
+        
+</div>
+<hr>
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+    <li class="previous">
+        <a href="/">&larr; Newer Posts</a>
+    </li>
+    
+    
+    <li class="next">
+        <a href="/page/3">Older Posts &rarr;</a>
+    </li>
+    
+</ul>
+
+
+    		</div>
+    	</div>
+    </div>
+</article>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                        <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/codeboy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/androiddevelop">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 小胖轩 2019</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="/js/jquery.tagcloud.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $.fn.tagcloud.defaults = {
+        //size: {start: 1, end: 1, unit: 'em'},
+        color: {start: '#bbbbee', end: '#0085a1'},
+    };
+    $(function () {
+        $('#tag_cloud a').tagcloud();
+    });
+</script>
+
+<!-- Highlight.js -->
+<script src="//cdn.bootcss.com/highlight.js/9.4.0/highlight.min.js"></script>
+<link href="//cdn.bootcss.com/highlight.js/9.4.0/styles/solarized-dark.min.css" rel="stylesheet">
+
+<div class="cb-search-tool" style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px;
+      opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control cb-search-content" id="cb-search-content" style="position: fixed; top: 60px"
+           placeholder="文章标题 日期 标签">
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png" id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/codeboy.min.js"></script>
+
+<div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png" id="cb-search-btn" title="双击ctrl试一下"/>
+</div>
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
+
+<!--<script>-->
+<!--    var _hmt = _hmt || [];-->
+<!--    (function () {-->
+<!--        var hm = document.createElement("script");-->
+<!--        hm.src = "https://hm.baidu.com/hm.js?c9b7fde5670aa3eac4c08693f5b4d398";-->
+<!--        var s = document.getElementsByTagName("script")[0];-->
+<!--        s.parentNode.insertBefore(hm, s);-->
+<!--    })();-->
+<!--</script>-->
+
+
+
+</body>
+
+</html>

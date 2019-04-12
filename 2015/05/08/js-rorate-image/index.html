@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keyword"
+          content="codeboy, @codeboy, 小胖轩, 玄恒, Blog, Github, 博客, 互联网, 前端, 服务端, 玄恒的个人网站, android, mobile, server, web, datamine ">
+    <meta name="description" content="编码生涯的点点滴滴">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <title> Js实现旋转的图片 - 小胖轩</title>
+
+    <link rel="canonical" href="https://https://www.codeboy.me/2015/05/08/js-rorate-image/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/codeboy.min.css">
+
+    <link rel="alternate" type="application/rss+xml" href="feed.xml" title="小胖轩">
+    <!-- Custom Fonts -->
+    <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .ds-powered-by {
+            display: none !important;
+        }
+
+        .ds-post-toolbar .ds-sync {
+            display: none !important;
+        }
+    </style>
+
+    <script type="text/javascript">
+        console.log("%c      ", "font-size:130px;background:url('http://www.codeboy.me/img/github.png') no-repeat ");
+    </script>
+</head>
+
+
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">小胖轩</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">首页</a>
+                </li>
+                <li>
+                    <a href="/open/">开源</a>
+                </li>
+
+                <li>
+                    <a href="/tags/">标签</a>
+                </li>
+
+                <li>
+                    <a href="/about/">关于</a>
+                </li>
+		<!--
+                
+                <li>
+                    <a href="/apps/">Apps</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/about/index2/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/open/">Open</a>
+                </li>
+                
+                <li>
+                    <a href="/tags/">Tags</a>
+                </li>
+                
+		-->
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header"
+        style="background-image: url('/img/post-bg-web.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#web" title="web">web</a>
+                        
+                    </div>
+                    <h1> Js实现旋转的图片</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by Codeboy on May 8, 2015</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container" style="overflow-y:hidden;">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
+
+                <p>gif可以实现旋转的图片，但是怎么使用js实现的。自己想了一下，打算实现一下，整体思路也很简单，每隔一段时间，旋转一下图片，看起来就像在一直旋转一样。实例地址<a href="http://example.codeboy.me/rotate/">http://example.codeboy.me/rotate/</a></p>
+
+<iframe src="http://example.codeboy.me/rotate/" width="100%" height="210px" frameborder="0" scrolling="no"></iframe>
+
+<p>旋转rotate.js的代码如下:</p>
+
+<pre><code>/**
+ * Created by YD on 5/7/15.
+ * Base on Jquery
+ */
+var ele ;
+
+//自定义函数
+$.fn.extend({
+	rotate: function () {
+	ele = this ;
+	setInterval('singleRotate()',20);
+   }
+});
+
+//初始角度
+var degree = 0;
+
+//单次旋转
+function singleRotate() {
+	//一次增加50度
+	degree = degree + 50 * Math.PI / 180;
+	ele.css("transform","rotate("+degree+"deg)");
+}
+</code></pre>
+
+<p>代码中只需引用一下js就行了，我将其封装后放在了服务器上，大家可以直接引用</p>
+
+<p>引用前记得引用jquery，最后在自己的代码中调用rotate方法即可：</p>
+
+<pre><code>$(element).rotate();
+</code></pre>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+
+
+            </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                        <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/codeboy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/androiddevelop">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 小胖轩 2019</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="/js/jquery.tagcloud.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $.fn.tagcloud.defaults = {
+        //size: {start: 1, end: 1, unit: 'em'},
+        color: {start: '#bbbbee', end: '#0085a1'},
+    };
+    $(function () {
+        $('#tag_cloud a').tagcloud();
+    });
+</script>
+
+<!-- Highlight.js -->
+<script src="//cdn.bootcss.com/highlight.js/9.4.0/highlight.min.js"></script>
+<link href="//cdn.bootcss.com/highlight.js/9.4.0/styles/solarized-dark.min.css" rel="stylesheet">
+
+<div class="cb-search-tool" style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px;
+      opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control cb-search-content" id="cb-search-content" style="position: fixed; top: 60px"
+           placeholder="文章标题 日期 标签">
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png" id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/codeboy.min.js"></script>
+
+<div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png" id="cb-search-btn" title="双击ctrl试一下"/>
+</div>
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
+
+<!--<script>-->
+<!--    var _hmt = _hmt || [];-->
+<!--    (function () {-->
+<!--        var hm = document.createElement("script");-->
+<!--        hm.src = "https://hm.baidu.com/hm.js?c9b7fde5670aa3eac4c08693f5b4d398";-->
+<!--        var s = document.getElementsByTagName("script")[0];-->
+<!--        s.parentNode.insertBefore(hm, s);-->
+<!--    })();-->
+<!--</script>-->
+
+
+
+</body>
+
+</html>

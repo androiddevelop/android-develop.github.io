@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keyword"
+          content="codeboy, @codeboy, 小胖轩, 玄恒, Blog, Github, 博客, 互联网, 前端, 服务端, 玄恒的个人网站, android, mobile, server, web, datamine ">
+    <meta name="description" content="编码生涯的点点滴滴">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <title>正则表达式之非获取匹配 - 小胖轩</title>
+
+    <link rel="canonical" href="https://https://www.codeboy.me/2017/10/01/regex-trick/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/codeboy.min.css">
+
+    <link rel="alternate" type="application/rss+xml" href="feed.xml" title="小胖轩">
+    <!-- Custom Fonts -->
+    <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .ds-powered-by {
+            display: none !important;
+        }
+
+        .ds-post-toolbar .ds-sync {
+            display: none !important;
+        }
+    </style>
+
+    <script type="text/javascript">
+        console.log("%c      ", "font-size:130px;background:url('http://www.codeboy.me/img/github.png') no-repeat ");
+    </script>
+</head>
+
+
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">小胖轩</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">首页</a>
+                </li>
+                <li>
+                    <a href="/open/">开源</a>
+                </li>
+
+                <li>
+                    <a href="/tags/">标签</a>
+                </li>
+
+                <li>
+                    <a href="/about/">关于</a>
+                </li>
+		<!--
+                
+                <li>
+                    <a href="/apps/">Apps</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/about/index2/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/open/">Open</a>
+                </li>
+                
+                <li>
+                    <a href="/tags/">Tags</a>
+                </li>
+                
+		-->
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header"
+        style="background-image: url('/img/post-bg-trick.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#trick" title="trick">trick</a>
+                        
+                    </div>
+                    <h1>正则表达式之非获取匹配</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by Codeboy on October 1, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container" style="overflow-y:hidden;">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
+
+                <p>正则表达式是平时开发中经常用到的技巧，大部分时候我们需要的是判断字符串有没有含有固定的模式串，但是某些场景下需要使用非获取匹配，下面根据一种常见的情景:</p>
+
+<p><strong>匹配所有含有 <code>app://page.cb/myPage?id=xxxx</code>的地址，但是排除参数中携带<code>downgrade=true</code>的地址。</strong></p>
+
+<p>具体用几个例子说明一下:</p>
+
+<pre><code>原始地址: app://page.cb/myPage
+匹配结果: no， id不存在
+
+原始地址: app://page.cb/myPage?id=123456
+匹配结果: yes
+
+原始地址: app://page.cb/myPage?param=123456
+匹配结果: no, id不存在
+
+原始地址: app://page.cb/myPage?id=123456&amp;downgrade=true
+匹配结果: no, downgrade为true
+
+原始地址: app://page.cb/myPage?id=123456&amp;downgrade=false
+匹配结果: yes
+
+原始地址: app://page.cb/myPage?downgrade=false&amp;id=123456
+匹配结果: yes
+
+原始地址: app://page.cb/myPage?downgrade=true&amp;id=123456
+匹配结果: no, downgrade为true
+</code></pre>
+
+<p>匹配所有不含<code>downgrade=true</code>的<code>app://page.cb/myPage?id=xxxx</code>地址，这里可以使用正则表达式的非获取匹配，下面介绍非获取匹配的两种:</p>
+
+<h4 id="pattern">(?!pattern)</h4>
+
+<p>非获取匹配，正向否定预查，在任何不匹配pattern的字符串开始处匹配查找字符串，该匹配不需要获取供以后使用。例如“Windows(?!95|98|NT|2000)”能匹配“Windows3.1”中的“Windows”，但不能匹配“Windows2000”中的“Windows”。</p>
+
+<h4 id="pattern-1">(?&lt;!pattern)</h4>
+
+<p>非获取匹配，反向否定预查，与正向否定预查类似，只是方向相反。例如“(?&lt;!95|98|NT|2000)Windows”能匹配“3.1Windows”中的“Windows”，但不能匹配“2000Windows”中的“Windows”。</p>
+
+<p>根据非获取匹配的写法， 我们采用了正向否定查询，正则表达式如下：</p>
+
+<pre><code>app:\/\/page.cb\/myPage\?(((?!downgrade=true).)*id=\d+((?!downgrade=true).)*)
+</code></pre>
+
+<p>对其中的反向预查部分进行分割如下：</p>
+
+<p><span style="background-color:#B5EF79; font-weight: 700;">app:\/\/page.cb\/myPage</span><span style="background-color:#FDBE73; font-weight: 700;">\?</span>(<span style="background-color:#77C5FD; font-weight: 700;">((?!downgrade=true).)*</span><span style="background-color:#B5EF79">id=\d+</span><span style="background-color:#77C5FD; font-weight: 700;">((?!downgrade=true).)*</span>)</p>
+
+<p>可以在<a href="https://regex101.com/">https://regex101.com</a> 中尝试匹配。</p>
+
+<p>分析以上正则表达式，即 <code>id=\d+</code> 的前后都不能含有 <code>downgrade=true</code> ，其中 <code>((?!downgrade=true).)*</code> 从里到外看，<code>(?!downgrade=true)</code> 代表不含该字符串，然后.用于匹配id参数前后的其他参数,此处的.不能防止在 <code>(?!downgrade=true)</code> 的前面，会造成如果第一个参数是 <code>downgrade=true</code> 时被遗漏掉。</p>
+
+<p>如果需要url中参数部分，其中$1即为参数部分。</p>
+
+<p>测试case集合：</p>
+<pre><code>app://page.cb/myPage
+app://page.cb/myPage?id=123456
+app://page.cb/myPage?param=123456
+app://page.cb/myPage?id=123456&amp;downgrade=true
+app://page.cb/myPage?id=123456&amp;downgrade=false
+app://page.cb/myPage?downgrade=false&amp;id=123456
+app://page.cb/myPage?downgrade=true&amp;id=123456
+</code></pre>
+
+<blockquote>
+  <p>由于各种语言对正则表达式支持程度不同，例如非获取匹配中的反向否定预查在javascript中不支持，但是在php,python,java中是支持的，正向否定预查在javascript,php,python,java中都支持，所以使用前一定要注意，同事需要考虑正则表达式的性能问题。</p>
+</blockquote>
+
+
+            </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                        <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/codeboy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/androiddevelop">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 小胖轩 2019</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="/js/jquery.tagcloud.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $.fn.tagcloud.defaults = {
+        //size: {start: 1, end: 1, unit: 'em'},
+        color: {start: '#bbbbee', end: '#0085a1'},
+    };
+    $(function () {
+        $('#tag_cloud a').tagcloud();
+    });
+</script>
+
+<!-- Highlight.js -->
+<script src="//cdn.bootcss.com/highlight.js/9.4.0/highlight.min.js"></script>
+<link href="//cdn.bootcss.com/highlight.js/9.4.0/styles/solarized-dark.min.css" rel="stylesheet">
+
+<div class="cb-search-tool" style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px;
+      opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control cb-search-content" id="cb-search-content" style="position: fixed; top: 60px"
+           placeholder="文章标题 日期 标签">
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png" id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/codeboy.min.js"></script>
+
+<div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png" id="cb-search-btn" title="双击ctrl试一下"/>
+</div>
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
+
+<!--<script>-->
+<!--    var _hmt = _hmt || [];-->
+<!--    (function () {-->
+<!--        var hm = document.createElement("script");-->
+<!--        hm.src = "https://hm.baidu.com/hm.js?c9b7fde5670aa3eac4c08693f5b4d398";-->
+<!--        var s = document.getElementsByTagName("script")[0];-->
+<!--        s.parentNode.insertBefore(hm, s);-->
+<!--    })();-->
+<!--</script>-->
+
+
+
+</body>
+
+</html>

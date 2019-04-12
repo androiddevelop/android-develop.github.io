@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keyword"
+          content="codeboy, @codeboy, 小胖轩, 玄恒, Blog, Github, 博客, 互联网, 前端, 服务端, 玄恒的个人网站, android, mobile, server, web, datamine ">
+    <meta name="description" content="编码生涯的点点滴滴">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <title>Round Up To Power Of Two - 小胖轩</title>
+
+    <link rel="canonical" href="https://https://www.codeboy.me/2015/08/28/round-up-to-power-of-two/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/codeboy.min.css">
+
+    <link rel="alternate" type="application/rss+xml" href="feed.xml" title="小胖轩">
+    <!-- Custom Fonts -->
+    <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .ds-powered-by {
+            display: none !important;
+        }
+
+        .ds-post-toolbar .ds-sync {
+            display: none !important;
+        }
+    </style>
+
+    <script type="text/javascript">
+        console.log("%c      ", "font-size:130px;background:url('http://www.codeboy.me/img/github.png') no-repeat ");
+    </script>
+</head>
+
+
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">小胖轩</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">首页</a>
+                </li>
+                <li>
+                    <a href="/open/">开源</a>
+                </li>
+
+                <li>
+                    <a href="/tags/">标签</a>
+                </li>
+
+                <li>
+                    <a href="/about/">关于</a>
+                </li>
+		<!--
+                
+                <li>
+                    <a href="/apps/">Apps</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/about/index2/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/open/">Open</a>
+                </li>
+                
+                <li>
+                    <a href="/tags/">Tags</a>
+                </li>
+                
+		-->
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header"
+        style="background-image: url('/img/post-bg-java.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#java" title="java">java</a>
+                        
+                    </div>
+                    <h1>Round Up To Power Of Two</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by Codeboy on August 28, 2015</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container" style="overflow-y:hidden;">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
+
+                <p>这个标题应该说明了我们要做什么了，中文的意思是找出一个2^n的数，使其不小于给出的数字。举个例子吧: 如果给一个数字63，那么我需要获取不小于63的数字，但是这个数字需要是2的n次方了，所以</p>
+
+<ul>
+  <li>63对应的是64(2^6)</li>
+  <li>64对应的依旧是64(2^6)</li>
+  <li>100对应的是128(2^7)</li>
+</ul>
+
+<p>问题来了:</p>
+
+<h2 id="怎么快速的计算出这个结果呢">怎么快速的计算出这个结果呢？</h2>
+
+<p>可能首先浮现在我们眼前的可能是计算log或者一些其他的一些非位操作的算法，这些算法就不再次说明，来看一下JDK以及android的源码包中是怎么来计算的。</p>
+
+<p>HashMap是一种常用的数据结果，底层是数组与链表的结合，为了能够使key尽量分布均匀，减少碰撞，HashMap的容量都是2^n，容量是2^n的另一个好处是在计算hashcode % size的时候可以使用与操作代替(实现远离可以google上查看)，当我们需要构造一个指定容量(记为sizeA)的HashMap时，HashMap帮我们计算出了不小于sizeA的SizeB，sizeB满足2^n。
+具体实现在android的java.util.Collections中:</p>
+
+<pre><code> /**
+     * Returns the smallest power of two &gt;= its argument, with several caveats:
+     * If the argument is negative but not Integer.MIN_VALUE, the method returns
+     * zero. If the argument is &gt; 2^30 or equal to Integer.MIN_VALUE, the method
+     * returns Integer.MIN_VALUE. If the argument is zero, the method returns
+     * zero.
+     *
+     * @hide
+     */
+    public static int roundUpToPowerOfTwo(int i) {
+        i--; // If input is a power of two, shift its high-order bit right.
+
+        // "Smear" the high-order bit all the way to the right.
+        i |= i &gt;&gt;&gt; 1;
+        i |= i &gt;&gt;&gt; 2;
+        i |= i &gt;&gt;&gt; 4;
+        i |= i &gt;&gt;&gt; 8;
+        i |= i &gt;&gt;&gt; 16;
+
+        return i + 1;
+    }
+</code></pre>
+
+<p>而在JDK源码中的实现:</p>
+
+<pre><code>    private static int roundUpToPowerOf2(int number) {
+        // assert number &gt;= 0 : "number must be non-negative";
+        return number &gt;= MAXIMUM_CAPACITY
+                ? MAXIMUM_CAPACITY
+                : (number &gt; 1) ? Integer.highestOneBit((number - 1) &lt;&lt; 1) : 1;
+    }
+
+    public static int highestOneBit(int i) {
+        // HD, Figure 3-1
+        i |= (i &gt;&gt; 1);
+        i |= (i &gt;&gt; 2);
+        i |= (i &gt;&gt; 4);
+        i |= (i &gt;&gt; 8);
+        i |= (i &gt;&gt; 16);
+        return i - (i &gt;&gt;&gt; 1);
+    }
+</code></pre>
+<p>虽然android中的java相关源码变动了部分，但是两者的实现基本是相同的，下面以上面一种为基准，阐述一下原理。
+为了能够获取数字num对应的2^n对应的数值res，需要找出num对应二进制的最高位，如果num刚好满足2^n,即除最高位外其他位均是0，为了能够统一处理，将num首先减去1，这样如果res满足2^n,那么最高位现在处于原来的次高位，但是如果num不满足2^n，那么最高位不变,所以此时我们可以将num最高位(减1后新的最高位)后面的位全部置为1，然后加1即满足2^n,这样操作下来满足2^n的保持原样(num=res)，不满足2^n的num最后进了一位，也得到了结果。</p>
+
+<p>操作中将最后为后面的位都置1也是非常妙的操作，使用最高位把次高位置为1，此时最高位与次高位都为1(num»&gt;1后与num或操作)，然后用最高位与次高位2位将次高位后面的2位置1，依次类推，由于HashMap定义的最大容量为2^30,所以最多只需5次操作，即可将最高位后面的位均置为1，非常的巧妙。</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+
+
+            </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                        <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/codeboy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/androiddevelop">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 小胖轩 2019</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="/js/jquery.tagcloud.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $.fn.tagcloud.defaults = {
+        //size: {start: 1, end: 1, unit: 'em'},
+        color: {start: '#bbbbee', end: '#0085a1'},
+    };
+    $(function () {
+        $('#tag_cloud a').tagcloud();
+    });
+</script>
+
+<!-- Highlight.js -->
+<script src="//cdn.bootcss.com/highlight.js/9.4.0/highlight.min.js"></script>
+<link href="//cdn.bootcss.com/highlight.js/9.4.0/styles/solarized-dark.min.css" rel="stylesheet">
+
+<div class="cb-search-tool" style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px;
+      opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control cb-search-content" id="cb-search-content" style="position: fixed; top: 60px"
+           placeholder="文章标题 日期 标签">
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png" id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/codeboy.min.js"></script>
+
+<div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png" id="cb-search-btn" title="双击ctrl试一下"/>
+</div>
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
+
+<!--<script>-->
+<!--    var _hmt = _hmt || [];-->
+<!--    (function () {-->
+<!--        var hm = document.createElement("script");-->
+<!--        hm.src = "https://hm.baidu.com/hm.js?c9b7fde5670aa3eac4c08693f5b4d398";-->
+<!--        var s = document.getElementsByTagName("script")[0];-->
+<!--        s.parentNode.insertBefore(hm, s);-->
+<!--    })();-->
+<!--</script>-->
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keyword"
+          content="codeboy, @codeboy, 小胖轩, 玄恒, Blog, Github, 博客, 互联网, 前端, 服务端, 玄恒的个人网站, android, mobile, server, web, datamine ">
+    <meta name="description" content="编码生涯的点点滴滴">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <title>Java泛型方法 - 小胖轩</title>
+
+    <link rel="canonical" href="https://https://www.codeboy.me/2016/09/12/java-generic-method/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/codeboy.min.css">
+
+    <link rel="alternate" type="application/rss+xml" href="feed.xml" title="小胖轩">
+    <!-- Custom Fonts -->
+    <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .ds-powered-by {
+            display: none !important;
+        }
+
+        .ds-post-toolbar .ds-sync {
+            display: none !important;
+        }
+    </style>
+
+    <script type="text/javascript">
+        console.log("%c      ", "font-size:130px;background:url('http://www.codeboy.me/img/github.png') no-repeat ");
+    </script>
+</head>
+
+
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">小胖轩</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">首页</a>
+                </li>
+                <li>
+                    <a href="/open/">开源</a>
+                </li>
+
+                <li>
+                    <a href="/tags/">标签</a>
+                </li>
+
+                <li>
+                    <a href="/about/">关于</a>
+                </li>
+		<!--
+                
+                <li>
+                    <a href="/apps/">Apps</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/about/index2/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/open/">Open</a>
+                </li>
+                
+                <li>
+                    <a href="/tags/">Tags</a>
+                </li>
+                
+		-->
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header"
+        style="background-image: url('/img/post-bg-java.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#java" title="java">java</a>
+                        
+                        <a class="tag" href="/tags/#android" title="android">android</a>
+                        
+                    </div>
+                    <h1>Java泛型方法</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by Codeboy on September 12, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container" style="overflow-y:hidden;">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
+
+                <p>Java在JDK 5中引入了泛型，使用起来方便了很多，下面是一段很常见的泛型使用：</p>
+
+<pre><code>List&lt;String&gt; list = new ArrayList&lt;String&gt;();
+</code></pre>
+
+<h2 id="泛型方法使用">泛型方法使用</h2>
+
+<p>不仅集合中可以使用，在定义类、接口和方法的时候也是经常使用的，但是关于泛型方法使用的场景还是不太多。下面从求两个数的最大数的实现上来看一下泛型类和泛型方法的简单使用：</p>
+
+<h3 id="泛型类接口">泛型类(接口)</h3>
+
+<pre><code>package me.codeboy.test;
+
+/**
+ * generic test
+ * Created by yuedong on 9/12/16.
+ */
+public class MathTest&lt;T extends Comparable&gt; {
+
+    public static void main(String[] args) {
+        MathTest&lt;Integer&gt; mathTest1 = new MathTest&lt;Integer&gt;();
+        MathTest&lt;Double&gt; mathTest2 = new MathTest&lt;Double&gt;();
+        System.out.println(mathTest1.max(1, 2));
+        System.out.println(mathTest2.max(2.0, 3.0));
+    }
+
+    private T max(T t1, T t2) {
+        return t1.compareTo(t2) &gt; 0 ? t1 : t2;
+    }
+}
+</code></pre>
+
+<h3 id="泛型方法">泛型方法</h3>
+
+<pre><code>/**
+ * generic test
+ * Created by yuedong on 9/12/16.
+ */
+public class MathTest {
+
+    public static void main(String[] args) {
+        MathTest mathTest = new MathTest();
+        System.out.println(mathTest.max(1, 2));
+        System.out.println(mathTest.max(2.0, 3.0));
+    }
+
+    private &lt;T extends Comparable&gt; T max(T t1, T t2) {
+        return t1.compareTo(t2) &gt; 0 ? t1 : t2;
+    }
+}
+</code></pre>
+
+<h3 id="静态泛型方法">静态泛型方法</h3>
+
+<pre><code>/**
+ * generic test
+ * Created by yuedong on 9/12/16.
+ */
+public class MathTest {
+
+    public static void main(String[] args) {
+        System.out.println(max(1, 2));
+        System.out.println(max(2.0, 3.0));
+    }
+
+    private static &lt;T extends Comparable&gt; T max(T t1, T t2) {
+        return t1.compareTo(t2) &gt; 0 ? t1 : t2;
+    }
+}
+
+
+</code></pre>
+
+<h2 id="泛型方法优缺点">泛型方法优缺点</h2>
+
+<p>优点很明显，代码简洁多了，或者可以说比普通的泛型泛型更为简洁，网上有一段关于Android中频繁使用 <code>findViewById</code> 方法的静态泛型方法实现，被称为见过最牛逼的Android代码，但是事物都有两面性，静态泛型方法也有相应的缺点，再看一段代码:</p>
+
+<pre><code>import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * test entry
+ * Created by yuedong on 9/10/16.
+ */
+public class Test {
+
+    public static void main(String[] args) {
+        List&lt;String&gt; list = new ArrayList&lt;&gt;();
+        list.add("test");
+
+        //普通转换
+        ArrayList&lt;String&gt; result1 = (ArrayList&lt;String&gt;) list;
+
+        //静态泛型转换
+        String result2 = convert(list);
+    }
+
+    private static &lt;T&gt; T convert(Object a) {
+        return (T) a;
+    }
+}
+</code></pre>
+
+<p>上述代码是 <strong>编译通过，运行异常</strong>，为什么会出现这种现象呢？这是因为Java的泛型方法属于伪泛型，在编译的时候将进行类型擦除。普通的泛型方法在类构建时已经明确制定了对应的类型，而在静态泛型方法中，类型是无法直接推测的，缺少了明确的类型，最终造成类型转化异常。</p>
+
+<pre><code>Exception in thread "main" java.lang.ClassCastException: java.util.ArrayList cannot be cast to java.lang.String
+</code></pre>
+
+<h2 id="原理探索">原理探索</h2>
+
+<p>看到了上面的结果，不禁想了解下泛型方法在类型擦除后最终转换成了什么，反编译上述静态泛型方法编译后的class文件如下:</p>
+
+<pre><code>Compiled from "Test.java"
+public class Test {
+  public Test();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."&lt;init&gt;":()V
+       4: return
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: new           #2                  // class java/util/ArrayList
+       3: dup
+       4: invokespecial #3                  // Method java/util/ArrayList."&lt;init&gt;":()V
+       7: astore_1
+       8: aload_1
+       9: ldc           #4                  // String test
+      11: invokeinterface #5,  2            // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+      16: pop
+      17: aload_1
+      18: checkcast     #2                  // class java/util/ArrayList
+      21: astore_2
+      22: aload_1
+      23: invokestatic  #6                  // Method convert:(Ljava/lang/Object;)Ljava/lang/Object;
+      26: checkcast     #7                  // class java/lang/String
+      29: astore_3
+      30: return
+}
+</code></pre>
+
+<p>可以看到convert函数最终转化后对应的字节码为 <code>Method convert:(Ljava/lang/Object;)Ljava/lang/Object;</code> 参数为Object类型，返回也为Object类型，而在接下来的 <code>checkcast</code> 操作中，由于 <code>List</code> 和 <code>String</code> 类型的不同，所以抛出了异常。</p>
+
+<pre><code>    private static &lt;T extends List&gt; T convert(Object a) {
+        return (T) a;
+    }
+</code></pre>
+<p>对于上述的代码反编译后对应 <code>Method convert:(Ljava/lang/Object;)Ljava/util/List;</code> 中，可以看到此时参数为Object类型，返回为List类型。</p>
+
+<h2 id="小结">小结</h2>
+
+<p>尽管Java中的泛型是伪泛型，但是泛型可以使代码更加的简洁，只是在使用 <code>普通泛型方法</code> 和 <code>静态泛型方法</code> 时需要特别注意类型转化。</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+
+
+            </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                        <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/codeboy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/androiddevelop">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 小胖轩 2019</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="/js/jquery.tagcloud.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $.fn.tagcloud.defaults = {
+        //size: {start: 1, end: 1, unit: 'em'},
+        color: {start: '#bbbbee', end: '#0085a1'},
+    };
+    $(function () {
+        $('#tag_cloud a').tagcloud();
+    });
+</script>
+
+<!-- Highlight.js -->
+<script src="//cdn.bootcss.com/highlight.js/9.4.0/highlight.min.js"></script>
+<link href="//cdn.bootcss.com/highlight.js/9.4.0/styles/solarized-dark.min.css" rel="stylesheet">
+
+<div class="cb-search-tool" style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px;
+      opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control cb-search-content" id="cb-search-content" style="position: fixed; top: 60px"
+           placeholder="文章标题 日期 标签">
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png" id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/codeboy.min.js"></script>
+
+<div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png" id="cb-search-btn" title="双击ctrl试一下"/>
+</div>
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
+
+<!--<script>-->
+<!--    var _hmt = _hmt || [];-->
+<!--    (function () {-->
+<!--        var hm = document.createElement("script");-->
+<!--        hm.src = "https://hm.baidu.com/hm.js?c9b7fde5670aa3eac4c08693f5b4d398";-->
+<!--        var s = document.getElementsByTagName("script")[0];-->
+<!--        s.parentNode.insertBefore(hm, s);-->
+<!--    })();-->
+<!--</script>-->
+
+
+
+</body>
+
+</html>

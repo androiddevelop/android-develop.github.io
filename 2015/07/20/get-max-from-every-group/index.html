@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keyword"
+          content="codeboy, @codeboy, 小胖轩, 玄恒, Blog, Github, 博客, 互联网, 前端, 服务端, 玄恒的个人网站, android, mobile, server, web, datamine ">
+    <meta name="description" content="编码生涯的点点滴滴">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <title>获取所有分组中某列最大的行 - 小胖轩</title>
+
+    <link rel="canonical" href="https://https://www.codeboy.me/2015/07/20/get-max-from-every-group/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/codeboy.min.css">
+
+    <link rel="alternate" type="application/rss+xml" href="feed.xml" title="小胖轩">
+    <!-- Custom Fonts -->
+    <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .ds-powered-by {
+            display: none !important;
+        }
+
+        .ds-post-toolbar .ds-sync {
+            display: none !important;
+        }
+    </style>
+
+    <script type="text/javascript">
+        console.log("%c      ", "font-size:130px;background:url('http://www.codeboy.me/img/github.png') no-repeat ");
+    </script>
+</head>
+
+
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">小胖轩</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">首页</a>
+                </li>
+                <li>
+                    <a href="/open/">开源</a>
+                </li>
+
+                <li>
+                    <a href="/tags/">标签</a>
+                </li>
+
+                <li>
+                    <a href="/about/">关于</a>
+                </li>
+		<!--
+                
+                <li>
+                    <a href="/apps/">Apps</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/about/index2/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/open/">Open</a>
+                </li>
+                
+                <li>
+                    <a href="/tags/">Tags</a>
+                </li>
+                
+		-->
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header"
+        style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#database" title="database">database</a>
+                        
+                    </div>
+                    <h1>获取所有分组中某列最大的行</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by Codeboy on July 20, 2015</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container" style="overflow-y:hidden;">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
+
+                <p><strong>怎么获取所有分组中某列最大的行？</strong>下面用一个例子来说明下：</p>
+
+<p>一共公司有若干员工，每个员工有各自的id, group_id(部门), salary(工资).现在的问题转变为</p>
+
+<pre><code>求公司各部门最高工资的员工
+</code></pre>
+
+<p>首先明确一个问题，一个部门的若干个员工可能同时拥有最高的工资，需要都列举出来。</p>
+
+<p>看一下员工的数据库表结构(只包含有用的列):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Null</th>
+      <th>Key</th>
+      <th>Default</th>
+      <th>Extra</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>id</td>
+      <td>int(11)</td>
+      <td>NO</td>
+      <td>PRI</td>
+      <td>NULL</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>group_id</td>
+      <td>int(11)</td>
+      <td>YES</td>
+      <td> </td>
+      <td>NULL</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>salary</td>
+      <td>int(11)</td>
+      <td>YES</td>
+      <td> </td>
+      <td>NULL</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>添加的测试数据如下:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>group_id</th>
+      <th>salary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>1</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>2</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>2</td>
+      <td>300</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>我们需要做的步骤如下:</p>
+
+<ul>
+  <li>
+    <ol>
+      <li>获取各个部门最高的工资</li>
+    </ol>
+  </li>
+  <li>
+    <ol>
+      <li>查找各个部门工资等于最高工资的员工</li>
+    </ol>
+  </li>
+</ul>
+
+<h4 id="获取各个部门最高的工资">获取各个部门最高的工资</h4>
+
+<pre><code>select group_id, max(salary) as max_salary from employee group by group_id ;
+</code></pre>
+
+<p>执行后的结果:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>group_id</th>
+      <th>max_salary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>300</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="查找各个部门工资等于最高工资的员工">查找各个部门工资等于最高工资的员工</h4>
+
+<pre><code>select a.id, a.group_id, a.salary from employee as a, b where a.group_id=b.group_id and a.salary=b.max_salary ;
+</code></pre>
+
+<blockquote>
+  <p>假设第一执行后的数据存在表b中。</p>
+</blockquote>
+
+<p>这样就得到了最终的结果:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>group_id</th>
+      <th>salary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+      <td>1</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>1</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>2</td>
+      <td>300</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>我们可以简单的将<strong>获取各个部门最高的工资</strong>的代码替换b即可，组合后的语句如下:</p>
+
+<pre><code>select a.id, a.group_id, a.salary from employee as a, (select group_id, max(salary) as max_salary from employee group by group_id) as b where a.group_id=b.group_id and a.salary=b.max_salary ;
+</code></pre>
+
+<p>执行后的结果相同。</p>
+
+<h4 id="总结">总结</h4>
+<pre><code>我们首先按照部门进行分组，获取每组最大的工资(表b); 之后将表a(原表)与表b做一下笛卡尔积，筛选出我们需要的数据即可。
+</code></pre>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+
+
+            </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                        <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/codeboy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/androiddevelop">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 小胖轩 2019</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="/js/jquery.tagcloud.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $.fn.tagcloud.defaults = {
+        //size: {start: 1, end: 1, unit: 'em'},
+        color: {start: '#bbbbee', end: '#0085a1'},
+    };
+    $(function () {
+        $('#tag_cloud a').tagcloud();
+    });
+</script>
+
+<!-- Highlight.js -->
+<script src="//cdn.bootcss.com/highlight.js/9.4.0/highlight.min.js"></script>
+<link href="//cdn.bootcss.com/highlight.js/9.4.0/styles/solarized-dark.min.css" rel="stylesheet">
+
+<div class="cb-search-tool" style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px;
+      opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control cb-search-content" id="cb-search-content" style="position: fixed; top: 60px"
+           placeholder="文章标题 日期 标签">
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png" id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/codeboy.min.js"></script>
+
+<div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png" id="cb-search-btn" title="双击ctrl试一下"/>
+</div>
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
+
+<!--<script>-->
+<!--    var _hmt = _hmt || [];-->
+<!--    (function () {-->
+<!--        var hm = document.createElement("script");-->
+<!--        hm.src = "https://hm.baidu.com/hm.js?c9b7fde5670aa3eac4c08693f5b4d398";-->
+<!--        var s = document.getElementsByTagName("script")[0];-->
+<!--        s.parentNode.insertBefore(hm, s);-->
+<!--    })();-->
+<!--</script>-->
+
+
+
+</body>
+
+</html>
