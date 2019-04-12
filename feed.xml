@@ -3,10 +3,10 @@
   <channel>
     <title>小胖轩</title>
     <description>编码生涯的点点滴滴</description>
-    <link>http://androiddevelop.github.io/</link>
-    <atom:link href="http://androiddevelop.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 13 Apr 2019 03:55:02 +0800</pubDate>
-    <lastBuildDate>Sat, 13 Apr 2019 03:55:02 +0800</lastBuildDate>
+    <link>https://https://www.codeboy.me/</link>
+    <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Sat, 13 Apr 2019 04:07:32 +0800</pubDate>
+    <lastBuildDate>Sat, 13 Apr 2019 04:07:32 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -171,8 +171,8 @@ MD5 (h1.zip) = 5b69e56cc533d19c14c1aa234bd7d6e3
 &lt;/blockquote&gt;
 </description>
         <pubDate>Wed, 20 Mar 2019 00:00:00 +0800</pubDate>
-        <link>http://androiddevelop.github.io/2019/03/20/zip-tricks/</link>
-        <guid isPermaLink="true">http://androiddevelop.github.io/2019/03/20/zip-tricks/</guid>
+        <link>https://https://www.codeboy.me/2019/03/20/zip-tricks/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2019/03/20/zip-tricks/</guid>
         
         <category>linux</category>
         
@@ -396,8 +396,8 @@ Caused by: java.util.concurrent.RejectedExecutionException: Task android.os.Asyn
 &lt;/blockquote&gt;
 </description>
         <pubDate>Sat, 04 Aug 2018 00:00:00 +0800</pubDate>
-        <link>http://androiddevelop.github.io/2018/08/04/android-async-task/</link>
-        <guid isPermaLink="true">http://androiddevelop.github.io/2018/08/04/android-async-task/</guid>
+        <link>https://https://www.codeboy.me/2018/08/04/android-async-task/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2018/08/04/android-async-task/</guid>
         
         <category>android</category>
         
@@ -460,8 +460,8 @@ Caused by: java.util.concurrent.RejectedExecutionException: Task android.os.Asyn
 &lt;/blockquote&gt;
 </description>
         <pubDate>Sun, 07 Jan 2018 00:00:00 +0800</pubDate>
-        <link>http://androiddevelop.github.io/2018/01/07/linux-command-ln/</link>
-        <guid isPermaLink="true">http://androiddevelop.github.io/2018/01/07/linux-command-ln/</guid>
+        <link>https://https://www.codeboy.me/2018/01/07/linux-command-ln/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2018/01/07/linux-command-ln/</guid>
         
         <category>java</category>
         
@@ -560,8 +560,8 @@ done
 &lt;/blockquote&gt;
 </description>
         <pubDate>Mon, 27 Nov 2017 00:00:00 +0800</pubDate>
-        <link>http://androiddevelop.github.io/2017/11/27/command-jq/</link>
-        <guid isPermaLink="true">http://androiddevelop.github.io/2017/11/27/command-jq/</guid>
+        <link>https://https://www.codeboy.me/2017/11/27/command-jq/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2017/11/27/command-jq/</guid>
         
         <category>linux</category>
         
@@ -638,8 +638,8 @@ app://page.cb/myPage?downgrade=true&amp;amp;id=123456
 &lt;/blockquote&gt;
 </description>
         <pubDate>Sun, 01 Oct 2017 00:00:00 +0800</pubDate>
-        <link>http://androiddevelop.github.io/2017/10/01/regex-trick/</link>
-        <guid isPermaLink="true">http://androiddevelop.github.io/2017/10/01/regex-trick/</guid>
+        <link>https://https://www.codeboy.me/2017/10/01/regex-trick/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2017/10/01/regex-trick/</guid>
         
         <category>trick</category>
         
@@ -690,8 +690,8 @@ app://page.cb/myPage?downgrade=true&amp;amp;id=123456
 &lt;p&gt;&lt;a href=&quot;https://chrome.google.com/webstore/detail/just-one-file/opofajlgipfljhhlfhcpmhhjckjaacia?hl=zh-CN&amp;amp;authuser=1&quot;&gt;https://chrome.google.com/webstore/detail/just-one-file/opofajlgipfljhhlfhcpmhhjckjaacia?hl=zh-CN&amp;amp;authuser=1&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 30 May 2017 00:00:00 +0800</pubDate>
-        <link>http://androiddevelop.github.io/2017/05/30/chrome-plugin-for-save/</link>
-        <guid isPermaLink="true">http://androiddevelop.github.io/2017/05/30/chrome-plugin-for-save/</guid>
+        <link>https://https://www.codeboy.me/2017/05/30/chrome-plugin-for-save/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2017/05/30/chrome-plugin-for-save/</guid>
         
         <category>web</category>
         
@@ -926,8 +926,8 @@ public class Singleton {
 &lt;/blockquote&gt;
 </description>
         <pubDate>Tue, 07 Feb 2017 00:00:00 +0800</pubDate>
-        <link>http://androiddevelop.github.io/2017/02/07/head-first-singleton/</link>
-        <guid isPermaLink="true">http://androiddevelop.github.io/2017/02/07/head-first-singleton/</guid>
+        <link>https://https://www.codeboy.me/2017/02/07/head-first-singleton/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2017/02/07/head-first-singleton/</guid>
         
         <category>java</category>
         
@@ -1005,8 +1005,8 @@ public class Singleton {
 &lt;/blockquote&gt;
 </description>
         <pubDate>Tue, 29 Nov 2016 00:00:00 +0800</pubDate>
-        <link>http://androiddevelop.github.io/2016/11/29/hexo-search-component/</link>
-        <guid isPermaLink="true">http://androiddevelop.github.io/2016/11/29/hexo-search-component/</guid>
+        <link>https://https://www.codeboy.me/2016/11/29/hexo-search-component/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2016/11/29/hexo-search-component/</guid>
         
         <category>web</category>
         
@@ -1139,8 +1139,8 @@ mmm ./packages/apps/Settings/
 &lt;/blockquote&gt;
 </description>
         <pubDate>Fri, 16 Sep 2016 00:00:00 +0800</pubDate>
-        <link>http://androiddevelop.github.io/2016/09/16/android-navigation-bar-immerse-2/</link>
-        <guid isPermaLink="true">http://androiddevelop.github.io/2016/09/16/android-navigation-bar-immerse-2/</guid>
+        <link>https://https://www.codeboy.me/2016/09/16/android-navigation-bar-immerse-2/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2016/09/16/android-navigation-bar-immerse-2/</guid>
         
         <category>android</category>
         
@@ -1309,8 +1309,8 @@ public class Test {
 &lt;/blockquote&gt;
 </description>
         <pubDate>Mon, 12 Sep 2016 00:00:00 +0800</pubDate>
-        <link>http://androiddevelop.github.io/2016/09/12/java-generic-method/</link>
-        <guid isPermaLink="true">http://androiddevelop.github.io/2016/09/12/java-generic-method/</guid>
+        <link>https://https://www.codeboy.me/2016/09/12/java-generic-method/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2016/09/12/java-generic-method/</guid>
         
         <category>java</category>
         
