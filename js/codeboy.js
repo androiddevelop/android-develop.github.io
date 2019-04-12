@@ -57,7 +57,6 @@ jQuery(document).ready(function ($) {
 
     hljs.initHighlightingOnLoad();
     $("pre code").each(function () {
-        console.log($(this).attr('class') !== "language-nohighlight");
         if ($(this).attr('class') !== "language-nohighlight") {
             let content = $(this).html();
             //单行不进行操作
