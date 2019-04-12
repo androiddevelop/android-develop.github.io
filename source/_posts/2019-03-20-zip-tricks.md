@@ -2,6 +2,7 @@
 layout: post
 title: 'Zip几点小知识'
 date: '2019-03-20'
+comments: true
 header-img: "img/post-bg-unix.jpg"
 tags:
      - linux
