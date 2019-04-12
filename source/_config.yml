@@ -8,6 +8,7 @@ description: "编码生涯的点点滴滴"
 github_username:  androiddevelop
 zhihu_username: codeboy
 
+
 # Where things are
 source:       .
 destination:  ./_site
@@ -57,6 +58,9 @@ timezone: Asia/Shanghai
 
 quiet:    false
 defaults: []
+
+comments :
+  short_name : codeboy
 
 kramdown:
   auto_ids:       true
