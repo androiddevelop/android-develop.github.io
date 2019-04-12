@@ -846,6 +846,6 @@ pre ul li {
     word-wrap: break-word;
 }
 
-.comment-policy {
+#comment-policy {
     display: none !important;
 }
