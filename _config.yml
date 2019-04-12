@@ -34,12 +34,11 @@ unpublished: false
 
 # Plugins
 whitelist: []
-gems:      ["jekyll-paginate"]
-#gems:      []
+plugins:      ["jekyll-paginate"]
 
 # Conversion
 markdown:    kramdown
-highlighter: rouge
+highlighter: nil
 lsi:         false
 excerpt_separator: "\n\n"
 incremental: false
@@ -60,32 +59,49 @@ quiet:    false
 defaults: []
 
 # Markdown Processors
+#kramdown:
+#  input:          GFM
+#  syntax_highlighter: rouge
+#  syntax_highlighter_opts:
+#    default_lang: java
+#    css_class: 'highlight'
+#    span:
+#      line_numbers: false
+#    block:
+#      line_numbers: true
+#      start_line: 1
+
 kramdown:
-  input:          GFM
-  syntax_highlighter: rouge
+  auto_ids:       true
+  footnote_nr:    1
+  entity_output:  as_char
+  toc_levels:     1..6
+  smart_quotes:   lsquo,rsquo,ldquo,rdquo
+#  syntax_highlighter: rouge
+
+  input: GFM
+
   syntax_highlighter_opts:
-    default_lang: java
-    css_class: 'highlight'
-    span:
-      line_numbers: false
-    block:
-      line_numbers: true
-      start_line: 1  
+    wrap:              div
+    line_numbers:      nil
+    line_number_start: 1
+    tab_width:         4
+    bold_every:        10
+    css:               style
+
 
 #kramdown:
-#  auto_ids:       true
-#  footnote_nr:    1
-#  entity_output:  as_char
-#  toc_levels:     1..6
-#  smart_quotes:   lsquo,rsquo,ldquo,rdquo
-#  syntax_highlighter: rouge
-#
 #  input: GFM
-#
+#  extensions:
+#    - autolink
+#    - footnotes
+#    - smart
+#  syntax_highlighter: rouge
 #  syntax_highlighter_opts:
-#    wrap:              div
-#    line_numbers:      nil
-#    line_number_start: 1
-#    tab_width:         4
-#    bold_every:        10
-#    css:               style
+#    default_lang: java
+#    css_class: 'highlight'
+#    span:
+#      line_numbers: false
+#    block:
+#      line_numbers: true
+#      start_line: 1

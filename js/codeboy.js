@@ -1,16 +1,10 @@
-/*!
- * Clean Blog v1.0.0 (http://startbootstrap.com)
- * Copyright 2015 Start Bootstrap
- * Licensed under Apache 2.0 (https://github.com/IronSummitMedia/startbootstrap/blob/gh-pages/LICENSE)
- */
-
 // Tooltip Init
-$(function() {
+$(function () {
     $("[data-toggle='tooltip']").tooltip();
 });
 
 // make all images responsive
-/* 
+/*
  * actually only Portfolio-Pages can't use it and only post-img need it.
  * so I modify the _layout/post and CSS to make post-img responsive!
  */
@@ -19,21 +13,21 @@ $(function() {
 // });
 
 // responsive tables
-$(document).ready(function() {
-	$("table").wrap("<div class='table-responsive'></div>");
-	$("table").addClass("table");
+$(document).ready(function () {
+    $("table").wrap("<div class='table-responsive'></div>");
+    $("table").addClass("table");
 });
 
 // responsive embed videos
-$(document).ready(function () { 
+$(document).ready(function () {
     $('iframe[src*="youku.com"]').wrap('<div class="embed-responsive embed-responsive-16by9"></div>');
-	$('iframe[src*="youku.com"]').addClass('embed-responsive-item');
+    $('iframe[src*="youku.com"]').addClass('embed-responsive-item');
     $('iframe[src*="vimeo.com"]').wrap('<div class="embed-responsive embed-responsive-16by9"></div>');
-	$('iframe[src*="vimeo.com"]').addClass('embed-responsive-item');
+    $('iframe[src*="vimeo.com"]').addClass('embed-responsive-item');
 });
 
 // Navigation Scripts to Show Header on Scroll-Up
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
     var MQL = 1170;
 
     //primary navigation slide-in effect
@@ -42,7 +36,7 @@ jQuery(document).ready(function($) {
         $(window).on('scroll', {
                 previousTop: 0
             },
-            function() {
+            function () {
                 var currentTop = $(window).scrollTop();
                 //check if user is scrolling up
                 if (currentTop < this.previousTop) {
@@ -60,4 +54,19 @@ jQuery(document).ready(function($) {
                 this.previousTop = currentTop;
             });
     }
-});
+
+    hljs.initHighlightingOnLoad();
+    $("pre code").each(function () {
+        console.log($(this).attr('class') !== "language-nohighlight");
+        if ($(this).attr('class') !== "language-nohighlight") {
+            let content = $(this).html();
+            //单行不进行操作
+            if (content.split('\n').length <= 2) {
+                return;
+            }
+            let content2 = content.replace(/\n/g, "\n</li><li>");
+            content2 = content2.substring(0, content2.length - 4);
+            $(this).html("<ul><li>" + content2 + "</ul>");
+        }
+    })
+})

@@ -16,71 +16,84 @@ author: 'Codeboy'
 
 get(参数名字相同)
 ----
-	<html>
-	<body>
-	<?php
-	echo $_GET ['param'];
-	?>
-	    <form action="get_post_test.php?param=aaa" method="get">
-	        <input type="text" name="param" value="bbb" /> 
-	        <input type="submit" value="submit">
-	    </form>
-	</body>
-	</html>
+
+```html
+<html>
+<body>
+<?php
+echo $_GET ['param'];
+?>
+    <form action="get_post_test.php?param=aaa" method="get">
+        <input type="text" name="param" value="bbb" /> 
+        <input type="submit" value="submit">
+    </form>
+</body>
+</html>
+```
+
 		
 **input的value覆盖了url后面的值,获得了的param的为bbb.**
 
 get(参数名字不相同)
 ----
-	<html>
-	<body>
-	<?php
-	echo $_GET ['param1'];
-	echo "<br>";
-	echo $_GET ['param2'];
-	?>
-	    <form action="get_post_test.php?param1=aaa" method="get">
-	        <input type="text" name="param2" value="bbb" /> 
-	        <input type="submit" value="submit">
-	    </form>
-	</body>
-	</html>
+
+```html
+<html>
+<body>
+<?php
+echo $_GET ['param1'];
+echo "<br>";
+echo $_GET ['param2'];
+?>
+    <form action="get_post_test.php?param1=aaa" method="get">
+        <input type="text" name="param2" value="bbb" /> 
+        <input type="submit" value="submit">
+    </form>
+</body>
+</html>
+```
 	
 **获取了param2的值,但是没有得到param1的值,说明以get方式提交将原先url的参数抹去了.**
 
 post(参数名字相同)
 ----
-	<html>
-	<body>
-	<?php
-	echo "get=" . $_GET ['param'];
-	echo "<br>";
-	echo "post=" . $_POST ['param'];
-	?>
-	    <form action="get_post_test.php?param=aaa" method="post">
-	        <input type="text" name="param" value="bbb" /> <input type="submit"
-	            value="submit">
-	    </form>
-	</body>
-	</html>
+
+```html
+<html>
+<body>
+<?php
+echo "get=" . $_GET ['param'];
+echo "<br>";
+echo "post=" . $_POST ['param'];
+?>
+    <form action="get_post_test.php?param=aaa" method="post">
+        <input type="text" name="param" value="bbb" /> <input type="submit"
+            value="submit">
+    </form>
+</body>
+</html>
+```
 	
 **输出的结果是get方式获得的是aaa, post方式获取的是bbb,说明此种情况下互不影响.get与post单独隔离开了.**
 
 post(参数名字不相同)
 ----
-	<html>
-	<body>
-	<?php
-	echo "get=" . $_GET ['param2'];
-	echo "<br>";
-	echo "post=" . $_POST ['param1'];
-	?>
-	    <form action="get_post_test.php?param1=aaa" method="post">
-	        <input type="text" name="param2" value="bbb" /> 
-	        <input type="submit" value="submit">
-	    </form>
-	</body>
-	</html>
+
+```html
+<html>
+<body>
+<?php
+echo "get=" . $_GET ['param2'];
+echo "<br>";
+echo "post=" . $_POST ['param1'];
+?>
+    <form action="get_post_test.php?param1=aaa" method="post">
+        <input type="text" name="param2" value="bbb" /> 
+        <input type="submit" value="submit">
+    </form>
+</body>
+</html>
+```
 
 **获取的参数全部为空,所以可以说php中get与post获取的参数是相互隔离的.**
 
