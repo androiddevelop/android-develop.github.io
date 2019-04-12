@@ -7,3 +7,5 @@ ls | grep -v source | xargs rm -rf
 mv source/_site/* ./
 git add . && git commit -am 'update post'
 git push
+ls | grep -v source | xargs rm -rf
+
