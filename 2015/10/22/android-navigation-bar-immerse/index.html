@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keyword"
+          content="codeboy, @codeboy, 小胖轩, 玄恒, Blog, Github, 博客, 互联网, 前端, 服务端, 玄恒的个人网站, android, mobile, server, web, datamine ">
+    <meta name="description" content="编码生涯的点点滴滴">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <title>Android导航栏隐藏与浮现(一) - 小胖轩</title>
+
+    <link rel="canonical" href="http://androiddevelop.github.io/2015/10/22/android-navigation-bar-immerse/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/codeboy.min.css">
+
+    <link rel="alternate" type="application/rss+xml" href="feed.xml" title="小胖轩">
+    <!-- Custom Fonts -->
+    <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .ds-powered-by {
+            display: none !important;
+        }
+
+        .ds-post-toolbar .ds-sync {
+            display: none !important;
+        }
+    </style>
+
+    <script type="text/javascript">
+        console.log("%c      ", "font-size:130px;background:url('http://www.codeboy.me/img/github.png') no-repeat ");
+    </script>
+</head>
+
+
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">小胖轩</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">首页</a>
+                </li>
+                <li>
+                    <a href="/open/">开源</a>
+                </li>
+
+                <li>
+                    <a href="/tags/">标签</a>
+                </li>
+
+                <li>
+                    <a href="/about/">关于</a>
+                </li>
+		<!--
+                
+                <li>
+                    <a href="/apps/">Apps</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/about/index2/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/open/">Open</a>
+                </li>
+                
+                <li>
+                    <a href="/tags/">Tags</a>
+                </li>
+                
+		-->
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header"
+        style="background-image: url('/img/post-bg-android.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#android" title="android">android</a>
+                        
+                    </div>
+                    <h1>Android导航栏隐藏与浮现(一)</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by Codeboy on October 22, 2015</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container" style="overflow-y:hidden;">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
+
+                <p>Android M已经发布了很久了，很多新的特性也非常的吸引人，比如Doze模式可以使导航时间更长，刷到nexus5上，体验了一下确实不错。但是导航栏(虚拟按键)一直存在，感觉不是特别的爽。今天我们就从android M(6.0)进行源码的修改,使nexus5能够方便的进行导航栏的隐藏与恢复。</p>
+
+<p>修改源码前，看到了CSDN上的文章（<a href="http://blog.csdn.net/way_ping_li/article/details/45727335">http://blog.csdn.net/way_ping_li/article/details/45727335</a>，记为文章A)，写的很好，但是写的有些省略，整体的操作也较为复杂，本文的操作步骤如下:</p>
+
+<pre><code>① 下载并编译源码
+② 长点击隐藏导航栏
+③ 上滑显示导航栏
+④ 编译部分修改代码，重新生成system.img
+</code></pre>
+
+<p>文章A的整体思路是在导航栏上添加了一个图标按钮，点击后隐藏导航栏，上滑显示导航栏。首先说一下隐藏导航栏，感觉官方的导航栏还是很完美的，所以不打算添加任何元素，这里对任务键(虚拟正方形按键)进行长点击操作进行修改；之后通过上滑来显示导航栏，文章A的思路是通过各种系统内的很多回调与消息的传递完成的，改动幅度蛮大的，自己尝试按照文章中的进行修改，需要对文章A中提到的部分进行修改外，还需对部分aidl以及与此相关的类进行修改等，比较的繁琐，当然最后实现了上滑显示，本文将通过广播来进行上滑操作的传递。</p>
+
+<h3 id="下载并编译源码">下载并编译源码</h3>
+
+<p>源码的下载编译可以参考google官方教程<a href="https://source.android.com/source/downloading.html">https://source.android.com/source/downloading.html</a>,本文编译的源码分支android-6.0.1_r50。</p>
+
+<blockquote>
+  <p>nexus5源码下载后需要下载驱动<a href="https://developers.google.com/android/nexus/drivers">https://developers.google.com/android/nexus/drivers</a>，解压到根目录后执行，执行后产生vendor目录，之后编译代码</p>
+</blockquote>
+
+<blockquote>
+  <p>源码编译完成后，之后的framework的修改不用再次重新编译，只需使用mmm命令编译部分模块即可，最后使用<strong>make snod</strong>生成system.img,刷进手机即可。</p>
+</blockquote>
+
+<blockquote>
+  <p>修改framework后生成的system.img,在进行刷机时仅仅刷进system.img即可，<strong>首次刷机尽量把userdata.img, boot.img都进行刷入</strong>。</p>
+</blockquote>
+
+<h3 id="长点击隐藏导航栏">长点击隐藏导航栏</h3>
+<p>虚拟按键有3个，考虑到返回键一般有一定的作用，于是修改任务键(虚拟正方形按键)的长点击事件，使其在长点击后可以隐藏导航栏。</p>
+
+<p><strong>./frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java</strong></p>
+
+<pre><code>private void prepareNavigationBarView() {
+    mNavigationBarView.reorient();
+
+    mNavigationBarView.getRecentsButton().setOnClickListener(mRecentsClickListener);
+    mNavigationBarView.getRecentsButton().setOnTouchListener(mRecentsPreloadOnTouchListener);
+    mNavigationBarView.getRecentsButton().setLongClickable(true);
+    //去除长点击操作
+    //mNavigationBarView.getRecentsButton().setOnLongClickListener(mLongPressBackRecentsListener);
+    mNavigationBarView.getBackButton().setLongClickable(true);
+    mNavigationBarView.getBackButton().setOnLongClickListener(mLongPressBackRecentsListener);
+    mNavigationBarView.getHomeButton().setOnTouchListener(mHomeActionListener);
+    mNavigationBarView.getHomeButton().setOnLongClickListener(mLongPressHomeListener);
+    //添加长点击操作，长点击进行导航栏的删除
+    mNavigationBarView.getRecentsButton().setOnLongClickListener(new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View view) {
+            mWindowManager.removeView(mNavigationBarView);
+            mNavigationBarView = null ;
+            //isNavigationShow用于记录当前导航栏状态，定义在PhoneStatusBar的全局变量中
+			isNavigationShow = false ;
+            Log.d("===&gt;LYD", "remove navigation bar");
+
+            return true;
+        }
+    });
+    mAssistManager.onConfigurationChanged();
+}
+</code></pre>
+
+<p>此时进行长点击任务键将隐藏导航栏。</p>
+
+<h3 id="上滑显示导航栏">上滑显示导航栏</h3>
+
+<p>上滑显示导航栏借鉴了文章A中的一些技巧，在系统上滑时会回调./frameworks/base/services/core/java/com/android/server/policy/PhoneWindowManager.java的修改主要是实现onSwipeFromBottom(竖屏时)和onSwipeFromRight(横屏时)两个接口，在此两接口内发送广播。</p>
+
+<p><strong>./frameworks/base/services/core/java/com/android/server/policy/PhoneWindowManager.java</strong></p>
+
+<pre><code> // monitor for system gestures
+    mSystemGestures = new SystemGesturesPointerEventListener(context,
+            new SystemGesturesPointerEventListener.Callbacks() {
+                @Override
+                public void onSwipeFromTop() {
+                    if (mStatusBar != null) {
+                        requestTransientBars(mStatusBar);
+                    }    
+                }    
+                @Override
+                public void onSwipeFromBottom() {
+                    if (mNavigationBar != null &amp;&amp; mNavigationBarOnBottom) {
+                        requestTransientBars(mNavigationBar);
+                    }    
+                    //开始发送广播
+                    Intent intent = new Intent();
+                    intent.setAction("LYD_SHOW_NAVIGATION_BAR");
+                    mContext.sendBroadcast(intent);
+                }    
+                @Override
+                public void onSwipeFromRight() {
+                    if (mNavigationBar != null &amp;&amp; !mNavigationBarOnBottom) {
+                        requestTransientBars(mNavigationBar);
+                    }    
+                    //开始发送广播
+                    Intent intent = new Intent();
+                    intent.setAction("LYD_SHOW_NAVIGATION_BAR");
+                    mContext.sendBroadcast(intent);
+                }    
+                //省略后续代码
+</code></pre>
+
+<p>下面我们需要做的是在之前的PhoneStatusBar中对广播进行处理，将状态栏添加到windowManager中。</p>
+
+<pre><code> @Override
+public void start() {
+//省略代码，在此方法末尾动态注册广播监听器
+
+    IntentFilter filter = new IntentFilter();
+    filter.addAction("LYD_SHOW_NAVIGATION_BAR");
+    mContext.registerReceiver(navBarBroadcastReceiver, filter);
+}
+
+private BroadcastReceiver navBarBroadcastReceiver = new LydShowNavigationBarBroadcast();
+
+private static boolean isNavigationShow = true ;
+
+//自定义广播
+class LydShowNavigationBarBroadcast extends  BroadcastReceiver{
+    public LydShowNavigationBarBroadcast() {
+        super();
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        Log.d("====&gt;LYD", "receiver show navigation bar broadcast");
+
+		//防止多次被添加
+        if(isNavigationShow){
+            return ;
+        }
+
+        showNavigationBar();
+    }
+
+    @Override
+    public IBinder peekService(Context myContext, Intent service) {
+        return super.peekService(myContext, service);
+    }
+}  
+
+//展示导航栏
+public void showNavigationBar() {
+    mNavigationBarView =(NavigationBarView) View.inflate(mContext, R.layout.navigation_bar, null);
+    mNavigationBarView.setBar(this);
+    prepareNavigationBarView();
+    addNavigationBar();
+    isNavigationShow = true;
+
+    //防止在桌面时上拉出导航栏时，导航栏背景为黑色
+    mNavigationBarView.setBackgroundColor(Color.TRANSPARENT);
+    Log.d("===&gt;LYD", "show navigation");
+}
+</code></pre>
+
+<blockquote>
+  <p>注意导入android.graphics.Color类</p>
+</blockquote>
+
+<p>代码到此就修改完了，下面我们只需要对相应模块进行编译就行了。</p>
+
+<h3 id="编译部分修改代码重新生成systemimg">编译部分修改代码，重新生成system.img</h3>
+
+<ul>
+  <li>
+    <p>①切换到源代码目录，运行</p>
+
+    <pre><code>  source build/envsetup.sh  //初始化环境变量
+  lunch //切换编译平台
+</code></pre>
+  </li>
+  <li>
+    <p>②编译PhoneWindowManager.java所在模块(core)</p>
+
+    <pre><code>  mmm ./frameworks/base/services/core/
+  mmm ./frameworks/base/services/
+</code></pre>
+  </li>
+  <li>
+    <p>③编译PhoneStatusBar.java所在模块(SystemUI)</p>
+
+    <pre><code>  mmm ./frameworks/base/packages/SystemUI/
+</code></pre>
+  </li>
+  <li>
+    <p>④生成system.img.</p>
+
+    <pre><code>   make snod
+</code></pre>
+  </li>
+  <li>
+    <p>⑤刷入system.img</p>
+
+    <pre><code>  adb reboot bootloader
+  fastboot flash system system.img
+</code></pre>
+  </li>
+</ul>
+
+<p>这样一个定制过导航栏的nexus5(hammerhead)系统已经制作完成了。</p>
+
+<h3 id="效果">效果</h3>
+
+<p>解决了导航栏的隐藏与浮现，终于可以不用一直看着不搭配的导航栏了。下面是隐藏前后QQ音乐的截图:
+<img src="/img/android-navigation-enhance-qqmusic-before.png" style="max-width:49.5%;display:inline-block;" />
+<img src="/img/android-navigation-enhance-qqmusic-after.png" style="max-width:49.5%;display:inline-block;" /></p>
+
+<h3 id="后记">后记</h3>
+
+<p>能够给该功能在设置中加一个开关就完美了，快来查看<a href="/2016/09/16/android-navigation-bar-immerse-2/">Android导航栏隐藏与浮现(二)</a>吧。</p>
+
+<p>由于笔者一般都是使用手机都是竖屏的，为了减少误操作，所以仅仅上滑时(swipeFromBottom)才显示导航栏，从右侧滑动(swipeFromRight)不触发操作。</p>
+
+<p>刷机有风险，大家需谨慎,本文仅仅是提供一种思想，刷机造成的问题与本文以及作者无关。</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+
+
+            </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                        <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/codeboy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/androiddevelop">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 小胖轩 2019</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="/js/jquery.tagcloud.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $.fn.tagcloud.defaults = {
+        //size: {start: 1, end: 1, unit: 'em'},
+        color: {start: '#bbbbee', end: '#0085a1'},
+    };
+    $(function () {
+        $('#tag_cloud a').tagcloud();
+    });
+</script>
+
+<!-- Highlight.js -->
+<script src="//cdn.bootcss.com/highlight.js/9.4.0/highlight.min.js"></script>
+<link href="//cdn.bootcss.com/highlight.js/9.4.0/styles/solarized-dark.min.css" rel="stylesheet">
+
+<div class="cb-search-tool" style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px;
+      opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control cb-search-content" id="cb-search-content" style="position: fixed; top: 60px"
+           placeholder="文章标题 日期 标签">
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png" id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/codeboy.min.js"></script>
+
+<div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png" id="cb-search-btn" title="双击ctrl试一下"/>
+</div>
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
+
+<!--<script>-->
+<!--    var _hmt = _hmt || [];-->
+<!--    (function () {-->
+<!--        var hm = document.createElement("script");-->
+<!--        hm.src = "https://hm.baidu.com/hm.js?c9b7fde5670aa3eac4c08693f5b4d398";-->
+<!--        var s = document.getElementsByTagName("script")[0];-->
+<!--        s.parentNode.insertBefore(hm, s);-->
+<!--    })();-->
+<!--</script>-->
+
+
+
+</body>
+
+</html>
