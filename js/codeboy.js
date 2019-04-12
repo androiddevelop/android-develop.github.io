@@ -68,4 +68,4 @@ jQuery(document).ready(function ($) {
             $(this).html("<ul><li>" + content2 + "</ul>");
         }
     })
-})
+});
