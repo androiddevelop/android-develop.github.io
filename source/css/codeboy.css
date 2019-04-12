@@ -845,3 +845,7 @@ pre ul li {
     word-break: break-all;
     word-wrap: break-word;
 }
+
+.comment-policy {
+    display: none !important;
+}
