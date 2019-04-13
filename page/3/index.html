@@ -140,6 +140,33 @@
     		<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
     			
 <div class="post-preview">
+    <a href="/2015/08/28/round-up-to-power-of-two/">
+        <h2 class="post-title">            Round Up To Power Of Two
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            这个标题应该说明了我们要做什么了，中文的意思是找出一个2^n的数，使其不小于给出的数字。举个例子吧: 如果给一个数字63，那么我需要获取不小于63的数字，但是这个数字需要是2的n次方了，所以
+
+
+  63对应的是64(2^6)
+  64对应的依旧是64(2^6)
+  100对应的是128(2^7)
+
+
+问题来了:
+
+怎么快速的计算出这个结果呢？
+
+可能首先浮现在我们眼前的可能是计算log或者...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on August 28, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2015/08/11/blog-build/">
         <h2 class="post-title">            Codeboy Blog的搭建
         </h2>
@@ -486,28 +513,6 @@ useradd -m -s /bin/false dm
         </div>
     </a>
     <p class="post-meta">Posted by Codeboy on January 6, 2015</p>
-        
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2014/11/26/android-viewpager/">
-        <h2 class="post-title">            ViewPager自适应高度
-        </h2>
-        
-        <div class="post-content-preview">
-        
-            在使用ViewPager的时候发现不能自适应高度，可以重写ViewPager的onMeasure来解决，代码如下：
-
-import android.content.Context;
-import android.support.v4.view.ViewPager;
-import android.util.AttributeSet;
-import android.view.View;
-
-/**...
-        </div>
-    </a>
-    <p class="post-meta">Posted by Codeboy on November 26, 2014</p>
         
 </div>
 <hr>

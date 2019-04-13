@@ -13,9 +13,9 @@
     <link rel="apple-touch-icon" href="/favicon.png" type="image/png">
     <link rel="apple-touch-icon-precomposed" href="/favicon.png" type="image/png">
 
-    <title>SVM对简单验证码的识别 - 小胖轩</title>
+    <title>零点时间 - 小胖轩</title>
 
-    <link rel="canonical" href="https://https://www.codeboy.me/2014/10/03/datamine-svm/">
+    <link rel="canonical" href="https://https://www.codeboy.me/2019/04/13/java-today-zero-hour/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -120,22 +120,22 @@
 
     <!-- Post Header -->
 <header class="intro-header"
-        style="background-image: url('/img/home-bg.jpg')">
+        style="background-image: url('/img/post-bg-java.jpg')">
     <div class="container">
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#datamining" title="datamining">datamining</a>
+                        <a class="tag" href="/tags/#java" title="java">java</a>
                         
                     </div>
-                    <h1>SVM对简单验证码的识别</h1>
+                    <h1>零点时间</h1>
                     
                     
                     <h2 class="subheading"></h2>
                     
-                    <span class="meta">Posted by Codeboy on October 3, 2014</span>
+                    <span class="meta">Posted by Codeboy on April 13, 2019</span>
                 </div>
             </div>
         </div>
@@ -148,80 +148,86 @@
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-                <p>在科大上学已经半年多了，在研一下的这个学期里，有太多的英语课，科大的英语课有很大一部分是需要进行预约的，预约后去EPC(English Practice Center)学习。每次在电脑上查询在哪个屋上课甚是麻烦，于是打算做一个android手机小应用来方便的查询预约课程信息以及对课程进行评价。当然最后也要加入一些其他的功能，比如课表，成绩，研究生新闻的查看。</p>
+                <p>在一些按天计算的场景中，需要获取当天凌晨零点的时间，有什么快捷高效的做法呢？下面针对Java中的几种计算方式进行比较：</p>
 
-<p>不论是研究生系统还是EPC网站，登陆的时候都需要输入验证码，识别验证码是所有其他工作的开始。近来对SVM（支持向量机）看了一些，打算使用SVM对验证码进行学习后预测。</p>
+<h4 id="1-simpledateformat">1. SimpleDateFormat</h4>
 
-<p>下面首先看一下验证码的样式：
-<img src="/img/svm-checkcode1.jpg" alt="img" /></p>
+<p>获取当前时间对应的年月日，反向计算即可。</p>
 
-<p>对其中的若干张放大一下如下图：
-<img src="/img/svm-checkcode2.jpg" alt="img" /></p>
-
-<p>从图中我们可以很好的将验证码只有数字，且整体图片只有2种颜色，白色与红色。我们只需要按照以下步骤操作即可：</p>
-
-<pre><code>① 图片数字化与格式化
-② 除干扰
-③ 使用SVM进行学习
-④ 使用学习后建立的模型预测验证码
+<pre><code class="language-java">   private static long getTimeWay1() {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+            return sdf.parse(sdf.format(System.currentTimeMillis())).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 </code></pre>
 
-<p>下面对每一步进行分析：</p>
+<h4 id="2-calendar">2. Calendar</h4>
 
-<p><strong>① 图片数字化与格式化</strong></p>
+<p>使用 <code>java.util.Calendar</code> 类，可以便捷去除时分秒以及毫秒的数值，</p>
 
-<p>图片的数字化还是很容易的，简简单单的将图片的像素值读取即可</p>
+<pre><code class="language-java">    private static long getTimeWay2() {
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        //注意，这里不是Calendar.HOUR, 需要按照24小时的Calendar.HOUR_OF_DAY进行
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTimeInMillis();
+    }
+</code></pre>
 
-<p>图片的格式化就是将整个图片标志为0与1的点，即红色为1,背景色为0（反过来也一样了）</p>
+<h4 id="3-除法">3. 除法</h4>
 
-<p>对其中一张2856的验证码进行操作，</p>
+<p>借鉴 <code>SimpleDateFormat</code> 的方式，本次直接使用除法操作即可，需要注意一点的是时区问题，东八区相对于零时区增加了八个小时，处理中需要处理一下。</p>
 
-<p><img src="/img/svm-checkcode3.jpg" alt="img" /></p>
+<pre><code class="language-java">    private static long getTimeWay3() {
+        long ONE_DAY = 24 * 3600 * 1000;
+        long now = System.currentTimeMillis();
+        long offset = TimeZone.getDefault().getRawOffset();
+        return (now + offset) / ONE_DAY * ONE_DAY - offset;
+    }
+</code></pre>
 
-<p>使用空格代替0之后的结果如下：
-<img src="/img/svm-checkcode4.jpg" alt="img" /></p>
+<h3 id="小结">小结</h3>
 
-<p>由上图可以很清楚的看到验证码数字了。</p>
+<table>
+  <thead>
+    <tr>
+      <th>方式</th>
+      <th>性能</th>
+      <th>使用</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>SimpleDateFormat</td>
+      <td>一般</td>
+      <td>一般</td>
+    </tr>
+    <tr>
+      <td>Calendar</td>
+      <td>高</td>
+      <td>方便</td>
+    </tr>
+    <tr>
+      <td>除法</td>
+      <td>最高</td>
+      <td>时区问题需要注意</td>
+    </tr>
+  </tbody>
+</table>
 
-<p><strong>② 除干扰</strong></p>
-
-<p>第一步已经将图片数字化与格式化了，但是里面还是有一些干扰的，我们可以很明确的看出，如果一个点（1）周围全部是背景色（0）的话，这个点完全可以被认为成噪声，也即干扰点。简单处理后结果如下：</p>
-
-<p><img src="/img/svm-checkcode5.jpg" alt="img" /></p>
-
-<p>这样看起来就更好了。</p>
-
-<p><strong>③使用SVM进行学习</strong></p>
-
-<p>由于验证码非常的简单，所以我从下载的10000张8验证码中手动标注了100张进行学习，使用libSVM进行模型建立。整体上操作如下：将图片分成4部分，每一部分相当于10*10的一个二位数组，也相当于每一个验证码数字对应100维（仔细观察可以得出60维就可以了），验证码的识别等价于了一个分类问题，即一个物品有100个属性，同时这个物品的最终分类有10种，需要我们做的就是将其正确分类。这个学过数据挖掘知识的盆友应该都比较了解，具体大家可以google一下。当然svm知识一种放法，数据挖掘中处理分类问题有很多方法，决策树，神经网络，贝叶斯网络等，这里不再叙述。</p>
-
-<p><strong>④使用模型对验证码进行识别</strong></p>
-
-<p>使用第三步中建立的模型对剩余的9900张验证码就行识别，经验证，识别率为100%。</p>
-
-<p>这一个验证码是比较的简单，没有旋转，没有缩放，非常的规则，所以我们可以很轻松的进行识别。我在另一个网站上也看到了下面的这种也是比较简单的验证码;
-<img src="/img/svm-checkcode6.jpg" alt="img" /></p>
-
-<p>这一种验证码比上面的略微复杂一点，不再是只有数字，而是数字和字母混在一起，颜色比较的多样，不过原理和上面的一样，无非在不同区域选择不同的主色，其他的全部作为背景色而已。使用相同的方法，最终此种验证码识别率也为100% 。</p>
-
-<p>验证码识别做完了，下面做Android应用基本就是体力活了，整体上都是网页的分析，数据的获取了。经过几天的奋战，科大小秘书做完了，虽然做的比较丑陋，但是至少比较实用吧，还为它做了个小主页点击打开主页，也把应用上传到了google play中。</p>
-
-<p><strong>收到很多朋友的来信，询问具体的代码实现，经过整理后，代码已经分享到github上，<a href="https://github.com/androiddevelop/SimpleCheckcodeRecognition">https://github.com/androiddevelop/SimpleCheckcodeRecognition</a>.</strong></p>
+<p>对比下来, 推荐使用第二种</p>
 
 <blockquote>
-  <p>后面对科大小秘书整体上进行了改进，现在已经涵盖android，ios，web端，欢迎下载使用。</p>
-
-  <p><a href="http://ustc.codeboy.me">ustc.codeboy.me</a></p>
-
-</blockquote>
-
-<blockquote>
-
   <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
 
   <p>转载请注明原作者及以上信息。</p>
 </blockquote>
-
 
 
             </div>
@@ -232,8 +238,8 @@
 <div id="disqus_thread"></div>
 <script>
     let disqus_config = function () {
-    this.page.url = "/2014/10/03/datamine-svm/";
-    this.page.identifier = "SVM对简单验证码的识别";
+    this.page.url = "/2019/04/13/java-today-zero-hour/";
+    this.page.identifier = "零点时间";
     };
     (function() {
         var d = document, s = d.createElement('script');

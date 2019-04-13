@@ -7,7 +7,7 @@ body {
 }
 
 p {
-    margin: 30px 0;
+    margin: 12px 0;
 }
 
 h1,
@@ -17,7 +17,7 @@ h4,
 h5,
 h6 {
     font-family: "Helvetica Neue", Arial, "Hiragino Sans GB", "STHeiti", "Microsoft YaHei", "WenQuanYi Micro Hei", SimSun, sans-serif;
-    line-height: 1.1;
+    line-height: 1.5;
     font-weight: 800;
 }
 
@@ -796,6 +796,10 @@ img::-moz-selection {
     color: #839496 !important;
     border: 0 solid #002b36 !important;
     padding: 1px;
+}
+
+pre {
+    margin-bottom: 20px;
 }
 
 .lineno {
