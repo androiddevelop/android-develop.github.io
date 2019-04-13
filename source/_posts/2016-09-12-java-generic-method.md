@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Java泛型方法'
 date: '2016-09-12'
 header-img: "img/post-bg-java.jpg"

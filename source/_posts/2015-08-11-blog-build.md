@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Codeboy Blog的搭建'
 date: '2015-08-11'
 header-img: "img/post-bg-web.jpg"

@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: '图片格式判断'
 date: '2014-10-31'
 header-img: "img/home-bg.jpg"

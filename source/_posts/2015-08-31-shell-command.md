@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: '实用的陌生Shell命令'
 date: '2015-08-31'
 header-img: "img/post-bg-unix.jpg"

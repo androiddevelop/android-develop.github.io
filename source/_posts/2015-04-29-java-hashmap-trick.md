@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'HashMap的小优化'
 date: '2015-04-29'
 header-img: "img/post-bg-java.jpg"

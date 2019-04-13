@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Android Ndk的应用'
 date: '2015-05-04'
 header-img: "img/post-bg-android.jpg"

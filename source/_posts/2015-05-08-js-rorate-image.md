@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: ' Js实现旋转的图片'
 date: '2015-05-08'
 header-img: "img/post-bg-web.jpg"

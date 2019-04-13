@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Android导航栏隐藏与浮现(二)'
 date: '2016-09-16'
 header-img: "img/post-bg-android.jpg"

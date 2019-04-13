@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Canopy算法计算聚类的簇数'
 date: '2014-11-02'
 header-img: "img/home-bg.jpg"

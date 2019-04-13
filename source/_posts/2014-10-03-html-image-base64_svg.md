@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Html中的图片使用字符串(base64,svg)代替'
 date: '2014-10-03'
 header-img: "img/post-bg-web.jpg"

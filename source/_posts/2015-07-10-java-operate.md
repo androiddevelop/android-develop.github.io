@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'a+=b 等价于 a=a+b ?'
 date: '2015-07-10'
 header-img: "img/post-bg-java.jpg"

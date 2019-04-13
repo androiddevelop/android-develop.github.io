@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Hexo search组件'
 date: '2016-11-29'
 header-img: "img/post-bg-web.jpg"

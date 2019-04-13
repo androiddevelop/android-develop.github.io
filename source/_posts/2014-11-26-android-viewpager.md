@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'ViewPager自适应高度'
 date: '2014-11-26'
 header-img: "img/post-bg-android.jpg"

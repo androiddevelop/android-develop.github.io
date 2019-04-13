@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Round Up To Power Of Two'
 date: '2015-08-28'
 header-img: "img/post-bg-java.jpg"

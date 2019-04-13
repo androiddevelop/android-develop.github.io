@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Apache下配置认证用户'
 date: '2014-11-16'
 header-img: "img/post-bg-unix.jpg"

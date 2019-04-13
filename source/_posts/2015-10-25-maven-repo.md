@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: '同步aar到jCenter与maven central'
 date: '2015-10-25'
 header-img: "img/post-bg-android.jpg"

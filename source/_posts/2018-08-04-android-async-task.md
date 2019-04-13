@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Andorid AsyncTask解析'
 date: '2018-08-04'
 header-img: "img/post-bg-android.jpg"

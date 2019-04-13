@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Linux特殊权限'
 date: '2016-05-12'
 header-img: "img/post-bg-unix.jpg"

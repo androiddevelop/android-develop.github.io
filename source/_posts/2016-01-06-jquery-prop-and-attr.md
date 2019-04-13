@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Jquery操作单选框选中状态'
 date: '2016-01-06'
 header-img: "img/post-bg-web.jpg"

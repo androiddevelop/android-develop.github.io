@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Shell下解析Json之jq'
 date: '2017-11-27'
 header-img: "img/post-bg-unix.jpg"

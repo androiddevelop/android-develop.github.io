@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'git常用操作'
 date: '2015-09-15'
 header-img: "img/home-bg.jpg"

@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'IOS8与9配置企业证书签名的应用'
 date: '2015-10-07'
 header-img: "img/post-bg-iphone.jpg"

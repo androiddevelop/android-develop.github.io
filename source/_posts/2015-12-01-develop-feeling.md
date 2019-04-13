@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: '编码感悟'
 date: '2015-12-01 00:00:00'
 header-img: 'img/post-bg-tranquil.jpg'

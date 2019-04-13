@@ -327,6 +327,20 @@ $("#test").autosuggest({
 
 <!-- Post Comments -->
 
+<div id="disqus_thread"></div>
+<script>
+    let disqus_config = function () {
+    this.page.url = "/2015/12/22/jquery-auto-suggest/";
+    this.page.identifier = "Bootstrap输入建议库 autosuggest.js";
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codeboy.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
 
 
 

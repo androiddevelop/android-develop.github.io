@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Java LruCache'
 date: '2015-08-30'
 header-img: "img/post-bg-java.jpg"

@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: '获取所有分组中某列最大的行'
 date: '2015-07-20'
 header-img: "img/home-bg.jpg"

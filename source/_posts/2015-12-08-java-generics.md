@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Java Generics(泛型)'
 date: '2015-12-08'
 header-img: "img/post-bg-java.jpg"

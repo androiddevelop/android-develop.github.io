@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Android开发及使用技巧'
 date: '2015-07-28'
 header-img: "img/post-bg-android.jpg"

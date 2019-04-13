@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Mysql与Tomcat编码问题'
 date: '2015-11-30 20:06:00'
 header-img: 'img/post-bg-unix.jpg'

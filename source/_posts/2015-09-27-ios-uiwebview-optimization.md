@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'IOS UIWebView 优化'
 date: '2015-09-27'
 header-img: "img/post-bg-iphone.jpg"

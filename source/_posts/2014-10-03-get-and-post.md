@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Get and Post'
 date: '2014-10-03'
 header-img: "img/post-bg-web.jpg"

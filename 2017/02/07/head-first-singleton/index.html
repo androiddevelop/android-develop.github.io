@@ -375,6 +375,20 @@ public class Singleton {
 
 <!-- Post Comments -->
 
+<div id="disqus_thread"></div>
+<script>
+    let disqus_config = function () {
+    this.page.url = "/2017/02/07/head-first-singleton/";
+    this.page.identifier = "深入浅出单实例Singleton模式";
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codeboy.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
 
 
 

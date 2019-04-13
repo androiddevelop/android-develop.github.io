@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: '深入浅出单实例Singleton模式'
 date: '2017-02-07'
 header-img: "img/post-bg-java.jpg"

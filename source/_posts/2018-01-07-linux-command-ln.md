@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Linux命令之ln'
 date: '2018-01-07'
 header-img: "img/post-bg-unix.jpg"

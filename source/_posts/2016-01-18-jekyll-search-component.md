@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Jekyll search组件'
 date: '2016-01-18'
 header-img: "img/post-bg-web.jpg"

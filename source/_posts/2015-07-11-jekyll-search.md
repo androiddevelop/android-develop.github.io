@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: '给jekyll添加炫酷简洁的搜索'
 date: '2015-07-11'
 header-img: "img/post-bg-web.jpg"

@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: '正则表达式之非获取匹配'
 date: '2017-10-01'
 header-img: "img/post-bg-trick.jpg"

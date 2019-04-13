@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Bootstrap输入建议库 autosuggest.js'
 date: '2015-12-22'
 header-img: "img/post-bg-web.jpg"

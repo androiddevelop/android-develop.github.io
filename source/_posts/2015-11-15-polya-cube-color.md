@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: '正方体涂色问题'
 date: '2015-11-15'
 header-img: "img/post-bg-theory.jpg"

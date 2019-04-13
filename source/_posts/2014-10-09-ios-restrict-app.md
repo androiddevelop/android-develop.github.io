@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'IOS禁用系统应用'
 date: '2014-10-09'
 header-img: "img/post-bg-iphone.jpg"

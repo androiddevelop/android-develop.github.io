@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Context, What Context?'
 date: '2015-06-28'
 header-img: "img/post-bg-android.jpg"

@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Android LaunchMode and StartActivityForResult'
 date: '2015-07-31'
 header-img: "img/post-bg-android.jpg"

@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Chrome内容保存插件 - Just One File'
 date: '2017-05-30'
 header-img: "img/post-bg-web.jpg"

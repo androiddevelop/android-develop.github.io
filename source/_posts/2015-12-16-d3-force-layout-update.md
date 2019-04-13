@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'd3力学图(force layout)更新'
 date: '2015-12-16'
 header-img: "img/post-bg-web.jpg"

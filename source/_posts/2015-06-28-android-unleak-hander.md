@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Android Handler如何避免内存泄露'
 date: '2015-06-28'
 author: 'Codeboy'

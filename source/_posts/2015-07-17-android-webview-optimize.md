@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Android WebView页面加载优化'
 date: '2015-07-17'
 header-img: "img/post-bg-android.jpg"

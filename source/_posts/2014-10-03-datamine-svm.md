@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'SVM对简单验证码的识别'
 date: '2014-10-03'
 header-img: "img/home-bg.jpg"

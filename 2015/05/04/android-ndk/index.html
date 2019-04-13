@@ -390,6 +390,20 @@ public class MainActivity extends Activity {
 
 <!-- Post Comments -->
 
+<div id="disqus_thread"></div>
+<script>
+    let disqus_config = function () {
+    this.page.url = "/2015/05/04/android-ndk/";
+    this.page.identifier = "Android Ndk的应用";
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codeboy.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
 
 
 

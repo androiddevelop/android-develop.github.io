@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Apache下Https反向代理Http'
 date: '2015-10-08'
 header-img: "img/post-bg-unix.jpg"

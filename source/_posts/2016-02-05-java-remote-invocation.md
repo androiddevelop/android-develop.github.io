@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Java调用远程方法'
 date: '2016-02-05'
 header-img: "img/post-bg-java.jpg"

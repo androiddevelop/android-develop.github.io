@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Ubuntu Vim中文显示'
 date: '2015-07-25'
 header-img: "img/post-bg-unix.jpg"

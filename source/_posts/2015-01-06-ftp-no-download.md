@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: '配置ftp服务器只能上传不能进行其他操作'
 date: '2015-01-06'
 header-img: "img/post-bg-unix.jpg"

@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Http与Socket'
 date: '2015-10-26'
 header-img: "img/post-bg-java.jpg"

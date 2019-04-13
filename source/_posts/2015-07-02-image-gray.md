@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: '图片灰度化'
 date: '2015-07-02'
 tags:

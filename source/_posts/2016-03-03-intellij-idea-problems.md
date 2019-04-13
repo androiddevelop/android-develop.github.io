@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 title: 'Intellij IDEA依赖同步及乱码问题'
 date: '2016-03-03'
 header-img: "img/post-bg-java.jpg"
