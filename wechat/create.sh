@@ -1,10 +1,7 @@
 #!/bin/bash
 
-# 创建目录
-if [ ! -d content ]
- then
-   mkdir content;
-fi
+rm -rf content
+mkdir content
 
 # 生成文件
 position=1;
