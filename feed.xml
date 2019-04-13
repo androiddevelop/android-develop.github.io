@@ -5,8 +5,8 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 13 Apr 2019 20:45:34 +0800</pubDate>
-    <lastBuildDate>Sat, 13 Apr 2019 20:45:34 +0800</lastBuildDate>
+    <pubDate>Sat, 13 Apr 2019 20:46:53 +0800</pubDate>
+    <lastBuildDate>Sat, 13 Apr 2019 20:46:53 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -17,42 +17,42 @@
 
 &lt;p&gt;获取当前时间对应的年月日，反向计算即可。&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;   private static long getTimeWay1() {
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;, Locale.CHINA);
-            return sdf.parse(sdf.format(System.currentTimeMillis())).getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return -1;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;private static long getTimeWay1() {
+    try {
+        SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;, Locale.CHINA);
+        return sdf.parse(sdf.format(System.currentTimeMillis())).getTime();
+    } catch (ParseException e) {
+        e.printStackTrace();
     }
+    return -1;
+}
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h4 id=&quot;2-calendar&quot;&gt;2. Calendar&lt;/h4&gt;
 
 &lt;p&gt;使用 &lt;code&gt;java.util.Calendar&lt;/code&gt; 类，可以便捷去除时分秒以及毫秒的数值，&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;    private static long getTimeWay2() {
-        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-        //注意，这里不是Calendar.HOUR, 需要按照24小时的Calendar.HOUR_OF_DAY进行
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar.getTimeInMillis();
-    }
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;private static long getTimeWay2() {
+    Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+    //注意，这里不是Calendar.HOUR, 需要按照24小时的Calendar.HOUR_OF_DAY进行
+    calendar.set(Calendar.HOUR_OF_DAY, 0);
+    calendar.set(Calendar.MINUTE, 0);
+    calendar.set(Calendar.SECOND, 0);
+    calendar.set(Calendar.MILLISECOND, 0);
+    return calendar.getTimeInMillis();
+}
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h4 id=&quot;3-除法&quot;&gt;3. 除法&lt;/h4&gt;
 
 &lt;p&gt;借鉴 &lt;code&gt;SimpleDateFormat&lt;/code&gt; 的方式，本次直接使用除法操作即可，需要注意一点的是时区问题，东八区相对于零时区增加了八个小时，处理中需要处理一下。&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;    private static long getTimeWay3() {
-        long ONE_DAY = 24 * 3600 * 1000;
-        long now = System.currentTimeMillis();
-        long offset = TimeZone.getDefault().getRawOffset();
-        return (now + offset) / ONE_DAY * ONE_DAY - offset;
-    }
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;private static long getTimeWay3() {
+    long ONE_DAY = 24 * 3600 * 1000;
+    long now = System.currentTimeMillis();
+    long offset = TimeZone.getDefault().getRawOffset();
+    return (now + offset) / ONE_DAY * ONE_DAY - offset;
+}
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&quot;小结&quot;&gt;小结&lt;/h3&gt;

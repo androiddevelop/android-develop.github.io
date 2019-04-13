@@ -6,42 +6,42 @@
 
 <p>获取当前时间对应的年月日，反向计算即可。</p>
 
-<pre><code class="language-java">   private static long getTimeWay1() {
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
-            return sdf.parse(sdf.format(System.currentTimeMillis())).getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return -1;
+<pre><code class="language-java">private static long getTimeWay1() {
+    try {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+        return sdf.parse(sdf.format(System.currentTimeMillis())).getTime();
+    } catch (ParseException e) {
+        e.printStackTrace();
     }
+    return -1;
+}
 </code></pre>
 
 <h4 id="2-calendar">2. Calendar</h4>
 
 <p>使用 <code>java.util.Calendar</code> 类，可以便捷去除时分秒以及毫秒的数值，</p>
 
-<pre><code class="language-java">    private static long getTimeWay2() {
-        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-        //注意，这里不是Calendar.HOUR, 需要按照24小时的Calendar.HOUR_OF_DAY进行
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar.getTimeInMillis();
-    }
+<pre><code class="language-java">private static long getTimeWay2() {
+    Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+    //注意，这里不是Calendar.HOUR, 需要按照24小时的Calendar.HOUR_OF_DAY进行
+    calendar.set(Calendar.HOUR_OF_DAY, 0);
+    calendar.set(Calendar.MINUTE, 0);
+    calendar.set(Calendar.SECOND, 0);
+    calendar.set(Calendar.MILLISECOND, 0);
+    return calendar.getTimeInMillis();
+}
 </code></pre>
 
 <h4 id="3-除法">3. 除法</h4>
 
 <p>借鉴 <code>SimpleDateFormat</code> 的方式，本次直接使用除法操作即可，需要注意一点的是时区问题，东八区相对于零时区增加了八个小时，处理中需要处理一下。</p>
 
-<pre><code class="language-java">    private static long getTimeWay3() {
-        long ONE_DAY = 24 * 3600 * 1000;
-        long now = System.currentTimeMillis();
-        long offset = TimeZone.getDefault().getRawOffset();
-        return (now + offset) / ONE_DAY * ONE_DAY - offset;
-    }
+<pre><code class="language-java">private static long getTimeWay3() {
+    long ONE_DAY = 24 * 3600 * 1000;
+    long now = System.currentTimeMillis();
+    long offset = TimeZone.getDefault().getRawOffset();
+    return (now + offset) / ONE_DAY * ONE_DAY - offset;
+}
 </code></pre>
 
 <h3 id="小结">小结</h3>
