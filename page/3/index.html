@@ -140,6 +140,27 @@
     		<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
     			
 <div class="post-preview">
+    <a href="/2015/08/30/java-lru-cache/">
+        <h2 class="post-title">            Java LruCache
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            为了更好的使用内存，操作系统中有一种Lru(Least Recently Used)策略,将最近最少使用的项移出容量有限的内存。不仅仅操作系统这样做，平时做一些android应用等也需要在有限的空间内保存一些状态。下面来看分析我们要怎么做这个基于Lru策略的缓存:
+
+
+  能够快速的读取与写入 ①
+  能够实现Lru策略 ②
+  能够适应多线程并发访问操作 ③
+  多个线程可以同时读取,但是...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on August 30, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2015/08/28/round-up-to-power-of-two/">
         <h2 class="post-title">            Round Up To Power Of Two
         </h2>
@@ -489,30 +510,6 @@ public cl...
         </div>
     </a>
     <p class="post-meta">Posted by Codeboy on April 29, 2015</p>
-        
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2015/01/06/ftp-no-download/">
-        <h2 class="post-title">            配置ftp服务器只能上传不能进行其他操作
-        </h2>
-        
-        <div class="post-content-preview">
-        
-            又到期末考试了，今年当了数据挖掘助教，课程有一道编程大作业，需要搭建ftp服务器，实现文件上传，但是禁止下载重命名。
-
-服务器系统是ubuntu12.04 server，使用的ftp服务器也是linux下大名鼎鼎的vsftpd，配置如下：
-
-1. 创建用户dm,将其登录终端设置为/bin/false,防止用户ssh登录
-
-useradd -m -s /bin/false dm
-
-
-2. 将/...
-        </div>
-    </a>
-    <p class="post-meta">Posted by Codeboy on January 6, 2015</p>
         
 </div>
 <hr>

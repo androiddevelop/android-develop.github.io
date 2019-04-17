@@ -20,6 +20,8 @@
     
 
     
+
+    
          <p>Java在JDK 5中引入了泛型，使用起来方便了很多，下面是一段很常见的泛型使用：</p>
 
 <pre><code>List&lt;String&gt; list = new ArrayList&lt;String&gt;();

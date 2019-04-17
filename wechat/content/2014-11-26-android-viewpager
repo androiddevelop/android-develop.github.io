@@ -96,6 +96,8 @@
     
 
     
+
+    
          <p>在使用ViewPager的时候发现不能自适应高度，可以重写ViewPager的onMeasure来解决，代码如下：</p>
 
 <pre><code>import android.content.Context;
