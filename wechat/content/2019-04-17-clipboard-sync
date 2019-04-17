@@ -76,8 +76,7 @@ do
  if [ "$content" != "$last_content" ]
     then
       echo $content;
-      # 不添加换行符
-      echo -n $content | xclip -in -selection clipboard
+      xclip -in -selection clipboard &lt; /tmp/clip_content
       last_content="$content"
  fi
  sleep 1
