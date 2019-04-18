@@ -33,7 +33,7 @@ excerpt: 'reprint'
 	        return singleton;
 	    }
 	}
-	
+
 在上面的实例中，我想说明下面几个Singleton的特点：（下面这些东西可能是尽人皆知的，没有什么新鲜的）
 
 - 私有（private）的构造函数，表明这个类是不可能形成实例了。这主要是怕这个类会有多个实例。
@@ -49,8 +49,7 @@ excerpt: 'reprint'
 上面的这个程序存在比较严重的问题，因为是全局性的实例，所以，在多线程情况下，所有的全局共享的东西都会变得非常的危险，这个也一样，在多线程情况下，如果多个线程同时调用getInstance()的话，那么，可能会有多个进程同时通过 (singleton== null)的条件检查，于是，多个实例就创建出来，并且很可能造成内存泄露问题。嗯，熟悉多线程的你一定会说——“我们需要线程互斥或同步”，没错，我们需要这个事情，于是我们的Singleton升级成1.1版，如下所示：
 
 	// version 1.1
-	public class Singleton
-	{
+	public class Singleton{
 	    private static Singleton singleton = null;
 	    
 	    private Singleton() {
@@ -69,8 +68,7 @@ excerpt: 'reprint'
 嗯，使用了Java的synchronized方法，看起来不错哦。应该没有问题了吧？！错！这还是有问题！为什么呢？前面已经说过，如果有多个线程同时通过(singleton== null)的条件检查（因为他们并行运行），虽然我们的synchronized方法会帮助我们同步所有的线程，让我们并行线程变成串行的一个一个去new，那不还是一样的吗？同样会出现很多实例。嗯，确实如此！看来，还得把那个判断(singleton== null)条件也同步起来。于是，我们的Singleton再次升级成1.2版本，如下所示：
 
 	// version 1.2
-	public class Singleton
-	{
+	public class Singleton{
 	    private static Singleton singleton = null;
 	    
 	    private Singleton()  {
@@ -91,8 +89,7 @@ excerpt: 'reprint'
 还得改！嗯，看来，在线程同步前还得加一个(singleton== null)的条件判断，如果对象已经创建了，那么就不需要线程的同步了。OK，下面是1.3版的Singleton：
 
 	// version 1.3
-	public class Singleton
-	{
+	public class Singleton{
 	    private static Singleton singleton = null;
 	    
 	    private Singleton()  {
@@ -130,8 +127,7 @@ excerpt: 'reprint'
 对此，我们只需要把singleton声明成 volatile 就可以了。下面是1.4版：
 
 	// version 1.4
-	public class Singleton
-	{
+	public class Singleton{
 	    private volatile static Singleton singleton = null;
 	    
 	    private Singleton()  {
@@ -164,8 +160,7 @@ excerpt: 'reprint'
 这种方法非常简单，因为单例的实例被声明成 static 和 final 变量了，在第一次加载类到内存中时就会初始化，所以创建实例本身是线程安全的。
 
 	// version 1.5
-	public class Singleton
-	{
+	public class Singleton{
 	    private volatile static Singleton singleton = new Singleton();
 	    
 	    private Singleton()  {
