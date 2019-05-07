@@ -5,9 +5,85 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 06 May 2019 17:50:47 +0800</pubDate>
-    <lastBuildDate>Mon, 06 May 2019 17:50:47 +0800</lastBuildDate>
+    <pubDate>Tue, 07 May 2019 11:38:46 +0800</pubDate>
+    <lastBuildDate>Tue, 07 May 2019 11:38:46 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>浮点精度</title>
+        <description>&lt;p&gt;整数、浮点数是开发中经常使用的类型，在Java中，整数常用的有 &lt;code&gt;Integer&lt;/code&gt; 和 &lt;code&gt;Long&lt;/code&gt; ，浮点数有 &lt;code&gt;Float&lt;/code&gt; 和 &lt;code&gt;Double&lt;/code&gt; 。如果使用 &lt;code&gt;Float&lt;/code&gt; 来存储 &lt;code&gt;Integer&lt;/code&gt; 的值可行么？粗略看上去，肯定是没问题的，下面我们看个例子:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class Test {
+    public static void main(String[] args) {
+        int a = 12345678;
+        System.out.println(a);
+        System.out.println((float) a);
+        System.out.println(Float.valueOf(a + &quot;&quot;).intValue());
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;结果会输出什么呢？&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;12345678
+1.2345678E7
+12345678
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;完全正确，不要急，我们将变量a的值调大一些，修改为 123456789，再次执行，输出结果如下:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;123456789
+1.23456792E8
+123456792
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;差了一些，有误差了，这个为什么呢？因为浮点数的表示是按照 &lt;code&gt;IEEE 754 &lt;/code&gt;标准的，可以参考&lt;a href=&quot;https://www.zhihu.com/question/21711083&quot;&gt;https://www.zhihu.com/question/21711083&lt;/a&gt; , 字节数和尾数部分见下表：&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;类型&lt;/th&gt;
+      &lt;th&gt;字节数&lt;/th&gt;
+      &lt;th&gt;尾数长度&lt;/th&gt;
+      &lt;th&gt;精确范围&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Float&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;23&lt;/td&gt;
+      &lt;td&gt;-2^24 ~ 2^24&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Double&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;52&lt;/td&gt;
+      &lt;td&gt;-2^53 ~ 2^53&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;因为最高位是1的缘故，加上尾数长度，可以计算出能够精确表示的范围，可以看出 &lt;code&gt;Float&lt;/code&gt; 最大精确数值为 &lt;code&gt;16777216&lt;/code&gt; ,&lt;code&gt;Double&lt;/code&gt; 最大精确数值为 &lt;code&gt;9007199254740992&lt;/code&gt; ，上文中的 &lt;code&gt;12345678&lt;/code&gt; 和 &lt;code&gt;123456789&lt;/code&gt; 刚好在 &lt;code&gt;16777216&lt;/code&gt; 的两侧， 所以出现了上文中的结果。&lt;/p&gt;
+
+&lt;h3 id=&quot;小结&quot;&gt;小结&lt;/h3&gt;
+
+&lt;p&gt;当前时间戳的范围超过了 &lt;code&gt;Float&lt;/code&gt; 的范围，在进行类型转化时已经要注意。 需要精度高的类型，可以选择 &lt;code&gt;BigDecimal&lt;/code&gt; 来完成，如果明确确定对应的数值大小在精确表示范围内，也可以进行转换。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
+
+  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>Tue, 07 May 2019 00:00:00 +0800</pubDate>
+        <link>https://https://www.codeboy.me/2019/05/07/float-precision/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2019/05/07/float-precision/</guid>
+        
+        <category>java</category>
+        
+        
+      </item>
     
       <item>
         <title>剪切板同步</title>
@@ -1125,83 +1201,6 @@ public class Singleton {
         <category>java</category>
         
         <category>pattern</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Hexo search组件</title>
-        <description>&lt;p&gt;当前主流的静态博客有Jekyll和Hexo，之前的文章已经介绍了Jekyll中的搜索组件&amp;lt;&lt;a href=&quot;/2016/01/18/jekyll-search-component/&quot;&gt;Jekyll search组件&lt;/a&gt;&amp;gt;,本文来介绍下hexo博客中怎么添加搜索组件，组件项目地址&lt;a href=&quot;https://github.com/androiddevelop/hexo-search&quot;&gt;https://github.com/androiddevelop/hexo-search&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;截图&quot;&gt;截图&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;/img/jekyll-search.jpg&quot; alt=&quot;jekyll-search.jpg&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;双击ctrl或者点击右下角搜索图标查看效果&lt;/p&gt;
-
-&lt;h3 id=&quot;操作&quot;&gt;操作&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;点击右下角图标进行搜索&lt;/li&gt;
-  &lt;li&gt;双击ctrl键进行搜索或关闭&lt;/li&gt;
-  &lt;li&gt;搜索页面点击右上角关闭按钮关闭搜索试图&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;加入步骤&quot;&gt;加入步骤&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;安装搜索插件:&lt;/p&gt;
-
-    &lt;pre&gt;&lt;code&gt; npm install hexo-search-data-plugin --save
-&lt;/code&gt;&lt;/pre&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;将search目录放至于hexo主题的&lt;code&gt;source&lt;/code&gt;文件夹下，其中search目录结构如下:&lt;/p&gt;
-
-    &lt;pre&gt;&lt;code&gt; search
- ├── cb-footer-add.html
- ├── css
- │   └── cb-search.css
- ├── img
- │   ├── cb-close.png
- │   └── cb-search.png
- └── js
-     ├── bootstrap3-typeahead.min.js
-     └── cb-search.js
-&lt;/code&gt;&lt;/pre&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;在当前主题的&lt;code&gt;layout/_partial/after-footer.ejs&lt;/code&gt; 中的末尾加入 &lt;code&gt;cb-footer-add.html&lt;/code&gt; 中的内容即可, 添加完毕后 &lt;code&gt;cb-footer-add.html&lt;/code&gt; 文件可以删除。&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;如果主题不存在&lt;code&gt;after-footer.ejs&lt;/code&gt;文件，也可以添加在&lt;code&gt;footer.ejs&lt;/code&gt;中。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;注意事项&quot;&gt;注意事项&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;code&gt;bootstrap3-typeahead.min.js&lt;/code&gt; 的引入必须在&lt;code&gt;jquery.min.js&lt;/code&gt;引入之后!&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;默认联想8个，如果需要更多的话，请检索 &lt;code&gt;bootstrap3-typeahead.min.js&lt;/code&gt; 中的&lt;strong&gt;items:8&lt;/strong&gt;, 将&lt;strong&gt;8&lt;/strong&gt;替换成自己需要的数值。&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
-
-  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
-&lt;/blockquote&gt;
-</description>
-        <pubDate>Tue, 29 Nov 2016 00:00:00 +0800</pubDate>
-        <link>https://https://www.codeboy.me/2016/11/29/hexo-search-component/</link>
-        <guid isPermaLink="true">https://https://www.codeboy.me/2016/11/29/hexo-search-component/</guid>
-        
-        <category>web</category>
         
         
       </item>

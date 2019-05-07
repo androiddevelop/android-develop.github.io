@@ -140,6 +140,37 @@
     		<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
     			
 <div class="post-preview">
+    <a href="/2015/08/31/shell-command/">
+        <h2 class="post-title">            实用的陌生Shell命令
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            有一些不经常的使用的bash命令可以帮我们省去写很多的脚本, 汇总如下:
+
+realpath
+
+获取文件的真实路径
+
+➜  ls
+haha
+➜  realpath haha
+/Volumes/Extra/Tmp/test/haha
+➜   
+➜  echo "`pwd`/haha"        
+/Users/YD/Tmp/test/haha
+
+
+rename
+批量重命名, -s ‘替换前...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on August 31, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2015/08/30/java-lru-cache/">
         <h2 class="post-title">            Java LruCache
         </h2>
@@ -484,32 +515,6 @@ ndk使用c或者cpp完成代码的编写，使用c或者cpp可以将一些模块
         </div>
     </a>
     <p class="post-meta">Posted by Codeboy on May 4, 2015</p>
-        
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2015/04/29/java-hashmap-trick/">
-        <h2 class="post-title">            HashMap的小优化
-        </h2>
-        
-        <div class="post-content-preview">
-        
-            HashMap是我们平日内用的非常多的集合框架，网上介绍有很多的实现原理，在存放数据数量已知的情况下，我们可以在构建hashmap的时候指定其容量，减少扩展空间时消耗的时间。下面看一个例子:
-
-import java.util.HashMap;
-import java.util.Map;
-
-/**
- * HashMap测试
- * 
- * @author YD
- *
- */
-public cl...
-        </div>
-    </a>
-    <p class="post-meta">Posted by Codeboy on April 29, 2015</p>
         
 </div>
 <hr>

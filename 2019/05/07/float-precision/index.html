@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keyword"
+          content="codeboy, @codeboy, 小胖轩, 玄恒, Blog, Github, 博客, 互联网, 前端, 服务端, 玄恒的个人网站, android, mobile, server, web, datamine ">
+    <meta name="description" content="编码生涯的点点滴滴">
+    <link rel="icon" href="/favicon.png" type="image/png"/>
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon-precomposed" href="/favicon.png" type="image/png">
+
+    <title>浮点精度 - 小胖轩</title>
+
+    <link rel="canonical" href="https://https://www.codeboy.me/2019/05/07/float-precision/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/codeboy.min.css">
+
+    <link rel="alternate" type="application/rss+xml" href="feed.xml" title="小胖轩">
+    <!-- Custom Fonts -->
+    <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .ds-powered-by {
+            display: none !important;
+        }
+
+        .ds-post-toolbar .ds-sync {
+            display: none !important;
+        }
+    </style>
+
+    <script type="text/javascript">
+        console.log("%c      ", "font-size:216px; background:url('https://www.codeboy.me/favicon.png') no-repeat ");
+    </script>
+</head>
+
+
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">小胖轩</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">首页</a>
+                </li>
+                <li>
+                    <a href="/open/">开源</a>
+                </li>
+
+                <li>
+                    <a href="/tags/">标签</a>
+                </li>
+
+                <li>
+                    <a href="/about/">关于</a>
+                </li>
+		<!--
+                
+                <li>
+                    <a href="/apps/">Apps</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/about/index2/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/open/">Open</a>
+                </li>
+                
+                <li>
+                    <a href="/privacy/">评论政策</a>
+                </li>
+                
+                <li>
+                    <a href="/tags/">Tags</a>
+                </li>
+                
+		-->
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header"
+        style="background-image: url('/img/post-bg-java.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#java" title="java">java</a>
+                        
+                    </div>
+                    <h1>浮点精度</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by Codeboy on May 7, 2019</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container" style="overflow-y:hidden;">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
+
+                <p>整数、浮点数是开发中经常使用的类型，在Java中，整数常用的有 <code>Integer</code> 和 <code>Long</code> ，浮点数有 <code>Float</code> 和 <code>Double</code> 。如果使用 <code>Float</code> 来存储 <code>Integer</code> 的值可行么？粗略看上去，肯定是没问题的，下面我们看个例子:</p>
+
+<pre><code>public class Test {
+    public static void main(String[] args) {
+        int a = 12345678;
+        System.out.println(a);
+        System.out.println((float) a);
+        System.out.println(Float.valueOf(a + "").intValue());
+    }
+}
+</code></pre>
+
+<p>结果会输出什么呢？</p>
+
+<pre><code>12345678
+1.2345678E7
+12345678
+</code></pre>
+
+<p>完全正确，不要急，我们将变量a的值调大一些，修改为 123456789，再次执行，输出结果如下:</p>
+
+<pre><code>123456789
+1.23456792E8
+123456792
+</code></pre>
+
+<p>差了一些，有误差了，这个为什么呢？因为浮点数的表示是按照 <code>IEEE 754 </code>标准的，可以参考<a href="https://www.zhihu.com/question/21711083">https://www.zhihu.com/question/21711083</a> , 字节数和尾数部分见下表：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>类型</th>
+      <th>字节数</th>
+      <th>尾数长度</th>
+      <th>精确范围</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Float</td>
+      <td>4</td>
+      <td>23</td>
+      <td>-2^24 ~ 2^24</td>
+    </tr>
+    <tr>
+      <td>Double</td>
+      <td>8</td>
+      <td>52</td>
+      <td>-2^53 ~ 2^53</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>因为最高位是1的缘故，加上尾数长度，可以计算出能够精确表示的范围，可以看出 <code>Float</code> 最大精确数值为 <code>16777216</code> ,<code>Double</code> 最大精确数值为 <code>9007199254740992</code> ，上文中的 <code>12345678</code> 和 <code>123456789</code> 刚好在 <code>16777216</code> 的两侧， 所以出现了上文中的结果。</p>
+
+<h3 id="小结">小结</h3>
+
+<p>当前时间戳的范围超过了 <code>Float</code> 的范围，在进行类型转化时已经要注意。 需要精度高的类型，可以选择 <code>BigDecimal</code> 来完成，如果明确确定对应的数值大小在精确表示范围内，也可以进行转换。</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+
+
+            </div>
+</article>
+
+<!-- Post Comments -->
+
+<div id="disqus_thread" class="container"></div>
+<script>
+    let disqus_config = function () {
+    this.page.url = "/2019/05/07/float-precision/";
+    this.page.identifier = "浮点精度";
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codeboy.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                        <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/codeboy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/androiddevelop">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 小胖轩 2019</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="/js/jquery.tagcloud.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $.fn.tagcloud.defaults = {
+        //size: {start: 1, end: 1, unit: 'em'},
+        color: {start: '#bbbbee', end: '#0085a1'},
+    };
+    $(function () {
+        $('#tag_cloud a').tagcloud();
+    });
+</script>
+
+<!-- Highlight.js -->
+<script src="//cdn.bootcss.com/highlight.js/9.4.0/highlight.min.js"></script>
+<link href="//cdn.bootcss.com/highlight.js/9.4.0/styles/solarized-dark.min.css" rel="stylesheet">
+
+<div class="cb-search-tool" style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px;
+      opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control cb-search-content" id="cb-search-content" style="position: fixed; top: 60px"
+           placeholder="文章标题 日期 标签">
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png" id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/codeboy.min.js"></script>
+
+<div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png" id="cb-search-btn" title="双击ctrl试一下"/>
+</div>
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
+<script id="dsq-count-scr" src="//codeboy.disqus.com/count.js" async></script>
+
+<!--<script>-->
+<!--    var _hmt = _hmt || [];-->
+<!--    (function () {-->
+<!--        var hm = document.createElement("script");-->
+<!--        hm.src = "https://hm.baidu.com/hm.js?c9b7fde5670aa3eac4c08693f5b4d398";-->
+<!--        var s = document.getElementsByTagName("script")[0];-->
+<!--        s.parentNode.insertBefore(hm, s);-->
+<!--    })();-->
+<!--</script>-->
+
+
+
+</body>
+
+</html>

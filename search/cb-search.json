@@ -3,6 +3,14 @@
 	"data" : [
 	 
 	{
+		"title" : "浮点精度 - java",
+		"url" : "/2019/05/07/float-precision/"
+	}
+	
+	,
+	
+    
+	{
 		"title" : "剪切板同步 - linux",
 		"url" : "/2019/04/17/clipboard-sync/"
 	}

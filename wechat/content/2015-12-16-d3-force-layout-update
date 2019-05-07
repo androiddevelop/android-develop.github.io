@@ -36,6 +36,8 @@
     
 
     
+
+    
          <p>d3是javascript的一个可视化库，可以制作很漂亮的表格等，其中有一个非常好玩的力学图，可以方便的进行拖拽等，但是关于更新的操作网上介绍的很少，下面介绍下关于力学图的更新，先看一个例子(<a href="http://example.codeboy.me/d3/force-layout.html">http://example.codeboy.me/d3/force-layout.html</a>,点击一次下图后可以直接按回车键添加)：</p>
 
 <iframe src="https://example.codeboy.me/d3/force-layout.html" width="100%" height="500px" frameborder="0" scrolling="no"> </iframe>

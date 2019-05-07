@@ -48,6 +48,8 @@
     
 
     
+
+    
          <p>一直对 <code>Http</code> 与 <code>Socket</code> 比较的疑惑，之前认为 <code>Http</code> 与 <code>Socket</code> 是两个完全不相关的概念，其实不然，这里对这两个词进行一下对比。</p>
 
 <p><img src="/img/http-and-socket.png" alt="" /></p>
