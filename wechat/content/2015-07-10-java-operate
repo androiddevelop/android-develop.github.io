@@ -84,6 +84,8 @@
     
 
     
+
+    
          <p><strong>a += b</strong>和<strong>a = a + b</strong>完全等价么(java)？可能很多人以为是一样的，其实并非等价的，下面看一下证据吧。</p>
 
 <pre><code>public class Test {

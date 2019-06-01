@@ -20,6 +20,8 @@
     
 
     
+
+    
          <p>当前主流的静态博客有Jekyll和Hexo，之前的文章已经介绍了Jekyll中的搜索组件&lt;<a href="/2016/01/18/jekyll-search-component/">Jekyll search组件</a>&gt;,本文来介绍下hexo博客中怎么添加搜索组件，组件项目地址<a href="https://github.com/androiddevelop/hexo-search">https://github.com/androiddevelop/hexo-search</a>.</p>
 
 <h3 id="截图">截图</h3>

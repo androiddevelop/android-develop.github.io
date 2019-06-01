@@ -5,8 +5,8 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 07 May 2019 11:40:41 +0800</pubDate>
-    <lastBuildDate>Tue, 07 May 2019 11:40:41 +0800</lastBuildDate>
+    <pubDate>Sat, 01 Jun 2019 22:56:43 +0800</pubDate>
+    <lastBuildDate>Sat, 01 Jun 2019 22:56:43 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -679,6 +679,82 @@ Caused by: java.util.concurrent.RejectedExecutionException: Task android.os.Asyn
       </item>
     
       <item>
+        <title>同域代理</title>
+        <description>&lt;h3 id=&quot;前沿&quot;&gt;前沿&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;跨域请求&lt;/code&gt; 对于每一个前端开发应该都不会陌生，由于一些安全策略的限制，默认情况下浏览器不允许在一个域下请求另外一个域下的资源，例如 &lt;code&gt;www.codeboy.me&lt;/code&gt; 下请求 &lt;code&gt;test.codeboy.me&lt;/code&gt; 下的资源，相同的域要求协议、域名、端口都必须相同。&lt;/p&gt;
+
+&lt;p&gt;当前解决的方案有以下几种:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-no_highlight&quot;&gt;1. JSONP
+2. 同域请求
+3. CORS(跨域资源共享)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;JSONP&lt;/code&gt; 和 &lt;code&gt;CORS&lt;/code&gt; 均需要服务端进行适当适配和改造，这里不再讲述，感兴趣的小伙伴可以自行查询。这里我们对同域请求的实现进行说明。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;同域请求&lt;/code&gt; ,顾名思义就是将相同域下的请求进行代理，其实是一种 &lt;code&gt;反向代理&lt;/code&gt; , 用最近项目开发中的一个例子来进行叙述和配置。前端页面部署在 &lt;code&gt;project.example.com&lt;/code&gt; 中，服务端代码也部署在该服务器上，但是端口是 &lt;code&gt;9999&lt;/code&gt; , 正常情况下，&lt;code&gt;http://project.example.com/test.html&lt;/code&gt; 页面中是访问不到 &lt;code&gt;http://project.example.com:9999/api/getData&lt;/code&gt; 的数据的，此事我们可以加一层代理，将  &lt;code&gt;http://project.example.com/api/getData&lt;/code&gt; 全部代理转发到  &lt;code&gt;http://project.example.com:9999/api/getData&lt;/code&gt; 即可。&lt;/p&gt;
+
+&lt;h3 id=&quot;准备环境&quot;&gt;准备环境&lt;/h3&gt;
+
+&lt;p&gt;鉴于长期使用 &lt;code&gt;Apache Server&lt;/code&gt; ，本次基于 &lt;code&gt;Apache 2.4.18&lt;/code&gt; 进行，后端所有的接口均有 &lt;code&gt;/api&lt;/code&gt; 开头。&lt;/p&gt;
+
+&lt;h3 id=&quot;期待目标&quot;&gt;期待目标&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;正常访问 &lt;code&gt;http://project.example.com&lt;/code&gt; 可以请求到所有的静态资源&lt;/li&gt;
+  &lt;li&gt;所有的 &lt;code&gt;http://project.example.com/api/**&lt;/code&gt; 的请求代理到 &lt;code&gt;http://project.example.com:9999/api/**&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;服务器配置&quot;&gt;服务器配置&lt;/h3&gt;
+
+&lt;p&gt;在原有配置 &lt;code&gt;VirtualHost&lt;/code&gt; 目录中，增加对 &lt;code&gt;/api&lt;/code&gt;  的反向代理，由于同域，可以直接转发到 &lt;code&gt;127.0.0.1&lt;/code&gt; 上即可。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;VirtualHost *:80&amp;gt;
+	ServerAdmin admin@example.com
+  ServerName project.example.com
+	DocumentRoot /var/www/example
+ 
+	&amp;lt;Directory /var/www/example&amp;gt;
+		Options FollowSymLinks
+		AllowOverride None
+    Require all granted
+	&amp;lt;/Directory&amp;gt;
+
+  ProxyPass /api/ http://127.0.0.1:9999/api/
+  ProxyPassReverse /api/ http://127.0.0.1:9999/api/
+  ProxyPassReverseCookiePath / /api
+	
+	LogLevel warn
+
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+&amp;lt;/VirtualHost&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;p&gt;使用 &lt;code&gt;同域代理&lt;/code&gt; 后，服务端和前端代码都不需要进行修改，完美的解决了问题。最后还要说明的一点是：跨域请求被拒绝是在浏览器(客户端)上进行的，并不是服务端。&lt;/p&gt;
+
+&lt;h3 id=&quot;参考文章&quot;&gt;参考文章&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/53996160&quot;&gt;所有人都应该知道的跨域及CORS&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
+
+  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>Sun, 07 Jan 2018 00:00:00 +0800</pubDate>
+        <link>https://https://www.codeboy.me/2018/01/07/domain-proxy/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2018/01/07/domain-proxy/</guid>
+        
+        <category>linux</category>
+        
+        
+      </item>
+    
+      <item>
         <title>Linux命令之ln</title>
         <description>&lt;h2 id=&quot;背景&quot;&gt;背景&lt;/h2&gt;
 
@@ -968,239 +1044,6 @@ app://page.cb/myPage?downgrade=true&amp;amp;id=123456
         <guid isPermaLink="true">https://https://www.codeboy.me/2017/05/30/chrome-plugin-for-save/</guid>
         
         <category>web</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>深入浅出单实例Singleton模式</title>
-        <description>&lt;p&gt;单实例Singleton设计模式可能是被讨论和使用的最广泛的一个设计模式了，这可能也是面试中问得最多的一个设计模式了。这个设计模式主要目的是想在整个系统中只能出现一个类的实例。这样做当然是有必然的，比如你的软件的全局配置信息，或者是一个Factory，或是一个主控类等等。&lt;/p&gt;
-
-&lt;p&gt;本文会带着你深入整个Singleton的世界,下面从几个版本来进行分析。&lt;/p&gt;
-
-&lt;h3 id=&quot;1-singleton教学版本&quot;&gt;1. Singleton教学版本&lt;/h3&gt;
-
-&lt;p&gt;这里直接给出一个Singleton的简单实现，我们姑且把这个版本叫做1.0版，如下所示：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// version 1.0
-public class Singleton {
-    private static Singleton singleton = null;
-    
-    private Singleton() {
-    }
-    
-    public static Singleton getInstance() {
-        if (singleton== null) {
-            singleton= new Singleton();
-        }
-        return singleton;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;在上面的实例中，我想说明下面几个Singleton的特点：（下面这些东西可能是尽人皆知的，没有什么新鲜的）&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;私有（private）的构造函数，表明这个类是不可能形成实例了。这主要是怕这个类会有多个实例。&lt;/li&gt;
-  &lt;li&gt;即然这个类是不可能形成实例，那么，我们需要一个静态的方式让其形成实例：getInstance()。注意这个方法是在new自己，因为其可以访问私有的构造函数，所以他是可以保证实例被创建出来的。&lt;/li&gt;
-  &lt;li&gt;在getInstance()中，先做判断是否已形成实例，如果已形成则直接返回，否则创建实例。&lt;/li&gt;
-  &lt;li&gt;所形成的实例保存在自己类中的私有成员中。&lt;/li&gt;
-  &lt;li&gt;我们取实例时，只需要使用Singleton.getInstance()就行了。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;当然，如果你觉得知道了上面这些事情后就学成了，那得给你当头棒喝一下了，事情远远没有那么简单。&lt;/p&gt;
-
-&lt;h3 id=&quot;2-singleton实际版本&quot;&gt;2. Singleton实际版本&lt;/h3&gt;
-
-&lt;p&gt;上面的这个程序存在比较严重的问题，因为是全局性的实例，所以，在多线程情况下，所有的全局共享的东西都会变得非常的危险，这个也一样，在多线程情况下，如果多个线程同时调用getInstance()的话，那么，可能会有多个进程同时通过 (singleton== null)的条件检查，于是，多个实例就创建出来，并且很可能造成内存泄露问题。嗯，熟悉多线程的你一定会说——“我们需要线程互斥或同步”，没错，我们需要这个事情，于是我们的Singleton升级成1.1版，如下所示：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// version 1.1
-public class Singleton {
-    private static Singleton singleton = null;
-    
-    private Singleton() {
-    }
-    
-    public static Singleton getInstance() {
-        if (singleton == null) {
-            synchronized (Singleton.class) {
-                singleton = new Singleton();
-            }
-        }
-        return singleton;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;嗯，使用了Java的synchronized方法，看起来不错哦。应该没有问题了吧？！错！这还是有问题！为什么呢？前面已经说过，如果有多个线程同时通过(singleton== null)的条件检查（因为他们并行运行），虽然我们的synchronized方法会帮助我们同步所有的线程，让我们并行线程变成串行的一个一个去new，那不还是一样的吗？同样会出现很多实例。嗯，确实如此！看来，还得把那个判断(singleton== null)条件也同步起来。于是，我们的Singleton再次升级成1.2版本，如下所示：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// version 1.2
-public class Singleton {
-    private static Singleton singleton = null;
-    
-    private Singleton()  {
-    }
-    
-    public static Singleton getInstance()  {
-        synchronized (Singleton.class) {
-            if (singleton == null) {
-               singleton = new Singleton();
-            }
-         }
-        return singleton;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;不错不错，看似很不错了。在多线程下应该没有什么问题了，不是吗？的确是这样的，1.2版的Singleton在多线程下的确没有问题了，因为我们同步了所有的线程。只不过嘛……，什么？！还不行？！是的，还是有点小问题，我们本来只是想让new这个操作并行就可以了，现在，只要是进入getInstance()的线程都得同步啊，注意，创建对象的动作只有一次，后面的动作全是读取那个成员变量，这些读取的动作不需要线程同步啊。这样的作法感觉非常极端啊，为了一个初始化的创建动作，居然让我们达上了所有的读操作，严重影响后续的性能啊！&lt;/p&gt;
-
-&lt;p&gt;还得改！嗯，看来，在线程同步前还得加一个(singleton== null)的条件判断，如果对象已经创建了，那么就不需要线程的同步了。OK，下面是1.3版的Singleton：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// version 1.3
-public class Singleton {
-    private static Singleton singleton = null;
-    
-    private Singleton()  {
-    }
-    
-    public static Singleton getInstance() {
-        if (singleton == null)  {
-            synchronized (Singleton.class) {
-                if (singleton == null)  {
-                    singleton = new Singleton();
-                }
-            }
-        }
-        return singleton;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;感觉代码开始变得有点罗嗦和复杂了，不过，这可能是最不错的一个版本了，这个版本又叫“双重检查”Double-Check。下面是说明：&lt;/p&gt;
-
-&lt;p&gt;第一个条件是说，如果实例创建了，那就不需要同步了，直接返回就好了。
-不然，我们就开始同步线程。
-第二个条件是说，如果被同步的线程中，有一个线程创建了对象，那么别的线程就不用再创建了。
-相当不错啊，干得非常漂亮！请大家为我们的1.3版起立鼓掌！&lt;/p&gt;
-
-&lt;p&gt;但是，如果你认为这个版本大攻告成，你就错了。&lt;/p&gt;
-
-&lt;p&gt;主要在于 &lt;code&gt;singleton = new Singleton()&lt;/code&gt; 这句，这并非是一个原子操作，事实上在 JVM 中这句话大概做了下面 3 件事情。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;给 singleton 分配内存&lt;/li&gt;
-  &lt;li&gt;调用 Singleton 的构造函数来初始化成员变量，形成实例&lt;/li&gt;
-  &lt;li&gt;将singleton对象指向分配的内存空间（执行完这步 singleton才是非 null 了）&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;但是在 JVM 的即时编译器中存在指令重排序的优化。也就是说上面的第二步和第三步的顺序是不能保证的，最终的执行顺序可能是 1-2-3 也可能是 1-3-2。如果是后者，则在 3 执行完毕、2 未执行之前，被线程二抢占了，这时 instance 已经是非 null 了（但却没有初始化），所以线程二会直接返回 instance，然后使用，然后顺理成章地报错。&lt;/p&gt;
-
-&lt;p&gt;对此，我们只需要把singleton声明成 volatile 就可以了。下面是1.4版：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// version 1.4
-public class Singleton {
-    private volatile static Singleton singleton = null;
-    
-    private Singleton()  {
-    }
-    
-    public static Singleton getInstance()   {
-        if (singleton == null)  {
-            synchronized (Singleton.class) {
-                if (singleton == null)  {
-                    singleton = new Singleton();
-                }
-            }
-        }
-        return singleton;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;使用 volatile 有两个功用：&lt;/p&gt;
-
-&lt;p&gt;1）这个变量不会在多个线程中存在复本，直接从内存读取。&lt;/p&gt;
-
-&lt;p&gt;2）这个关键字会禁止指令重排序优化。也就是说，在 volatile 变量的赋值操作后面会有一个内存屏障（生成的汇编代码上），读操作不会被重排序到内存屏障之前。&lt;/p&gt;
-
-&lt;p&gt;但是，这个事情仅在Java 1.5版后有用，1.5版之前用这个变量也有问题，因为老版本的Java的内存模型是有缺陷的。&lt;/p&gt;
-
-&lt;h3 id=&quot;3-singleton简化版本&quot;&gt;3. Singleton简化版本&lt;/h3&gt;
-
-&lt;p&gt;上面的玩法实在是太复杂了，一点也不优雅，下面是一种更为优雅的方式：&lt;/p&gt;
-
-&lt;p&gt;这种方法非常简单，因为单例的实例被声明成 static 和 final 变量了，在第一次加载类到内存中时就会初始化，所以创建实例本身是线程安全的。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// version 1.5
-public class Singleton {
-    private volatile static Singleton singleton = new Singleton();
-    
-    private Singleton()  {
-    }
-    
-    public static Singleton getInstance()   {
-        return singleton;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;但是，这种玩法的最大问题是——当这个类被加载的时候，new Singleton() 这句话就会被执行，就算是getInstance()没有被调用，类也被初始化了。&lt;/p&gt;
-
-&lt;p&gt;于是，这个可能会与我们想要的行为不一样，比如，我的类的构造函数中，有一些事可能需要依赖于别的类干的一些事（比如某个配置文件，或是某个被其它类创建的资源），我们希望他能在我第一次getInstance()时才被真正的创建。这样，我们可以控制真正的类创建的时刻，而不是把类的创建委托给了类装载器。&lt;/p&gt;
-
-&lt;p&gt;好吧，我们还得绕一下：&lt;/p&gt;
-
-&lt;p&gt;下面的这个1.6版是老版《Effective Java》中推荐的方式。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// version 1.6
-public class Singleton {
-    private static class SingletonHolder {
-        private static final Singleton INSTANCE = new Singleton();
-    }
-    
-    private Singleton (){
-    }
-    
-    public static final Singleton getInstance() {
-        return SingletonHolder.INSTANCE;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;上面这种方式，仍然使用JVM本身机制保证了线程安全问题；由于 SingletonHolder 是私有的，除了 getInstance() 之外没有办法访问它，因此它只有在getInstance()被调用时才会真正创建；同时读取实例的时候不会进行同步，没有性能缺陷；也不依赖 JDK 版本。&lt;/p&gt;
-
-&lt;h3 id=&quot;4-singleton优雅版本&quot;&gt;4. Singleton优雅版本&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code&gt;public enum Singleton{
-   INSTANCE;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;居然用枚举！！看上去好牛逼，通过EasySingleton.INSTANCE来访问，这比调用getInstance()方法简单多了。&lt;/p&gt;
-
-&lt;p&gt;默认枚举实例的创建是线程安全的，所以不需要担心线程安全的问题。但是在枚举中的其他任何方法的线程安全由程序员自己负责。还有防止上面的通过反射机制调用私用构造器。&lt;/p&gt;
-
-&lt;p&gt;这个版本基本上消除了绝大多数的问题。代码也非常简单，实在无法不用。这也是新版的《Effective Java》中推荐的模式。&lt;/p&gt;
-
-&lt;h3 id=&quot;5-其他&quot;&gt;5. 其他&lt;/h3&gt;
-
-&lt;p&gt;Singleton的其它问题可以从原文中查看。&lt;/p&gt;
-
-&lt;p&gt;转载自&lt;a href=&quot;http://coolshell.cn/articles/265.html&quot;&gt;http://coolshell.cn/articles/265.html&lt;/a&gt;的部分,作者陈浩，本文进行了轻微改动。&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
-
-  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
-&lt;/blockquote&gt;
-</description>
-        <pubDate>Tue, 07 Feb 2017 00:00:00 +0800</pubDate>
-        <link>https://https://www.codeboy.me/2017/02/07/head-first-singleton/</link>
-        <guid isPermaLink="true">https://https://www.codeboy.me/2017/02/07/head-first-singleton/</guid>
-        
-        <category>java</category>
-        
-        <category>pattern</category>
         
         
       </item>

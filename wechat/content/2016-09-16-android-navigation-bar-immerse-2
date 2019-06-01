@@ -22,6 +22,8 @@
     
 
     
+
+    
          <p>在<a href="/2015/10/22/android-navigation-bar-immerse/">Android导航栏隐藏与浮现(一)</a>中已经以 <code>Nexus5</code> 为例，<code>Android M</code> 为基础介绍了怎么实现底部导航栏的隐藏与浮现，本文将介绍怎么在设置(辅助功能)中加入控制该功能的开关。</p>
 
 <p><img src="/img/android-navigation-enhance.png" style="max-width:49.5%;  clear: both;  display: block;  margin:auto;" /></p>
