@@ -1,63 +1,63 @@
 
     
-         <p>整数、浮点数是开发中经常使用的类型，在Java中，整数常用的有 <code>Integer</code> 和 <code>Long</code> ，浮点数有 <code>Float</code> 和 <code>Double</code> 。如果使用 <code>Float</code> 来存储 <code>Integer</code> 的值可行么？粗略看上去，肯定是没问题的，下面我们看个例子:</p>
+         <h3 id="前沿">前沿</h3>
 
-<pre><code>public class Test {
-    public static void main(String[] args) {
-        int a = 12345678;
-        System.out.println(a);
-        System.out.println((float) a);
-        System.out.println(Float.valueOf(a + "").intValue());
-    }
-}
+<p><code>跨域请求</code> 对于每一个前端开发应该都不会陌生，由于一些安全策略的限制，默认情况下浏览器不允许在一个域下请求另外一个域下的资源，例如 <code>www.codeboy.me</code> 下请求 <code>test.codeboy.me</code> 下的资源，相同的域要求协议、域名、端口都必须相同。</p>
+
+<p>当前解决的方案有以下几种:</p>
+<pre><code class="language-no_highlight">1. JSONP
+2. 同域请求
+3. CORS(跨域资源共享)
 </code></pre>
 
-<p>结果会输出什么呢？</p>
+<p><code>JSONP</code> 和 <code>CORS</code> 均需要服务端进行适当适配和改造，这里不再讲述，感兴趣的小伙伴可以自行查询。这里我们对同域请求的实现进行说明。</p>
 
-<pre><code>12345678
-1.2345678E7
-12345678
+<p><code>同域请求</code> ,顾名思义就是将相同域下的请求进行代理，其实是一种 <code>反向代理</code> , 用最近项目开发中的一个例子来进行叙述和配置。前端页面部署在 <code>project.example.com</code> 中，服务端代码也部署在该服务器上，但是端口是 <code>9999</code> , 正常情况下，<code>http://project.example.com/test.html</code> 页面中是访问不到 <code>http://project.example.com:9999/api/getData</code> 的数据的，此事我们可以加一层代理，将  <code>http://project.example.com/api/getData</code> 全部代理转发到  <code>http://project.example.com:9999/api/getData</code> 即可。</p>
+
+<h3 id="准备环境">准备环境</h3>
+
+<p>鉴于长期使用 <code>Apache Server</code> ，本次基于 <code>Apache 2.4.18</code> 进行，后端所有的接口均有 <code>/api</code> 开头。</p>
+
+<h3 id="期待目标">期待目标</h3>
+
+<ul>
+  <li>正常访问 <code>http://project.example.com</code> 可以请求到所有的静态资源</li>
+  <li>所有的 <code>http://project.example.com/api/**</code> 的请求代理到 <code>http://project.example.com:9999/api/**</code></li>
+</ul>
+
+<h3 id="服务器配置">服务器配置</h3>
+
+<p>在原有配置 <code>VirtualHost</code> 目录中，增加对 <code>/api</code>  的反向代理，由于同域，可以直接转发到 <code>127.0.0.1</code> 上即可。</p>
+
+<pre><code>&lt;VirtualHost *:80&gt;
+	ServerAdmin admin@example.com
+  ServerName project.example.com
+	DocumentRoot /var/www/example
+ 
+	&lt;Directory /var/www/example&gt;
+		Options FollowSymLinks
+		AllowOverride None
+    Require all granted
+	&lt;/Directory&gt;
+
+  ProxyPass /api/ http://127.0.0.1:9999/api/
+  ProxyPassReverse /api/ http://127.0.0.1:9999/api/
+  ProxyPassReverseCookiePath / /api
+	
+	LogLevel warn
+
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+&lt;/VirtualHost&gt;
+
 </code></pre>
 
-<p>完全正确，不要急，我们将变量a的值调大一些，修改为 123456789，再次执行，输出结果如下:</p>
+<h3 id="总结">总结</h3>
+<p>使用 <code>同域代理</code> 后，服务端和前端代码都不需要进行修改，完美的解决了问题。最后还要说明的一点是：跨域请求被拒绝是在浏览器(客户端)上进行的，并不是服务端。</p>
 
-<pre><code>123456789
-1.23456792E8
-123456792
-</code></pre>
-
-<p>差了一些，有误差了，这个为什么呢？因为浮点数的表示是按照 <code>IEEE 754 </code>标准的，可以参考<a href="https://www.zhihu.com/question/21711083">https://www.zhihu.com/question/21711083</a> , 字节数和尾数部分见下表：</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>类型</th>
-      <th>字节数</th>
-      <th>尾数长度</th>
-      <th>精确范围</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Float</td>
-      <td>4</td>
-      <td>23</td>
-      <td>-2^24 ~ 2^24</td>
-    </tr>
-    <tr>
-      <td>Double</td>
-      <td>8</td>
-      <td>52</td>
-      <td>-2^53 ~ 2^53</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>因为最高位是1的缘故，加上尾数长度，可以计算出能够精确表示的范围，可以看出 <code>Float</code> 最大精确数值为 <code>16777216</code> ,<code>Double</code> 最大精确数值为 <code>9007199254740992</code> ，上文中的 <code>12345678</code> 和 <code>123456789</code> 刚好在 <code>16777216</code> 的两侧， 所以出现了上文中的结果。</p>
-
-<h3 id="小结">小结</h3>
-
-<p>当前时间戳的范围超过了 <code>Float</code> 的范围，在进行类型转化时已经要注意。 需要精度高的类型，可以选择 <code>BigDecimal</code> 来完成，如果明确确定对应的数值大小在精确表示范围内，也可以进行转换。</p>
+<h3 id="参考文章">参考文章</h3>
+<ul>
+  <li><a href="https://zhuanlan.zhihu.com/p/53996160">所有人都应该知道的跨域及CORS</a></li>
+</ul>
 
 <blockquote>
   <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>

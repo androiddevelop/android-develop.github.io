@@ -2,7 +2,7 @@
 layout: post
 comments: true
 title: '同域代理'
-date: '2018-01-07'
+date: '2019-06-01'
 header-img: "img/post-bg-unix.jpg"
 tags:
      - linux

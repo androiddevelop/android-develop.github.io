@@ -5,9 +5,85 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 01 Jun 2019 22:56:43 +0800</pubDate>
-    <lastBuildDate>Sat, 01 Jun 2019 22:56:43 +0800</lastBuildDate>
+    <pubDate>Sat, 01 Jun 2019 23:00:24 +0800</pubDate>
+    <lastBuildDate>Sat, 01 Jun 2019 23:00:24 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>同域代理</title>
+        <description>&lt;h3 id=&quot;前沿&quot;&gt;前沿&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;跨域请求&lt;/code&gt; 对于每一个前端开发应该都不会陌生，由于一些安全策略的限制，默认情况下浏览器不允许在一个域下请求另外一个域下的资源，例如 &lt;code&gt;www.codeboy.me&lt;/code&gt; 下请求 &lt;code&gt;test.codeboy.me&lt;/code&gt; 下的资源，相同的域要求协议、域名、端口都必须相同。&lt;/p&gt;
+
+&lt;p&gt;当前解决的方案有以下几种:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-no_highlight&quot;&gt;1. JSONP
+2. 同域请求
+3. CORS(跨域资源共享)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;JSONP&lt;/code&gt; 和 &lt;code&gt;CORS&lt;/code&gt; 均需要服务端进行适当适配和改造，这里不再讲述，感兴趣的小伙伴可以自行查询。这里我们对同域请求的实现进行说明。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;同域请求&lt;/code&gt; ,顾名思义就是将相同域下的请求进行代理，其实是一种 &lt;code&gt;反向代理&lt;/code&gt; , 用最近项目开发中的一个例子来进行叙述和配置。前端页面部署在 &lt;code&gt;project.example.com&lt;/code&gt; 中，服务端代码也部署在该服务器上，但是端口是 &lt;code&gt;9999&lt;/code&gt; , 正常情况下，&lt;code&gt;http://project.example.com/test.html&lt;/code&gt; 页面中是访问不到 &lt;code&gt;http://project.example.com:9999/api/getData&lt;/code&gt; 的数据的，此事我们可以加一层代理，将  &lt;code&gt;http://project.example.com/api/getData&lt;/code&gt; 全部代理转发到  &lt;code&gt;http://project.example.com:9999/api/getData&lt;/code&gt; 即可。&lt;/p&gt;
+
+&lt;h3 id=&quot;准备环境&quot;&gt;准备环境&lt;/h3&gt;
+
+&lt;p&gt;鉴于长期使用 &lt;code&gt;Apache Server&lt;/code&gt; ，本次基于 &lt;code&gt;Apache 2.4.18&lt;/code&gt; 进行，后端所有的接口均有 &lt;code&gt;/api&lt;/code&gt; 开头。&lt;/p&gt;
+
+&lt;h3 id=&quot;期待目标&quot;&gt;期待目标&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;正常访问 &lt;code&gt;http://project.example.com&lt;/code&gt; 可以请求到所有的静态资源&lt;/li&gt;
+  &lt;li&gt;所有的 &lt;code&gt;http://project.example.com/api/**&lt;/code&gt; 的请求代理到 &lt;code&gt;http://project.example.com:9999/api/**&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;服务器配置&quot;&gt;服务器配置&lt;/h3&gt;
+
+&lt;p&gt;在原有配置 &lt;code&gt;VirtualHost&lt;/code&gt; 目录中，增加对 &lt;code&gt;/api&lt;/code&gt;  的反向代理，由于同域，可以直接转发到 &lt;code&gt;127.0.0.1&lt;/code&gt; 上即可。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;VirtualHost *:80&amp;gt;
+	ServerAdmin admin@example.com
+  ServerName project.example.com
+	DocumentRoot /var/www/example
+ 
+	&amp;lt;Directory /var/www/example&amp;gt;
+		Options FollowSymLinks
+		AllowOverride None
+    Require all granted
+	&amp;lt;/Directory&amp;gt;
+
+  ProxyPass /api/ http://127.0.0.1:9999/api/
+  ProxyPassReverse /api/ http://127.0.0.1:9999/api/
+  ProxyPassReverseCookiePath / /api
+	
+	LogLevel warn
+
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+&amp;lt;/VirtualHost&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
+&lt;p&gt;使用 &lt;code&gt;同域代理&lt;/code&gt; 后，服务端和前端代码都不需要进行修改，完美的解决了问题。最后还要说明的一点是：跨域请求被拒绝是在浏览器(客户端)上进行的，并不是服务端。&lt;/p&gt;
+
+&lt;h3 id=&quot;参考文章&quot;&gt;参考文章&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/53996160&quot;&gt;所有人都应该知道的跨域及CORS&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
+
+  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>Sat, 01 Jun 2019 00:00:00 +0800</pubDate>
+        <link>https://https://www.codeboy.me/2019/06/01/domain-proxy/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2019/06/01/domain-proxy/</guid>
+        
+        <category>linux</category>
+        
+        
+      </item>
     
       <item>
         <title>浮点精度</title>
@@ -674,82 +750,6 @@ Caused by: java.util.concurrent.RejectedExecutionException: Task android.os.Asyn
         <guid isPermaLink="true">https://https://www.codeboy.me/2018/08/04/android-async-task/</guid>
         
         <category>android</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>同域代理</title>
-        <description>&lt;h3 id=&quot;前沿&quot;&gt;前沿&lt;/h3&gt;
-
-&lt;p&gt;&lt;code&gt;跨域请求&lt;/code&gt; 对于每一个前端开发应该都不会陌生，由于一些安全策略的限制，默认情况下浏览器不允许在一个域下请求另外一个域下的资源，例如 &lt;code&gt;www.codeboy.me&lt;/code&gt; 下请求 &lt;code&gt;test.codeboy.me&lt;/code&gt; 下的资源，相同的域要求协议、域名、端口都必须相同。&lt;/p&gt;
-
-&lt;p&gt;当前解决的方案有以下几种:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-no_highlight&quot;&gt;1. JSONP
-2. 同域请求
-3. CORS(跨域资源共享)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;JSONP&lt;/code&gt; 和 &lt;code&gt;CORS&lt;/code&gt; 均需要服务端进行适当适配和改造，这里不再讲述，感兴趣的小伙伴可以自行查询。这里我们对同域请求的实现进行说明。&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;同域请求&lt;/code&gt; ,顾名思义就是将相同域下的请求进行代理，其实是一种 &lt;code&gt;反向代理&lt;/code&gt; , 用最近项目开发中的一个例子来进行叙述和配置。前端页面部署在 &lt;code&gt;project.example.com&lt;/code&gt; 中，服务端代码也部署在该服务器上，但是端口是 &lt;code&gt;9999&lt;/code&gt; , 正常情况下，&lt;code&gt;http://project.example.com/test.html&lt;/code&gt; 页面中是访问不到 &lt;code&gt;http://project.example.com:9999/api/getData&lt;/code&gt; 的数据的，此事我们可以加一层代理，将  &lt;code&gt;http://project.example.com/api/getData&lt;/code&gt; 全部代理转发到  &lt;code&gt;http://project.example.com:9999/api/getData&lt;/code&gt; 即可。&lt;/p&gt;
-
-&lt;h3 id=&quot;准备环境&quot;&gt;准备环境&lt;/h3&gt;
-
-&lt;p&gt;鉴于长期使用 &lt;code&gt;Apache Server&lt;/code&gt; ，本次基于 &lt;code&gt;Apache 2.4.18&lt;/code&gt; 进行，后端所有的接口均有 &lt;code&gt;/api&lt;/code&gt; 开头。&lt;/p&gt;
-
-&lt;h3 id=&quot;期待目标&quot;&gt;期待目标&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;正常访问 &lt;code&gt;http://project.example.com&lt;/code&gt; 可以请求到所有的静态资源&lt;/li&gt;
-  &lt;li&gt;所有的 &lt;code&gt;http://project.example.com/api/**&lt;/code&gt; 的请求代理到 &lt;code&gt;http://project.example.com:9999/api/**&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;服务器配置&quot;&gt;服务器配置&lt;/h3&gt;
-
-&lt;p&gt;在原有配置 &lt;code&gt;VirtualHost&lt;/code&gt; 目录中，增加对 &lt;code&gt;/api&lt;/code&gt;  的反向代理，由于同域，可以直接转发到 &lt;code&gt;127.0.0.1&lt;/code&gt; 上即可。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;VirtualHost *:80&amp;gt;
-	ServerAdmin admin@example.com
-  ServerName project.example.com
-	DocumentRoot /var/www/example
- 
-	&amp;lt;Directory /var/www/example&amp;gt;
-		Options FollowSymLinks
-		AllowOverride None
-    Require all granted
-	&amp;lt;/Directory&amp;gt;
-
-  ProxyPass /api/ http://127.0.0.1:9999/api/
-  ProxyPassReverse /api/ http://127.0.0.1:9999/api/
-  ProxyPassReverseCookiePath / /api
-	
-	LogLevel warn
-
-	CustomLog ${APACHE_LOG_DIR}/access.log combined
-&amp;lt;/VirtualHost&amp;gt;
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&quot;总结&quot;&gt;总结&lt;/h3&gt;
-&lt;p&gt;使用 &lt;code&gt;同域代理&lt;/code&gt; 后，服务端和前端代码都不需要进行修改，完美的解决了问题。最后还要说明的一点是：跨域请求被拒绝是在浏览器(客户端)上进行的，并不是服务端。&lt;/p&gt;
-
-&lt;h3 id=&quot;参考文章&quot;&gt;参考文章&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/53996160&quot;&gt;所有人都应该知道的跨域及CORS&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
-
-  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
-&lt;/blockquote&gt;
-</description>
-        <pubDate>Sun, 07 Jan 2018 00:00:00 +0800</pubDate>
-        <link>https://https://www.codeboy.me/2018/01/07/domain-proxy/</link>
-        <guid isPermaLink="true">https://https://www.codeboy.me/2018/01/07/domain-proxy/</guid>
-        
-        <category>linux</category>
         
         
       </item>

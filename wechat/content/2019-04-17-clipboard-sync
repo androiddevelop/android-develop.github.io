@@ -4,80 +4,94 @@
     
 
     
-         <p>在一些按天计算的场景中，需要获取当天凌晨零点的时间，有什么快捷高效的做法呢？下面针对Java中的几种计算方式进行比较：</p>
+         <p>工作中有两台主机，系统上一台macOS，一台Ubuntu，macOS作为主力机，经常需要将复制文本同步，之前的方案是登陆两个不同的微信进行分享，不过每次都需要打开，比较麻烦。</p>
 
-<h4 id="1-simpledateformat">1. SimpleDateFormat</h4>
-
-<p>获取当前时间对应的年月日，反向计算即可。</p>
-
-<pre><code class="language-java">private static long getTimeWay1() {
-    try {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
-        return sdf.parse(sdf.format(System.currentTimeMillis())).getTime();
-    } catch (ParseException e) {
-        e.printStackTrace();
-    }
-    return -1;
-}
-</code></pre>
-
-<h4 id="2-calendar">2. Calendar</h4>
-
-<p>使用 <code>java.util.Calendar</code> 类，可以便捷去除时分秒以及毫秒的数值，</p>
-
-<pre><code class="language-java">private static long getTimeWay2() {
-    Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-    //注意，这里不是Calendar.HOUR, 需要按照24小时的Calendar.HOUR_OF_DAY进行
-    calendar.set(Calendar.HOUR_OF_DAY, 0);
-    calendar.set(Calendar.MINUTE, 0);
-    calendar.set(Calendar.SECOND, 0);
-    calendar.set(Calendar.MILLISECOND, 0);
-    return calendar.getTimeInMillis();
-}
-</code></pre>
-
-<h4 id="3-除法">3. 除法</h4>
-
-<p>借鉴 <code>SimpleDateFormat</code> 的方式，本次直接使用除法操作即可，需要注意一点的是时区问题，东八区相对于零时区增加了八个小时，处理中需要处理一下。</p>
-
-<pre><code class="language-java">private static long getTimeWay3() {
-    long ONE_DAY = 24 * 3600 * 1000;
-    long now = System.currentTimeMillis();
-    long offset = TimeZone.getDefault().getRawOffset();
-    return (now + offset) / ONE_DAY * ONE_DAY - offset;
-}
-</code></pre>
-
-<h3 id="小结">小结</h3>
+<p>有没有什么办法能够解决 macOS 到 Ubuntu 的单向文本复制呢？单向解决了，双向基本也没有问题，鉴于作者没有双向需求，故本文只介绍 macOS 到 Ubuntu 的单项文本同步方案,。目前可行的方案有：</p>
 
 <table>
   <thead>
     <tr>
-      <th>方式</th>
-      <th>性能</th>
-      <th>使用</th>
+      <th>方案</th>
+      <th>优缺点</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>SimpleDateFormat</td>
-      <td>一般</td>
-      <td>一般</td>
+      <td>IM、飞鸽传书</td>
+      <td>支持双向、操作流程略长</td>
     </tr>
     <tr>
-      <td>Calendar</td>
-      <td>高</td>
-      <td>方便</td>
+      <td>剪切板同步软件</td>
+      <td>支持双向，多平台支持不够，很多没有Linux</td>
     </tr>
     <tr>
-      <td>除法</td>
-      <td>最高</td>
-      <td>时区问题需要注意</td>
+      <td>SSH</td>
+      <td>支持双向，多平台支持，配置稍微复杂，使用方便</td>
     </tr>
   </tbody>
 </table>
 
-<p>对比下来, 推荐使用第二种</p>
+<p>本次采用外能的 ssh 进行剪切板同步，考虑到不希望把 macOS 上的剪切板全部同步，只需要同步需要的即可，结合 macOS 上另外一个神器 <code>alfred</code> 进行。</p>
+
+<h3 id="一同步方案">一、同步方案</h3>
+<p>macOS上操作剪切板非常的简单，<code>pbcopy</code> 和 <code>pbpaste</code> 分别对应复制和剪切，操作示例如下:</p>
+
+<pre><code class="language-nohighlight">➜  ~ echo "Hello Codeboy" | pbcopy 
+➜  ~ pbpaste
+Hello Codeboy
+</code></pre>
+
+<p>Linux上需要安装 <code>xclip</code> 来完成，操作示例如下:</p>
+<pre><code class="language-nohighlight">➜  ~ echo "Hello Codeboy" |  xclip -in -selection clipboard
+➜  ~ xclip -o                                              
+Hello Codeboy
+</code></pre>
+
+<p>由于 <code>xclip</code> 牵扯图形操作，不能直接使用ssh在远程主机上执行命令完成，我们使用文件进行内容传输即可，接收方定时检查文件是否有更新，有更新的话使用 <code>xclip</code> 同步到剪切板。
+同时Ubuntu上需要配置 macOS 中 ssh 公钥，可以免密登陆，具体操作可以查询。</p>
+
+<h3 id="二发送方macos">二、发送方(macOS)</h3>
+
+<p>我们使用 <code>alfred</code>中的workflow自定义快捷键执行脚本，操作如下：</p>
+
+<ul>
+  <li>新建空白workflow</li>
+  <li>添加Triggers –&gt; HotKey, 定义喜欢的按键，作者选择(alt+F)，和复制键距离比较近。</li>
+  <li>新建Action –&gt; Run Script, 输入复制脚本即可。</li>
+</ul>
+
+<pre><code class="language-bash"># 将剪切板内容写入文件
+pbpaste &gt; /tmp/clip_content
+# 发送到目标主机
+scp -q /tmp/clip_content user@host:/tmp/
+</code></pre>
+
+<p>这样需要复制的时候，<code>ctrl-C</code> 后再次按下 <code>alt-F</code> 即可发送。</p>
+
+<h3 id="三接收方ubuntu">三、接收方(Ubuntu)</h3>
+
+<p>接收方监听 <code>/tmp/clip_content</code> 文件内容变化即可，脚本如下:</p>
+
+<pre><code class="language-bash">#!/bin/bash
+last_content=""
+while true
+do
+ content=`cat /tmp/clip_content`
+ if [ "$content" != "$last_content" ]
+    then
+      echo $content;
+      xclip -in -selection clipboard &lt; /tmp/clip_content
+      last_content="$content"
+ fi
+ sleep 1
+done
+</code></pre>
+
+<p>每秒钟检测该文件内容是否改变，改变的话复制到剪切板中，实时性还是很高的。打开终端，执行起来即可。</p>
+
+<h3 id="四使用">四、使用</h3>
+
+<p>macOS上遇到需要复制的文本，<code>ctrl-C --&gt; alt-F</code> 后, 切换到Ubuntu，直接粘贴即可。有更快捷的方式欢迎留言。</p>
 
 <blockquote>
   <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
