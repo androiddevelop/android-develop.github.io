@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keyword"
+          content="codeboy, @codeboy, 小胖轩, 玄恒, Blog, Github, 博客, 互联网, 前端, 服务端, 玄恒的个人网站, android, mobile, server, web, datamine ">
+    <meta name="description" content="编码生涯的点点滴滴">
+    <link rel="icon" href="/favicon.png" type="image/png"/>
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon-precomposed" href="/favicon.png" type="image/png">
+
+    <title>Java代理 - 小胖轩</title>
+
+    <link rel="canonical" href="https://https://www.codeboy.me/2019/05/27/java-proxy/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/codeboy.min.css">
+
+    <link rel="alternate" type="application/rss+xml" href="feed.xml" title="小胖轩">
+    <!-- Custom Fonts -->
+    <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .ds-powered-by {
+            display: none !important;
+        }
+
+        .ds-post-toolbar .ds-sync {
+            display: none !important;
+        }
+    </style>
+
+    <script type="text/javascript">
+        console.log("%c      ", "font-size:216px; background:url('https://www.codeboy.me/favicon.png') no-repeat ");
+    </script>
+</head>
+
+
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">小胖轩</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">首页</a>
+                </li>
+                <li>
+                    <a href="/open/">开源</a>
+                </li>
+
+                <li>
+                    <a href="/tags/">标签</a>
+                </li>
+
+                <li>
+                    <a href="/about/">关于</a>
+                </li>
+		<!--
+                
+                <li>
+                    <a href="/apps/">Apps</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/about/index2/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/open/">Open</a>
+                </li>
+                
+                <li>
+                    <a href="/privacy/">评论政策</a>
+                </li>
+                
+                <li>
+                    <a href="/tags/">Tags</a>
+                </li>
+                
+		-->
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header"
+        style="background-image: url('/img/post-bg-java.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#java" title="java">java</a>
+                        
+                    </div>
+                    <h1>Java代理</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by Codeboy on May 27, 2019</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container" style="overflow-y:hidden;">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
+
+                <p>代理是在开发中经常用到的一种模式，不暴露真实的对象，取而代之的提供代理对象，在代理对象中可以对实际操作的前后进行一些处理，也即流行的面向切面编程(AOP)，Spring中的拦截器使用的就是代理模式。</p>
+
+<p>我们对一个需要两步完成的任务，使用普通模式、静态代理、动态代理和cglib分别实现下：</p>
+
+<h3 id="准备工作">准备工作</h3>
+
+<p>定义接口 <code>ITask</code> 和实现类 <code>Task</code></p>
+
+<pre><code class="language-java">package me.codeboy.test.proxy;
+
+/**
+ * 任务
+ * Created by yuedong.li on 2019-05-27
+ */
+public interface ITask {
+    /**
+     * 步骤一
+     */
+    public void step1();
+
+    /**
+     * 步骤二
+     */
+    public void step2();
+}
+
+</code></pre>
+
+<pre><code>package me.codeboy.test.proxy;
+
+/**
+ * 任务
+ * Created by yuedong.li on 2019-05-27
+ */
+public class Task implements ITask {
+    @Override
+    public void step1() {
+        System.out.println("step1 print task!!");
+    }
+
+    @Override
+    public void step2() {
+        System.out.println("step2 print task!!");
+    }
+}
+
+</code></pre>
+
+<h3 id="普通模式">普通模式</h3>
+
+<p>该模式下，创建 <code>Task</code> 实例后，直接调用对应方法</p>
+
+<pre><code class="language-java">package me.codeboy.test.proxy;
+
+/**
+ * 普通模式
+ * Created by yuedong.li on 2019-05-27
+ */
+public class CommonMain {
+    public static void main(String[] args) {
+        ITask task = new Task();
+        task.step1();
+        task.step2();
+    }
+}
+</code></pre>
+
+<p><strong>运行结果</strong>:</p>
+
+<blockquote>
+  <p>step1 print task!!
+step2 print task!!</p>
+</blockquote>
+
+<h3 id="静态代理">静态代理</h3>
+
+<p>由一个代理类来进行实际方法调用</p>
+
+<pre><code class="language-java">package me.codeboy.test.proxy;
+
+/**
+ * 任务静态代理
+ * Created by yuedong.li on 2019-05-27
+ */
+public class TaskStaticProxy implements ITask {
+    private Task task;
+
+    public TaskStaticProxy(Task task) {
+        this.task = task;
+    }
+
+    @Override
+    public void step1() {
+        System.out.println("-----&gt; before step1");
+        task.step1();
+        System.out.println("-----&gt; after step1");
+    }
+
+    @Override
+    public void step2() {
+        System.out.println("-----&gt; before step2");
+        task.step2();
+        System.out.println("-----&gt; after step2");
+    }
+}
+</code></pre>
+
+<pre><code class="language-java">package me.codeboy.test.proxy;
+
+/**
+ * 静态代理
+ * Created by yuedong.li on 2019-05-27
+ */
+public class StaticProxyMain {
+    public static void main(String[] args) {
+        ITask task = new TaskStaticProxy(new Task());
+        task.step1();
+        task.step2();
+    }
+}
+</code></pre>
+
+<p><strong>运行结果</strong>:</p>
+
+<blockquote>
+  <p>—–&gt; before step1
+step1 print task!!
+—–&gt; after step1
+—–&gt; before step2
+step2 print task!!
+—–&gt; after step2</p>
+</blockquote>
+
+<h3 id="动态代理">动态代理</h3>
+
+<p>由Proxy创建一个代理 <code>ITask</code> 接口的代理来进行实际方法调用</p>
+
+<pre><code class="language-java">package me.codeboy.test.proxy;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
+/**
+ * 任务动态代理
+ * Created by yuedong.li on 2019-05-27
+ */
+public class TaskDynamicProxy implements InvocationHandler {
+    private Task task;
+
+    public TaskDynamicProxy(Task task) {
+        this.task = task;
+    }
+
+    /**
+     * 创建动态代理
+     */
+    public ITask getProxy() {
+        return (ITask) Proxy.newProxyInstance(task.getClass().getClassLoader(), task.getClass().getInterfaces(), this);
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        System.out.println("-----&gt; before " + method.getName());
+        Object ret = method.invoke(task, args); //执行真正的方法
+        System.out.println("-----&gt; after " + method.getName());
+        return ret;
+    }
+}
+</code></pre>
+
+<pre><code class="language-java">package me.codeboy.test.proxy;
+
+/**
+ * 动态代理
+ * Created by yuedong.li on 2019-05-27
+ */
+public class DynamicProxyMain {
+    public static void main(String[] args) {
+        ITask task = new TaskDynamicProxy(new Task()).getProxy();
+        task.step1();
+        task.step2();
+    }
+}
+</code></pre>
+
+<p><strong>运行结果</strong>:</p>
+
+<blockquote>
+  <p>—–&gt; before step1
+step1 print task!!
+—–&gt; after step1
+—–&gt; before step2
+step2 print task!!
+—–&gt; after step2</p>
+</blockquote>
+
+<h3 id="cglib代理">cglib代理</h3>
+
+<p>创建一个代理 <code>Task</code> 类的代理类来进行实际方法调用</p>
+
+<pre><code class="language-java">package me.codeboy.test.proxy;
+
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
+
+import java.lang.reflect.Method;
+
+/**
+ * cglib代理
+ * Created by yuedong.li on 2019-05-27
+ */
+public class TaskCglibProxy&lt;T&gt; implements MethodInterceptor {
+
+    /**
+     * 获取代理对象
+     *
+     * @param object 对象
+     * @return proxy 对象
+     */
+    public T getProxy(T object) {
+        Enhancer enhancer = new Enhancer(); //创建Enhancer来生成动态代理类
+        enhancer.setSuperclass(object.getClass());
+        enhancer.setCallback(this);  //设置回调，之后所有的方法调用将会执行intercept方法
+        return (T) enhancer.create();
+    }
+
+    /**
+     * 代理对象的执行会回调到此方法中
+     */
+    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+        System.out.println("-----&gt; before " + method.getName());
+        Object result = proxy.invokeSuper(obj, args); //调用业务类的方法
+        System.out.println("-----&gt; after " + method.getName());
+        return result;
+    } 
+}
+</code></pre>
+
+<pre><code class="language-java">package me.codeboy.test.proxy;
+
+/**
+ * cglib代理
+ * Created by yuedong.li on 2019-05-27
+ */
+public class CglibProxyMain {
+    public static void main(String[] args) {
+        ITask task = new TaskCglibProxy&lt;ITask&gt;().getProxy(new Task());
+        task.step1();
+        task.step2();
+    }
+}
+</code></pre>
+
+<p><strong>运行结果</strong>:</p>
+
+<blockquote>
+  <p>—–&gt; before step1
+step1 print task!!
+—–&gt; after step1
+—–&gt; before step2
+step2 print task!!
+—–&gt; after step2</p>
+</blockquote>
+
+<h3 id="小结">小结</h3>
+
+<p>根据上面的例子，简单的总结一下几种代理模式的使用场景和特点：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>类型</th>
+      <th>场景</th>
+      <th>特点</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>静态代理</td>
+      <td>代理比较简单的类</td>
+      <td>代理多个方法后会比较繁琐，可能会有很多重复代码</td>
+    </tr>
+    <tr>
+      <td>动态代理</td>
+      <td>代理接口</td>
+      <td>只能代理接口，不能代理实现类</td>
+    </tr>
+    <tr>
+      <td>cglib代理</td>
+      <td>代理实现类</td>
+      <td>和动态代理互补</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+
+
+            </div>
+</article>
+
+<!-- Post Comments -->
+
+<div id="disqus_thread" class="container"></div>
+<script>
+    let disqus_config = function () {
+    this.page.url = "/2019/05/27/java-proxy/";
+    this.page.identifier = "Java代理";
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codeboy.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                        <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/codeboy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/androiddevelop">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 小胖轩 2019</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="/js/jquery.tagcloud.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $.fn.tagcloud.defaults = {
+        //size: {start: 1, end: 1, unit: 'em'},
+        color: {start: '#bbbbee', end: '#0085a1'},
+    };
+    $(function () {
+        $('#tag_cloud a').tagcloud();
+    });
+</script>
+
+<!-- Highlight.js -->
+<script src="//cdn.bootcss.com/highlight.js/9.4.0/highlight.min.js"></script>
+<link href="//cdn.bootcss.com/highlight.js/9.4.0/styles/solarized-dark.min.css" rel="stylesheet">
+
+<div class="cb-search-tool" style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px;
+      opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control cb-search-content" id="cb-search-content" style="position: fixed; top: 60px"
+           placeholder="文章标题 日期 标签">
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png" id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/codeboy.min.js"></script>
+
+<div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png" id="cb-search-btn" title="双击ctrl试一下"/>
+</div>
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
+<script id="dsq-count-scr" src="//codeboy.disqus.com/count.js" async></script>
+
+<!--<script>-->
+<!--    var _hmt = _hmt || [];-->
+<!--    (function () {-->
+<!--        var hm = document.createElement("script");-->
+<!--        hm.src = "https://hm.baidu.com/hm.js?c9b7fde5670aa3eac4c08693f5b4d398";-->
+<!--        var s = document.getElementsByTagName("script")[0];-->
+<!--        s.parentNode.insertBefore(hm, s);-->
+<!--    })();-->
+<!--</script>-->
+
+
+
+</body>
+
+</html>

@@ -5,8 +5,8 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 01 Jun 2019 23:00:24 +0800</pubDate>
-    <lastBuildDate>Sat, 01 Jun 2019 23:00:24 +0800</lastBuildDate>
+    <pubDate>Mon, 03 Jun 2019 11:06:07 +0800</pubDate>
+    <lastBuildDate>Mon, 03 Jun 2019 11:06:07 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -81,6 +81,320 @@
         <guid isPermaLink="true">https://https://www.codeboy.me/2019/06/01/domain-proxy/</guid>
         
         <category>linux</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Java代理</title>
+        <description>&lt;p&gt;代理是在开发中经常用到的一种模式，不暴露真实的对象，取而代之的提供代理对象，在代理对象中可以对实际操作的前后进行一些处理，也即流行的面向切面编程(AOP)，Spring中的拦截器使用的就是代理模式。&lt;/p&gt;
+
+&lt;p&gt;我们对一个需要两步完成的任务，使用普通模式、静态代理、动态代理和cglib分别实现下：&lt;/p&gt;
+
+&lt;h3 id=&quot;准备工作&quot;&gt;准备工作&lt;/h3&gt;
+
+&lt;p&gt;定义接口 &lt;code&gt;ITask&lt;/code&gt; 和实现类 &lt;code&gt;Task&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.proxy;
+
+/**
+ * 任务
+ * Created by yuedong.li on 2019-05-27
+ */
+public interface ITask {
+    /**
+     * 步骤一
+     */
+    public void step1();
+
+    /**
+     * 步骤二
+     */
+    public void step2();
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;package me.codeboy.test.proxy;
+
+/**
+ * 任务
+ * Created by yuedong.li on 2019-05-27
+ */
+public class Task implements ITask {
+    @Override
+    public void step1() {
+        System.out.println(&quot;step1 print task!!&quot;);
+    }
+
+    @Override
+    public void step2() {
+        System.out.println(&quot;step2 print task!!&quot;);
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;普通模式&quot;&gt;普通模式&lt;/h3&gt;
+
+&lt;p&gt;该模式下，创建 &lt;code&gt;Task&lt;/code&gt; 实例后，直接调用对应方法&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.proxy;
+
+/**
+ * 普通模式
+ * Created by yuedong.li on 2019-05-27
+ */
+public class CommonMain {
+    public static void main(String[] args) {
+        ITask task = new Task();
+        task.step1();
+        task.step2();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;运行结果&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;step1 print task!!
+step2 print task!!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;静态代理&quot;&gt;静态代理&lt;/h3&gt;
+
+&lt;p&gt;由一个代理类来进行实际方法调用&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.proxy;
+
+/**
+ * 任务静态代理
+ * Created by yuedong.li on 2019-05-27
+ */
+public class TaskStaticProxy implements ITask {
+    private Task task;
+
+    public TaskStaticProxy(Task task) {
+        this.task = task;
+    }
+
+    @Override
+    public void step1() {
+        System.out.println(&quot;-----&amp;gt; before step1&quot;);
+        task.step1();
+        System.out.println(&quot;-----&amp;gt; after step1&quot;);
+    }
+
+    @Override
+    public void step2() {
+        System.out.println(&quot;-----&amp;gt; before step2&quot;);
+        task.step2();
+        System.out.println(&quot;-----&amp;gt; after step2&quot;);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.proxy;
+
+/**
+ * 静态代理
+ * Created by yuedong.li on 2019-05-27
+ */
+public class StaticProxyMain {
+    public static void main(String[] args) {
+        ITask task = new TaskStaticProxy(new Task());
+        task.step1();
+        task.step2();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;运行结果&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;—–&amp;gt; before step1
+step1 print task!!
+—–&amp;gt; after step1
+—–&amp;gt; before step2
+step2 print task!!
+—–&amp;gt; after step2&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;动态代理&quot;&gt;动态代理&lt;/h3&gt;
+
+&lt;p&gt;由Proxy创建一个代理 &lt;code&gt;ITask&lt;/code&gt; 接口的代理来进行实际方法调用&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.proxy;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
+/**
+ * 任务动态代理
+ * Created by yuedong.li on 2019-05-27
+ */
+public class TaskDynamicProxy implements InvocationHandler {
+    private Task task;
+
+    public TaskDynamicProxy(Task task) {
+        this.task = task;
+    }
+
+    /**
+     * 创建动态代理
+     */
+    public ITask getProxy() {
+        return (ITask) Proxy.newProxyInstance(task.getClass().getClassLoader(), task.getClass().getInterfaces(), this);
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        System.out.println(&quot;-----&amp;gt; before &quot; + method.getName());
+        Object ret = method.invoke(task, args); //执行真正的方法
+        System.out.println(&quot;-----&amp;gt; after &quot; + method.getName());
+        return ret;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.proxy;
+
+/**
+ * 动态代理
+ * Created by yuedong.li on 2019-05-27
+ */
+public class DynamicProxyMain {
+    public static void main(String[] args) {
+        ITask task = new TaskDynamicProxy(new Task()).getProxy();
+        task.step1();
+        task.step2();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;运行结果&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;—–&amp;gt; before step1
+step1 print task!!
+—–&amp;gt; after step1
+—–&amp;gt; before step2
+step2 print task!!
+—–&amp;gt; after step2&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;cglib代理&quot;&gt;cglib代理&lt;/h3&gt;
+
+&lt;p&gt;创建一个代理 &lt;code&gt;Task&lt;/code&gt; 类的代理类来进行实际方法调用&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.proxy;
+
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
+
+import java.lang.reflect.Method;
+
+/**
+ * cglib代理
+ * Created by yuedong.li on 2019-05-27
+ */
+public class TaskCglibProxy&amp;lt;T&amp;gt; implements MethodInterceptor {
+
+    /**
+     * 获取代理对象
+     *
+     * @param object 对象
+     * @return proxy 对象
+     */
+    public T getProxy(T object) {
+        Enhancer enhancer = new Enhancer(); //创建Enhancer来生成动态代理类
+        enhancer.setSuperclass(object.getClass());
+        enhancer.setCallback(this);  //设置回调，之后所有的方法调用将会执行intercept方法
+        return (T) enhancer.create();
+    }
+
+    /**
+     * 代理对象的执行会回调到此方法中
+     */
+    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+        System.out.println(&quot;-----&amp;gt; before &quot; + method.getName());
+        Object result = proxy.invokeSuper(obj, args); //调用业务类的方法
+        System.out.println(&quot;-----&amp;gt; after &quot; + method.getName());
+        return result;
+    } 
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.proxy;
+
+/**
+ * cglib代理
+ * Created by yuedong.li on 2019-05-27
+ */
+public class CglibProxyMain {
+    public static void main(String[] args) {
+        ITask task = new TaskCglibProxy&amp;lt;ITask&amp;gt;().getProxy(new Task());
+        task.step1();
+        task.step2();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;运行结果&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;—–&amp;gt; before step1
+step1 print task!!
+—–&amp;gt; after step1
+—–&amp;gt; before step2
+step2 print task!!
+—–&amp;gt; after step2&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;小结&quot;&gt;小结&lt;/h3&gt;
+
+&lt;p&gt;根据上面的例子，简单的总结一下几种代理模式的使用场景和特点：&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;类型&lt;/th&gt;
+      &lt;th&gt;场景&lt;/th&gt;
+      &lt;th&gt;特点&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;静态代理&lt;/td&gt;
+      &lt;td&gt;代理比较简单的类&lt;/td&gt;
+      &lt;td&gt;代理多个方法后会比较繁琐，可能会有很多重复代码&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;动态代理&lt;/td&gt;
+      &lt;td&gt;代理接口&lt;/td&gt;
+      &lt;td&gt;只能代理接口，不能代理实现类&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;cglib代理&lt;/td&gt;
+      &lt;td&gt;代理实现类&lt;/td&gt;
+      &lt;td&gt;和动态代理互补&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
+
+  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>Mon, 27 May 2019 00:00:00 +0800</pubDate>
+        <link>https://https://www.codeboy.me/2019/05/27/java-proxy/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2019/05/27/java-proxy/</guid>
+        
+        <category>java</category>
         
         
       </item>
@@ -992,58 +1306,6 @@ app://page.cb/myPage?downgrade=true&amp;amp;id=123456
         <guid isPermaLink="true">https://https://www.codeboy.me/2017/10/01/regex-trick/</guid>
         
         <category>trick</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Chrome内容保存插件 - Just One File</title>
-        <description>&lt;p&gt;随着互联网的发展，当前我们可以方便的在网站中找到各种各样的资源，尽管现在网络已经无处不在，但是有些时候我们仍然需要保存一些信息到本地，于是开发一个Chrome插件的想法产生了。&lt;/p&gt;
-
-&lt;h2 id=&quot;初衷&quot;&gt;初衷&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;所见即所存&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;目前很多网站都是动态产生的，而浏览器保存的是网页源码， 看到的和保存的内容是可能不一样的，特别是在没有网络的情况下打开。&lt;/p&gt;
-
-&lt;/blockquote&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;去除无用信息&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;很多网站页面中充满了广告等不相关的元素，这些元素影响了信息的查看，去除了后将提升阅读体验。&lt;/p&gt;
-
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;分析&quot;&gt;分析&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;针对第一个问题，可以直接保存浏览器当前的dom树，这样就可以达到所见即所存了。&lt;/li&gt;
-  &lt;li&gt;针对第二个问题，目前像chrome等浏览器已经可以非常方便的操作dom中的元素了，删除、增加、修改都可以快速的完成。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;实施&quot;&gt;实施&lt;/h2&gt;
-&lt;p&gt;有了思路后，就可以根据Chrome插件开发的步骤开始制作插件了，考虑到动画等动态性的内容并不是那么的重要，所以在保存页面的时候，去除了所有引入的js和js代码，这样做的另一个好处是减少文件大小。&lt;/p&gt;
-
-&lt;h2 id=&quot;后续&quot;&gt;后续&lt;/h2&gt;
-&lt;ul&gt;
-  &lt;li&gt;目前尚未对引入的css进行合并，直接注入到页面中，可以完全不依赖网络，下个版本改进。&lt;/li&gt;
-  &lt;li&gt;保留一些动画等元素。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;下载&quot;&gt;下载&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&quot;https://chrome.google.com/webstore/detail/just-one-file/opofajlgipfljhhlfhcpmhhjckjaacia?hl=zh-CN&amp;amp;authuser=1&quot;&gt;https://chrome.google.com/webstore/detail/just-one-file/opofajlgipfljhhlfhcpmhhjckjaacia?hl=zh-CN&amp;amp;authuser=1&lt;/a&gt;&lt;/p&gt;
-</description>
-        <pubDate>Tue, 30 May 2017 00:00:00 +0800</pubDate>
-        <link>https://https://www.codeboy.me/2017/05/30/chrome-plugin-for-save/</link>
-        <guid isPermaLink="true">https://https://www.codeboy.me/2017/05/30/chrome-plugin-for-save/</guid>
-        
-        <category>web</category>
         
         
       </item>

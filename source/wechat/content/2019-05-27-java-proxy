@@ -2,7 +2,7 @@
 layout: null
 ---
 {% for post in site.posts %}
-    {% if forloop.rindex == 64  %}
+    {% if forloop.rindex == 63  %}
          {{ post.content }}
     {% endif %}
 {% endfor %}
