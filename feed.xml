@@ -5,8 +5,8 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 03 Jun 2019 11:06:07 +0800</pubDate>
-    <lastBuildDate>Mon, 03 Jun 2019 11:06:07 +0800</lastBuildDate>
+    <pubDate>Mon, 03 Jun 2019 11:41:31 +0800</pubDate>
+    <lastBuildDate>Mon, 03 Jun 2019 11:41:31 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -156,10 +156,9 @@ public class CommonMain {
 
 &lt;p&gt;&lt;strong&gt;运行结果&lt;/strong&gt;:&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;step1 print task!!
-step2 print task!!&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;step1 print task!!
+step2 print task!!
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&quot;静态代理&quot;&gt;静态代理&lt;/h3&gt;
 
@@ -211,14 +210,13 @@ public class StaticProxyMain {
 
 &lt;p&gt;&lt;strong&gt;运行结果&lt;/strong&gt;:&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;—–&amp;gt; before step1
-step1 print task!!
-—–&amp;gt; after step1
-—–&amp;gt; before step2
-step2 print task!!
-—–&amp;gt; after step2&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;&amp;gt; -----&amp;gt; before step1
+&amp;gt; step1 print task!!
+&amp;gt; -----&amp;gt; after step1
+&amp;gt; -----&amp;gt; before step2
+&amp;gt; step2 print task!!
+&amp;gt; -----&amp;gt; after step2
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&quot;动态代理&quot;&gt;动态代理&lt;/h3&gt;
 
@@ -275,14 +273,13 @@ public class DynamicProxyMain {
 
 &lt;p&gt;&lt;strong&gt;运行结果&lt;/strong&gt;:&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;—–&amp;gt; before step1
+&lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;-----&amp;gt; before step1
 step1 print task!!
-—–&amp;gt; after step1
-—–&amp;gt; before step2
+-----&amp;gt; after step1
+-----&amp;gt; before step2
 step2 print task!!
-—–&amp;gt; after step2&lt;/p&gt;
-&lt;/blockquote&gt;
+-----&amp;gt; after step2
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&quot;cglib代理&quot;&gt;cglib代理&lt;/h3&gt;
 
@@ -344,14 +341,13 @@ public class CglibProxyMain {
 
 &lt;p&gt;&lt;strong&gt;运行结果&lt;/strong&gt;:&lt;/p&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;—–&amp;gt; before step1
+&lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;-----&amp;gt; before step1
 step1 print task!!
-—–&amp;gt; after step1
-—–&amp;gt; before step2
+-----&amp;gt; after step1
+-----&amp;gt; before step2
 step2 print task!!
-—–&amp;gt; after step2&lt;/p&gt;
-&lt;/blockquote&gt;
+-----&amp;gt; after step2
+&lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&quot;小结&quot;&gt;小结&lt;/h3&gt;
 

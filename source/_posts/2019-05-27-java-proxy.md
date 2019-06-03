@@ -83,8 +83,10 @@ public class CommonMain {
 
 **运行结果**:
 
->step1 print task!!
->step2 print task!!
+```nohighlight
+step1 print task!!
+step2 print task!!
+```
 
 ### 静态代理
 
@@ -138,12 +140,14 @@ public class StaticProxyMain {
 
 **运行结果**:
 
+```nohighlight
 > -----> before step1
 > step1 print task!!
 > -----> after step1
 > -----> before step2
 > step2 print task!!
 > -----> after step2
+```
 
 
 ### 动态代理
@@ -203,12 +207,14 @@ public class DynamicProxyMain {
 
 **运行结果**:
 
-> -----> before step1
-> step1 print task!!
-> -----> after step1
-> -----> before step2
-> step2 print task!!
-> -----> after step2
+```nohighlight
+-----> before step1
+step1 print task!!
+-----> after step1
+-----> before step2
+step2 print task!!
+-----> after step2
+```
 
 
 ### cglib代理
@@ -273,12 +279,15 @@ public class CglibProxyMain {
 
 **运行结果**:
 
-> -----> before step1
-> step1 print task!!
-> -----> after step1
-> -----> before step2
-> step2 print task!!
-> -----> after step2
+```nohighlight
+-----> before step1
+step1 print task!!
+-----> after step1
+-----> before step2
+step2 print task!!
+-----> after step2
+```
+
 
 ### 小结
 
