@@ -1,5 +1,5 @@
 ---
-"=12=".split("=")  //示例7layout: post
+layout: post
 comments: true
 title: 'Java String split'
 date: '2019-06-05'
