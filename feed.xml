@@ -5,9 +5,174 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 03 Jun 2019 11:41:31 +0800</pubDate>
-    <lastBuildDate>Mon, 03 Jun 2019 11:41:31 +0800</lastBuildDate>
+    <pubDate>Wed, 05 Jun 2019 10:54:38 +0800</pubDate>
+    <lastBuildDate>Wed, 05 Jun 2019 10:54:38 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title></title>
+        <description>&lt;p&gt;Java中分割字符串经常会使用到 &lt;code&gt;String.split&lt;/code&gt; ，本文中针对单字符分割的场景进行简单讨论，首先看几个例子:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;&quot;&quot;.split(&quot;=&quot;)      //示例1
+&quot;=&quot;.split(&quot;=&quot;)     //示例2
+&quot;==&quot;.split(&quot;=&quot;)    //示例3
+&quot;=&quot;.split(&quot;=&quot;, 1)  //示例4
+&quot;=&quot;.split(&quot;=&quot;, 2)  //示例5
+&quot;=&quot;.split(&quot;=&quot;, 4)  //示例6
+&quot;=12=&quot;.split(&quot;=&quot;)  //示例7
+&quot;&quot;.split(&quot;=&quot;, 1)   //示例8
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以上几个示例分割后的数组长度是多少呢？在本文小结中有结果，可以对比下是否和想象中是否一致，有出入的话可以一起来看下源码。&lt;/p&gt;
+
+&lt;h3 id=&quot;源码解析&quot;&gt;源码解析&lt;/h3&gt;
+
+&lt;p&gt;基于jdk8来分析下 &lt;code&gt;String.split&lt;/code&gt; 方法，&lt;code&gt;String.split&lt;/code&gt;  有2个方法，分别如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;public String[] split(String regex)   //方法1
+public String[] split(String regex, int limit) // 方法2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中方法1直接调用方法2，传入&lt;code&gt;limit=0&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;public String[] split(String regex) {
+        return split(regex, 0);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面具体看一下方法2的实现&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;public String[] split(String regex, int limit) {
+  // 针对单字符分割，使用fastpath，没有使用正则java.util.regex.Pattern.split方法
+  /* fastpath if the regex is a
+    (1)one-char String and this character is not one of the
+            RegEx's meta characters &quot;.$|()[{^?*+\\&quot;, or
+    (2)two-char String and the first char is the backslash and
+            the second is not the ascii digit or ascii letter.
+  */
+  char ch = 0;
+  if (((regex.value.length == 1 &amp;amp;&amp;amp;
+        &quot;.$|()[{^?*+\\&quot;.indexOf(ch = regex.charAt(0)) == -1) ||
+       (regex.length() == 2 &amp;amp;&amp;amp;
+        regex.charAt(0) == '\\' &amp;amp;&amp;amp;
+        (((ch = regex.charAt(1))-'0')|('9'-ch)) &amp;lt; 0 &amp;amp;&amp;amp;
+        ((ch-'a')|('z'-ch)) &amp;lt; 0 &amp;amp;&amp;amp;
+        ((ch-'A')|('Z'-ch)) &amp;lt; 0)) &amp;amp;&amp;amp;
+      (ch &amp;lt; Character.MIN_HIGH_SURROGATE ||
+       ch &amp;gt; Character.MAX_LOW_SURROGATE))
+  {
+    int off = 0;
+    int next = 0;
+    // limit为0表示没有显示最大分割个数
+    boolean limited = limit &amp;gt; 0;
+    ArrayList&amp;lt;String&amp;gt; list = new ArrayList&amp;lt;&amp;gt;();
+    while ((next = indexOf(ch, off)) != -1) {
+      // 长度限制为1时，该条件不满足，直接进入else中，也即示例4、8的操作
+      if (!limited || list.size() &amp;lt; limit - 1) {
+        list.add(substring(off, next));
+        off = next + 1;
+      } else {    // last one
+        //assert (list.size() == limit - 1);
+        list.add(substring(off, value.length));
+        off = value.length;
+        break;
+      }
+    }
+    // 示例1会进入的逻辑，因为示例1在上面的while中会直接跳出，off时默认值0
+    // If no match was found, return this
+    if (off == 0)
+      return new String[]{this};
+
+    //将最后一个添加进来
+    // Add remaining segment
+    if (!limited || list.size() &amp;lt; limit)
+      list.add(substring(off, value.length));
+
+    // 针对limit=0的场景，会循环去除最后一个空字符串，示例2、3会触发该条件
+    // 为什么会针对limit=0的这种场景去除空字符串？感觉不能理解。
+    // Construct result
+    int resultSize = list.size();
+    if (limit == 0) {
+      while (resultSize &amp;gt; 0 &amp;amp;&amp;amp; list.get(resultSize - 1).length() == 0) {
+        resultSize--;
+      }
+    }
+    String[] result = new String[resultSize];
+    return list.subList(0, resultSize).toArray(result);
+  }
+  //多字符串分割本文不讨论
+  return Pattern.compile(regex).split(this, limit);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;小结&quot;&gt;小结&lt;/h3&gt;
+
+&lt;p&gt;根据上面的例子, 我们可以看出，在不限定长度的情况下，split分割会去除数据末尾的所有空串。以上几种场景的结果如下:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;类型&lt;/th&gt;
+      &lt;th&gt;结果&lt;/th&gt;
+      &lt;th&gt;长度&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;”“.split(“=”)  //示例1&lt;/td&gt;
+      &lt;td&gt;[””]&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;”=”.split(“=”)  //示例2&lt;/td&gt;
+      &lt;td&gt;[]&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;”==”.split(“=”)  //示例3&lt;/td&gt;
+      &lt;td&gt;[]&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;”=”.split(“=”, 1)  //示例4&lt;/td&gt;
+      &lt;td&gt;[”=”]&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;”=”.split(“=”, 2)  //示例5&lt;/td&gt;
+      &lt;td&gt;[””, “”]&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;”=”.split(“=”, 4)  //示例6&lt;/td&gt;
+      &lt;td&gt;[””, “”]&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;“=12=”.split(“=”)  //示例7&lt;/td&gt;
+      &lt;td&gt;[””, “12”]&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;”“.split(“=”, 1)  //示例8&lt;/td&gt;
+      &lt;td&gt;[””]&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
+
+  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>Wed, 05 Jun 2019 10:54:38 +0800</pubDate>
+        <link>https://https://www.codeboy.me/2019/06/05/2019-06-05-java-string-spilt/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2019/06/05/2019-06-05-java-string-spilt/</guid>
+        
+        
+      </item>
     
       <item>
         <title>同域代理</title>
@@ -1224,84 +1389,6 @@ done
         <guid isPermaLink="true">https://https://www.codeboy.me/2017/11/27/command-jq/</guid>
         
         <category>linux</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>正则表达式之非获取匹配</title>
-        <description>&lt;p&gt;正则表达式是平时开发中经常用到的技巧，大部分时候我们需要的是判断字符串有没有含有固定的模式串，但是某些场景下需要使用非获取匹配，下面根据一种常见的情景:&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;匹配所有含有 &lt;code&gt;app://page.cb/myPage?id=xxxx&lt;/code&gt;的地址，但是排除参数中携带&lt;code&gt;downgrade=true&lt;/code&gt;的地址。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;具体用几个例子说明一下:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;原始地址: app://page.cb/myPage
-匹配结果: no， id不存在
-
-原始地址: app://page.cb/myPage?id=123456
-匹配结果: yes
-
-原始地址: app://page.cb/myPage?param=123456
-匹配结果: no, id不存在
-
-原始地址: app://page.cb/myPage?id=123456&amp;amp;downgrade=true
-匹配结果: no, downgrade为true
-
-原始地址: app://page.cb/myPage?id=123456&amp;amp;downgrade=false
-匹配结果: yes
-
-原始地址: app://page.cb/myPage?downgrade=false&amp;amp;id=123456
-匹配结果: yes
-
-原始地址: app://page.cb/myPage?downgrade=true&amp;amp;id=123456
-匹配结果: no, downgrade为true
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;匹配所有不含&lt;code&gt;downgrade=true&lt;/code&gt;的&lt;code&gt;app://page.cb/myPage?id=xxxx&lt;/code&gt;地址，这里可以使用正则表达式的非获取匹配，下面介绍非获取匹配的两种:&lt;/p&gt;
-
-&lt;h4 id=&quot;pattern&quot;&gt;(?!pattern)&lt;/h4&gt;
-
-&lt;p&gt;非获取匹配，正向否定预查，在任何不匹配pattern的字符串开始处匹配查找字符串，该匹配不需要获取供以后使用。例如“Windows(?!95|98|NT|2000)”能匹配“Windows3.1”中的“Windows”，但不能匹配“Windows2000”中的“Windows”。&lt;/p&gt;
-
-&lt;h4 id=&quot;pattern-1&quot;&gt;(?&amp;lt;!pattern)&lt;/h4&gt;
-
-&lt;p&gt;非获取匹配，反向否定预查，与正向否定预查类似，只是方向相反。例如“(?&amp;lt;!95|98|NT|2000)Windows”能匹配“3.1Windows”中的“Windows”，但不能匹配“2000Windows”中的“Windows”。&lt;/p&gt;
-
-&lt;p&gt;根据非获取匹配的写法， 我们采用了正向否定查询，正则表达式如下：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;app:\/\/page.cb\/myPage\?(((?!downgrade=true).)*id=\d+((?!downgrade=true).)*)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;对其中的反向预查部分进行分割如下：&lt;/p&gt;
-
-&lt;p&gt;&lt;span style=&quot;background-color:#B5EF79; font-weight: 700;&quot;&gt;app:\/\/page.cb\/myPage&lt;/span&gt;&lt;span style=&quot;background-color:#FDBE73; font-weight: 700;&quot;&gt;\?&lt;/span&gt;(&lt;span style=&quot;background-color:#77C5FD; font-weight: 700;&quot;&gt;((?!downgrade=true).)*&lt;/span&gt;&lt;span style=&quot;background-color:#B5EF79&quot;&gt;id=\d+&lt;/span&gt;&lt;span style=&quot;background-color:#77C5FD; font-weight: 700;&quot;&gt;((?!downgrade=true).)*&lt;/span&gt;)&lt;/p&gt;
-
-&lt;p&gt;可以在&lt;a href=&quot;https://regex101.com/&quot;&gt;https://regex101.com&lt;/a&gt; 中尝试匹配。&lt;/p&gt;
-
-&lt;p&gt;分析以上正则表达式，即 &lt;code&gt;id=\d+&lt;/code&gt; 的前后都不能含有 &lt;code&gt;downgrade=true&lt;/code&gt; ，其中 &lt;code&gt;((?!downgrade=true).)*&lt;/code&gt; 从里到外看，&lt;code&gt;(?!downgrade=true)&lt;/code&gt; 代表不含该字符串，然后.用于匹配id参数前后的其他参数,此处的.不能防止在 &lt;code&gt;(?!downgrade=true)&lt;/code&gt; 的前面，会造成如果第一个参数是 &lt;code&gt;downgrade=true&lt;/code&gt; 时被遗漏掉。&lt;/p&gt;
-
-&lt;p&gt;如果需要url中参数部分，其中$1即为参数部分。&lt;/p&gt;
-
-&lt;p&gt;测试case集合：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;app://page.cb/myPage
-app://page.cb/myPage?id=123456
-app://page.cb/myPage?param=123456
-app://page.cb/myPage?id=123456&amp;amp;downgrade=true
-app://page.cb/myPage?id=123456&amp;amp;downgrade=false
-app://page.cb/myPage?downgrade=false&amp;amp;id=123456
-app://page.cb/myPage?downgrade=true&amp;amp;id=123456
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;由于各种语言对正则表达式支持程度不同，例如非获取匹配中的反向否定预查在javascript中不支持，但是在php,python,java中是支持的，正向否定预查在javascript,php,python,java中都支持，所以使用前一定要注意，同事需要考虑正则表达式的性能问题。&lt;/p&gt;
-&lt;/blockquote&gt;
-</description>
-        <pubDate>Sun, 01 Oct 2017 00:00:00 +0800</pubDate>
-        <link>https://https://www.codeboy.me/2017/10/01/regex-trick/</link>
-        <guid isPermaLink="true">https://https://www.codeboy.me/2017/10/01/regex-trick/</guid>
-        
-        <category>trick</category>
         
         
       </item>

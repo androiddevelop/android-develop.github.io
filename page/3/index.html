@@ -140,6 +140,25 @@
     		<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
     			
 <div class="post-preview">
+    <a href="/2015/10/07/ios-certification/">
+        <h2 class="post-title">            IOS8与9配置企业证书签名的应用
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            ios8出来的时候，使用企业证书打出的包不能够下载，后来网上提供了一定的解决，在plist中的bundle id后面加上ios8fix，如下:
+
+ &lt;key&gt;bundle-identifier&lt;/key&gt;
+ &lt;string&gt;com.ahhailan.ios8fix&lt;/string&gt;
+ &lt;key&gt;bundle-version&lt;/...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on October 7, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2015/09/27/ios-uiwebview-optimization/">
         <h2 class="post-title">            IOS UIWebView 优化
         </h2>
@@ -492,25 +511,6 @@ This Handler class should be static or leaks might occur
 造成这个警告的原因是handler持有外层类(Activity等)的引用,同时消息队列中的Message对handler也持有引用，这样就造成一些资源不能回，从而可能造成内存泄露。
 
 解决这个警...
-        </div>
-    </a>
-    <p class="post-meta">Posted by Codeboy on June 28, 2015</p>
-        
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2015/06/28/android-context/">
-        <h2 class="post-title">            Context, What Context?
-        </h2>
-        
-        <div class="post-content-preview">
-        
-            Android中有各种各样的context，不同context有不同的用途，不仅仅生命周期不同，同时能够实现的操作也不相同，下面看一篇外国朋友总结的文章:
-
-Context is probably the most used element in Android application, it may also be the most misused.
-
-Context objects ar...
         </div>
     </a>
     <p class="post-meta">Posted by Codeboy on June 28, 2015</p>
