@@ -5,8 +5,8 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 05 Jun 2019 10:57:53 +0800</pubDate>
-    <lastBuildDate>Wed, 05 Jun 2019 10:57:53 +0800</lastBuildDate>
+    <pubDate>Wed, 05 Jun 2019 10:58:19 +0800</pubDate>
+    <lastBuildDate>Wed, 05 Jun 2019 10:58:19 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -23,7 +23,7 @@
 &quot;&quot;.split(&quot;=&quot;, 1)   //示例8
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;以上几个示例分割后的数组长度是多少呢？在本文小结中有结果，可以对比下是否和想象中是否一致，有出入的话可以一起来看下源码。&lt;/p&gt;
+&lt;p&gt;以上几个示例分割后的数组长度是多少呢？在本文小结中有结果，可以对比下是否和想象中的一致，有出入的话可以一起来看下源码。&lt;/p&gt;
 
 &lt;h3 id=&quot;源码解析&quot;&gt;源码解析&lt;/h3&gt;
 
