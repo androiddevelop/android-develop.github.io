@@ -5,12 +5,12 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 05 Jun 2019 10:55:00 +0800</pubDate>
-    <lastBuildDate>Wed, 05 Jun 2019 10:55:00 +0800</lastBuildDate>
+    <pubDate>Wed, 05 Jun 2019 10:57:53 +0800</pubDate>
+    <lastBuildDate>Wed, 05 Jun 2019 10:57:53 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
-        <title>Java String split</title>
+        <title>Java字符串单字符分割</title>
         <description>&lt;p&gt;Java中分割字符串经常会使用到 &lt;code&gt;String.split&lt;/code&gt; ，本文中针对单字符分割的场景进行简单讨论，首先看几个例子:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;&quot;&quot;.split(&quot;=&quot;)      //示例1
