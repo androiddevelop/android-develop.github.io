@@ -34,6 +34,8 @@
     
 
     
+
+    
          <p>随着 <code>Intellig IDEA</code> 的流行，越来越多的Java程序员开始用上这个更加强大的编译器。 <code>Intellig IDEA</code> 不仅可以智能联想，还集成了很多的工具，例如 <code>gradle</code>.</p>
 
 <p>几个月来，<code>Intellig IDEA</code> 依赖同步一直困扰这我，最开始使用<code>Intellig IDEA</code> 的时候并没有出现任何问题，即便有时候依赖不能同步，重新启动<code>Intellig IDEA</code> 或者在终端下执行<code>gradle --refresh-dependencies</code> 来进行更新依赖。 但是随着<code>Intellig IDEA</code> 的更新以及gradle等的更新，后面新建的项目在同步上一直存在问题，下面将依赖同步的问题以及web开发中遇到的一个中文乱码问题提供解决方案。</p>

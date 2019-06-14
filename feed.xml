@@ -5,9 +5,320 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 05 Jun 2019 10:58:19 +0800</pubDate>
-    <lastBuildDate>Wed, 05 Jun 2019 10:58:19 +0800</lastBuildDate>
+    <pubDate>Fri, 14 Jun 2019 11:07:01 +0800</pubDate>
+    <lastBuildDate>Fri, 14 Jun 2019 11:07:01 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Java源码在线编译执行</title>
+        <description>&lt;p&gt;在告警平台中，经常会用到规则配置，一些简单的规则配置可以使用基本表达式来完成，对于一些复杂的规则，很难进行表达或者完全覆盖，如果告警规则等由一些具备编程能力的开发同学来完成，是否可以考虑规则直接使用源码来描述，动态执行呢？这样可以在系统不重新部署的情况下加入新的规则配置。&lt;/p&gt;
+
+&lt;p&gt;下面我们根据 &lt;code&gt;JDK6&lt;/code&gt; 中新增的 &lt;code&gt;JavaCompiler&lt;/code&gt; ，来实现源码线上编译，完成简单类的线上运行，并获取对应的结果。&lt;/p&gt;
+
+&lt;h3 id=&quot;约定&quot;&gt;约定&lt;/h3&gt;
+
+&lt;p&gt;约定测试类需要实现无参 &lt;code&gt;execute&lt;/code&gt; 方法，在编译成功后，使用反射的方法调用该方法。下面是我们用来测试的一个代码:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.compile;
+
+/**
+ * 测试class
+ * Created by yuedong.li on 2019-06-14
+ */
+public class FooClass {
+
+    public String execute() {
+        System.out.println(&quot;invoke method&quot;);
+        return &quot;SUCCESS&quot;;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;打印 &lt;code&gt;invoke method&lt;/code&gt; , 并返回对应 &lt;code&gt;SUCCESS&lt;/code&gt; 结果。&lt;/p&gt;
+
+&lt;h3 id=&quot;准备&quot;&gt;准备&lt;/h3&gt;
+
+&lt;p&gt;编译java代码需要指定编译参数和classpath，使用 &lt;code&gt;JavaCompiler&lt;/code&gt; 也是一样的，需要把执行测试类的一些基础依赖添加到编译环境中来，针对本文中的示例，使用基本配置即可，作者测试时使用的配置如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;  编译参数:  -target 1.8
+classpath: 工程中的其他的class作为classpath
+  输出目录: 工程根目录下的CodeTest目录
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;实施&quot;&gt;实施&lt;/h3&gt;
+
+&lt;h5 id=&quot;1-定义-javafileobject&quot;&gt;1. 定义 &lt;code&gt;JavaFileObject&lt;/code&gt;&lt;/h5&gt;
+
+&lt;p&gt;用于保存源码，jdk中提供了 &lt;code&gt;SimpleJavaFileObject&lt;/code&gt; , 可以在该类的基础上简单修改即可。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.compile;
+
+import javax.tools.SimpleJavaFileObject;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.net.URI;
+
+/**
+ * java file object
+ * Created by yuedong.li on 2019-06-13
+ */
+public class MyJavaFileObject extends SimpleJavaFileObject {
+    private String source;
+
+    public MyJavaFileObject(String name, String source) {
+        super(URI.create(&quot;String:///&quot; + name + Kind.SOURCE.extension), Kind.SOURCE);
+        this.source = source;
+    }
+
+    @Override
+    public CharSequence getCharContent(boolean ignoreEncodingErrors) {
+        if (source == null) {
+            throw new IllegalArgumentException(&quot;source == null&quot;);
+        }
+        return source;
+    }
+
+    @Override
+    public OutputStream openOutputStream() {
+        return new ByteArrayOutputStream();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&quot;2-定义classloader&quot;&gt;2. 定义classloader&lt;/h5&gt;
+
+&lt;p&gt;加载字节码，为什么定义呢，因为 &lt;code&gt;defineClass&lt;/code&gt; 是 &lt;code&gt;protected&lt;/code&gt; 修饰的, 实际上是做一个中转。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.compile;
+
+/**
+ * classLoader，在当前classLoader的基础上，load进来自己载入的类
+ * Created by yuedong.li on 2019-06-13
+ */
+public class MyClassLoader extends ClassLoader {
+
+    public MyClassLoader() {
+        super(MyClassLoader.class.getClassLoader());
+    }
+
+    Class&amp;lt;?&amp;gt; getTestClass(byte[] classBytes) {
+        return defineClass(null, classBytes, 0, classBytes.length);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&quot;3-coderuntime&quot;&gt;3. CodeRuntime&lt;/h5&gt;
+
+&lt;p&gt;源码执行器，进行的操作如下:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;源码去除package头部&lt;/li&gt;
+  &lt;li&gt;获取className&lt;/li&gt;
+  &lt;li&gt;为生成的class指定目录&lt;/li&gt;
+  &lt;li&gt;编译源码，生成字节码&lt;/li&gt;
+  &lt;li&gt;加载字节码，反射调用execute方法&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.compile;
+
+import javax.tools.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * code runtime
+ * Created by yuedong.li on 2019/06/14.
+ */
+public class CodeRuntime {
+    private static final Pattern CLASS_PATTERN = Pattern.compile(&quot;class\\s+([$_a-zA-Z][$_a-zA-Z0-9]*)\\s*&quot;);
+    private static final List&amp;lt;String&amp;gt; OPTIONS = new ArrayList&amp;lt;&amp;gt;(); // 编译参数
+    private static final List&amp;lt;File&amp;gt; CLASSPATH = new ArrayList&amp;lt;&amp;gt;(); // classpath
+    private static final String PROJECT_DIR = System.getProperty(&quot;user.dir&quot;); // 工程目录
+    private static final String TMP_DIR = &quot;CodeTest&quot;; // 存储编译产物
+
+    static {
+        OPTIONS.add(&quot;-target&quot;);
+        OPTIONS.add(&quot;1.8&quot;);
+        File classRootFile = new File(PROJECT_DIR, TMP_DIR);
+        if (!classRootFile.exists()) {
+            classRootFile.mkdir();
+        }
+        //根据实际情况添加对应的环境变量，class或者jar都可以
+        CLASSPATH.add(new File(classRootFile, &quot;build/classes/main&quot;));
+    }
+
+    /**
+     * 执行代码
+     *
+     * @param code 源码
+     * @return 返回结果
+     * @throws IOException io异常
+     */
+    public static String run(String code) throws IOException {
+        if (code == null || code.length() == 0) {
+            return &quot;代码为空&quot;;
+        }
+        code = code.trim();
+        //去除package
+        if (code.startsWith(&quot;package&quot;)) {
+            int index = code.indexOf(&quot;\n&quot;);
+            if (index != -1) {
+                code = code.substring(index + 1);
+            }
+        }
+
+        //找出入口类名
+        Matcher matcher = CLASS_PATTERN.matcher(code);
+        String clsName;
+        if (matcher.find()) {
+            clsName = matcher.group(1);
+        } else {
+            throw new IllegalArgumentException(&quot;No such class name in &quot; + code);
+        }
+
+        //在对应代码生成目录中以时间戳为目录名建立目录
+        File classRootFile = new File(PROJECT_DIR, TMP_DIR);
+        final String time = String.valueOf(System.currentTimeMillis());
+        File parentDir = new File(classRootFile, time);
+        if (!parentDir.exists()) {
+            parentDir.mkdir();
+        }
+
+        File classFile = new File(parentDir, clsName + &quot;.class&quot;);
+        File[] outputs = new File[]{parentDir};
+
+        //开始进行编译
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        DiagnosticCollector&amp;lt;JavaFileObject&amp;gt; collector = new DiagnosticCollector&amp;lt;&amp;gt;();
+        StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
+        fileManager.setLocation(StandardLocation.CLASS_PATH, CLASSPATH);
+        fileManager.setLocation(StandardLocation.CLASS_OUTPUT, Arrays.asList(outputs));
+
+        JavaFileObject javaFileObject = new MyJavaFileObject(clsName, code);
+        Boolean result = compiler.getTask(null, fileManager, collector, OPTIONS, null, Arrays.asList(javaFileObject)).call();
+      
+        //编译结果，如果有错误，返回对应错误信息
+        if (!result) {
+            List list = collector.getDiagnostics();
+            StringBuilder info = new StringBuilder();
+            for (Object object : list) {
+                Diagnostic d = (Diagnostic) object;
+                String line = d.getMessage(Locale.ENGLISH);
+                info.append(line).append(&quot;\n&quot;);
+            }
+            String infoStr = info.toString();
+            if (infoStr.endsWith(&quot;\n&quot;)) {
+                infoStr = infoStr.substring(0, infoStr.length() - 1);
+            }
+            return &quot;编译失败:&quot; + infoStr;
+        }
+
+        //读取字节码，使用类加载器加载
+        byte[] classBytes = getBytesFromFile(classFile);
+        MyClassLoader classloader = new MyClassLoader();
+        try {
+            Class clazz = classloader.getTestClass(classBytes);
+            Object instance = clazz.newInstance();
+
+            Method method = clazz.getMethod(&quot;execute&quot;);
+            return method.invoke(instance).toString();
+        } catch (NoSuchMethodException e) {
+            return &quot;请实现execute无参方法&quot;;
+        } catch (Exception e2) {
+            return e2.getMessage();
+        }
+    }
+
+    /**
+     * 文件转化为字节数组
+     *
+     * @param file 文件
+     * @return 字节数组
+     */
+    private static byte[] getBytesFromFile(File file) throws IOException {
+        if (file == null) {
+            return null;
+        }
+        FileInputStream in = new FileInputStream(file);
+        ByteArrayOutputStream out = new ByteArrayOutputStream(4096);
+        byte[] b = new byte[4096];
+        int n;
+        while ((n = in.read(b)) != -1) {
+            out.write(b, 0, n);
+        }
+        in.close();
+        out.close();
+        return out.toByteArray();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;测试&quot;&gt;测试&lt;/h3&gt;
+
+&lt;p&gt;对 &lt;code&gt;CoideRuntime&lt;/code&gt; 进行源码测试，将 &lt;code&gt;FooTest&lt;/code&gt; 类的源码作为字符串输入后执行。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;  package me.codeboy.test.compile;
+  
+  import java.io.IOException;
+  
+  /**
+   * 测试代码
+   * Created by yuedong.li on 2019-06-13
+   */
+  public class Test {
+      public static void main(String[] args) throws IOException {
+          String source = &quot;package me.codeboy.test.compile;&quot; +
+                  &quot;\n&quot; +
+                  &quot;/**\n&quot; +
+                  &quot; * 测试class\n&quot; +
+                  &quot; * Created by yuedong.li on 2019-06-14\n&quot; +
+                  &quot; */\n&quot; +
+                  &quot;public class FooClass { \n&quot; +
+                  &quot;    public String execute() {\n&quot; +
+                  &quot;        System.out.println(\&quot;invoke method\&quot;);&quot; +
+                  &quot;        return \&quot;SUCCESS\&quot;;&quot;+
+                  &quot;    }&quot; +
+                  &quot;}&quot;;
+          String result = CodeRuntime.run(source);
+          System.out.println(result);
+      }
+  }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;执行后，输出结果如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;invoke method
+SUCCESS
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;符合预期结果。&lt;/p&gt;
+
+&lt;h3 id=&quot;小结&quot;&gt;小结&lt;/h3&gt;
+
+&lt;p&gt;根据上面的讲述，针对告警平台等的一些规则可以使用源码来编写，虽然需要一点开发成本，但是灵活度大幅度提升，遇到合适的场景可以考虑尝试。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
+
+  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>Fri, 14 Jun 2019 00:00:00 +0800</pubDate>
+        <link>https://https://www.codeboy.me/2019/06/14/java-online-compile/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2019/06/14/java-online-compile/</guid>
+        
+        <category>java</category>
+        
+        
+      </item>
     
       <item>
         <title>Java字符串单字符分割</title>
@@ -1291,106 +1602,6 @@ Caused by: java.util.concurrent.RejectedExecutionException: Task android.os.Asyn
         <guid isPermaLink="true">https://https://www.codeboy.me/2018/01/07/linux-command-ln/</guid>
         
         <category>java</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Shell下解析Json之jq</title>
-        <description>&lt;p&gt;Json是一种轻量级的数据交换格式，简洁和清晰的层次结构使得Json成为理想的数据交换语言，易于人阅读和编写，同时也易于机器解析和生成，并有效地提升网络传输效率。&lt;/p&gt;
-
-&lt;p&gt;软件开发中经常会将对象序列化为Json，或者将对应的Json串反序列化为对象，在Android开发、服务端开发中都有很多库，如fastjson、gson等, 今天来看一下shell的json解析工具jq。&lt;/p&gt;
-
-&lt;h3 id=&quot;一安装&quot;&gt;一、安装&lt;/h3&gt;
-&lt;p&gt;jq的官网地址&lt;a href=&quot;https://github.com/stedolan/jq&quot;&gt;https://github.com/stedolan/jq&lt;/a&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;1-mac&quot;&gt;1. mac&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;brew install jq
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;mac下安装时可能会提示更新xcode，如提示请更新。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h4 id=&quot;2-linux&quot;&gt;2. linux&lt;/h4&gt;
-&lt;pre&gt;&lt;code&gt;apt-get install jq
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;ubuntu以及衍生版本可以直接仓库安装， 其他的发行版也可以尝试仓库或者源码编译&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;二基本用法&quot;&gt;二、基本用法&lt;/h3&gt;
-&lt;p&gt;解析json最常用的要数取值和获取数组长度操作了，给出一段常见的json，结合场景介绍下简单的使用：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;{
-  &quot;data&quot;: [
-    &quot;张三&quot;,
-    &quot;李四&quot;
-  ],
-  &quot;code&quot;: &quot;SUCCESS&quot;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;假定content代表上面的字符串。&lt;/p&gt;
-
-&lt;p&gt;jq获取字段时的格式为&lt;code&gt;.字段名&lt;/code&gt;，例如获取code值时，操作如下:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;echo $content | grep '.code'
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;获取data的长度的格式如下&lt;code&gt;'length'&lt;/code&gt;,直接使用不加.的length即可，操作如下:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;echo $content | jq '.data|length'
-echo $content | jq '.data' | jq 'length'
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;更加详细的文档可以参见 &lt;a href=&quot;https://stedolan.github.io/jq/manual/&quot;&gt;https://stedolan.github.io/jq/manual&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;三场景使用&quot;&gt;三、场景使用&lt;/h3&gt;
-&lt;p&gt;获取&lt;a href=&quot;https://www.codeboy.me&quot;&gt;小胖轩&lt;/a&gt;博客中的文章列表，由于之前小胖轩网站中加入了博客搜索功能，有一个对应的文章索引&lt;a href=&quot;https://www.codeboy.me/search/cb-search.json&quot;&gt;https://www.codeboy.me/search/cb-search.json&lt;/a&gt;，我们需要做的操作如下:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;1. 下载cb-search.json文件
-2. 解析json文件，遍历文章列表
-3. 输出文章标题列表
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;然后使用jq进行解析即可:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;#!/bin/bash
-# 获取codeboy.me中所有文章的标题
-
-json=`curl -s &quot;https://www.codeboy.me/search/cb-search.json&quot;`;
-
-#获取文章列表
-list=`echo $json | jq '.data'`;
-
-#获取文章长度
-length=`echo $json | jq'.data|length' `;
-
-# 解析data字段后，开始遍历每一项，取出标题
-for index in `seq 0 $length`
-do
-	echo $list | jq &quot;.[$index].title&quot;;
-done
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&quot;四小结&quot;&gt;四、小结&lt;/h3&gt;
-&lt;p&gt;shell下写脚本非常的方便快捷，有了jq，可以完成更丰富的操作。&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
-
-  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
-&lt;/blockquote&gt;
-</description>
-        <pubDate>Mon, 27 Nov 2017 00:00:00 +0800</pubDate>
-        <link>https://https://www.codeboy.me/2017/11/27/command-jq/</link>
-        <guid isPermaLink="true">https://https://www.codeboy.me/2017/11/27/command-jq/</guid>
-        
-        <category>linux</category>
         
         
       </item>
