@@ -5,9 +5,101 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 14 Jun 2019 11:08:55 +0800</pubDate>
-    <lastBuildDate>Fri, 14 Jun 2019 11:08:55 +0800</lastBuildDate>
+    <pubDate>Mon, 17 Jun 2019 09:21:14 +0800</pubDate>
+    <lastBuildDate>Mon, 17 Jun 2019 09:21:14 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>Javascript的undefined和null</title>
+        <description>&lt;p&gt;Javascript中的 &lt;code&gt;undefined&lt;/code&gt; 和 &lt;code&gt;null&lt;/code&gt; 非常的常见，它们有什么不同呢？首先看几个简单的示例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;var a = undefined;
+var b = null;
+console.log(a == b);
+console.log(a === b);
+console.log(typeof(a) == typeof(b));
+console.log(a + 1);
+console.log(b + 1);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面的5个console日志会输出什么？&lt;/p&gt;
+
+&lt;h3 id=&quot;解析&quot;&gt;解析&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;undefined&lt;/code&gt; 在javascript中表示一个没有设置值的变量， &lt;code&gt;null&lt;/code&gt; 表示一个空对象引用。从表示含义上可以很清楚的区分两者， 不过两者在部分使用上有一些差异，如下表：&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;特征&lt;/th&gt;
+      &lt;th&gt;undefined&lt;/th&gt;
+      &lt;th&gt;null&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;含义&lt;/td&gt;
+      &lt;td&gt;无&lt;/td&gt;
+      &lt;td&gt;空对象&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;表示数据&lt;/td&gt;
+      &lt;td&gt;NaN&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;类型&lt;/td&gt;
+      &lt;td&gt;undefined&lt;/td&gt;
+      &lt;td&gt;object&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;以上几个示例:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;var a = undefined;
+var b = null;
+console.log(a == b);   // true
+console.log(a === b);   // false
+console.log(typeof(a) == typeof(b));   // false
+console.log(a + 1);    // NaN
+console.log(b + 1);  // 1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;针对这两个的经典场景，在阮一峰老师的文章&lt;a href=&quot;http://www.ruanyifeng.com/blog/2014/03/undefined-vs-null.html&quot;&gt;undefined与null的区别&lt;/a&gt;中给出了说明，这里引用一下。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;null典型用法是&lt;/strong&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;（1） 作为函数的参数，表示该函数的参数不是对象。
+（2） 作为对象原型链的终点。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;undefined典型用法是&lt;/strong&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;（1）变量被声明了，但没有赋值时，就等于undefined。
+（2) 调用函数时，应该提供的参数没有提供，该参数等于undefined。
+（3）对象没有赋值的属性，该属性的值为undefined。
+（4）函数没有返回值时，默认返回undefined。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;小结&quot;&gt;小结&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;undefined&lt;/code&gt; 和 &lt;code&gt;null&lt;/code&gt; 在javascript中的含义相近，存在差异， &lt;code&gt;undefined&lt;/code&gt; 的场景更多一些。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
+
+  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>Mon, 17 Jun 2019 00:00:00 +0800</pubDate>
+        <link>https://https://www.codeboy.me/2019/06/17/js-undefined-and-null/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2019/06/17/js-undefined-and-null/</guid>
+        
+        <category>web</category>
+        
+        
+      </item>
     
       <item>
         <title>Java源码在线编译执行</title>
@@ -1538,70 +1630,6 @@ Caused by: java.util.concurrent.RejectedExecutionException: Task android.os.Asyn
         <guid isPermaLink="true">https://https://www.codeboy.me/2018/08/04/android-async-task/</guid>
         
         <category>android</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Linux命令之ln</title>
-        <description>&lt;h2 id=&quot;背景&quot;&gt;背景&lt;/h2&gt;
-
-&lt;p&gt;这几天一直想更换下osx下用户家目录的名字，为什么要更换呢? 因为之前托同学帮忙买来mac的时候已经创建了用户，当时也懒，也没用过osx，所以就一直到现在了。公司里的电脑是另外一台Macbook Pro，每次有一些牵扯到绝对路径的脚本等内容使用时，都需要改动配置等，于是乎决定对自己这台mac进行家目录重命名，大概的操作如下:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;系统设置 --&amp;gt;  用户和组 --&amp;gt; 解锁左下角小锁 --&amp;gt; 右击列表中用户 --&amp;gt; 高级选项 --&amp;gt; 修改家目录
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;关于家目录的修改这里不做详细介绍， 网上有很多教程，不过请做好数据备份。路径修改后，希望能通过访问新的路径访问到原先家目录对应的文件，毕竟各种软件的配置等信息都还在，这时候就需要用上Linux中ln命令。&lt;/p&gt;
-
-&lt;h2 id=&quot;ln命令简介&quot;&gt;ln命令简介&lt;/h2&gt;
-&lt;p&gt;ln是link的缩写，可以用来创建软连接和硬连接，使用和特点如下：&lt;/p&gt;
-
-&lt;h4 id=&quot;软链接&quot;&gt;软链接：&lt;/h4&gt;
-
-&lt;p&gt;使用操作:	&lt;code&gt;ln -s source target&lt;/code&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;软链接以路径的形式存在, 类似于Windows操作系统中的快捷方式&lt;/li&gt;
-  &lt;li&gt;软链接可以跨文件系统, 硬链接不可以&lt;/li&gt;
-  &lt;li&gt;软链接可以对一个不存在的文件名进行链接&lt;/li&gt;
-  &lt;li&gt;软链接可以对目录进行链接&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h4 id=&quot;硬链接&quot;&gt;硬链接：&lt;/h4&gt;
-
-&lt;p&gt;使用操作:	&lt;code&gt;ln source target&lt;/code&gt;&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;硬链接以文件副本的形式存在, 但不占用实际空间。&lt;/li&gt;
-  &lt;li&gt;不允许给目录创建硬链接&lt;/li&gt;
-  &lt;li&gt;硬链接只有在同一个文件系统中才能创建&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;更多其他参数的使用，可以&lt;code&gt;man ln&lt;/code&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;使用&quot;&gt;使用&lt;/h2&gt;
-
-&lt;p&gt;既然家目录改变了，可以将新的家目录连接的旧的家目录即可解决问题&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;ln -s old_home new_home
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;后记&quot;&gt;后记&lt;/h2&gt;
-&lt;p&gt;两台mac的家目录统一了，很多文件、项目等的配置不用做任何修改了，哈哈。&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
-
-  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
-&lt;/blockquote&gt;
-</description>
-        <pubDate>Sun, 07 Jan 2018 00:00:00 +0800</pubDate>
-        <link>https://https://www.codeboy.me/2018/01/07/linux-command-ln/</link>
-        <guid isPermaLink="true">https://https://www.codeboy.me/2018/01/07/linux-command-ln/</guid>
-        
-        <category>java</category>
         
         
       </item>

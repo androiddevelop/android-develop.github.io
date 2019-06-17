@@ -38,6 +38,8 @@
     
 
     
+
+    
          <p>有时候我们需要能够及时的更新程序的部分逻辑，在java中可以使用相关远程调用技术，将相关的逻辑代码放置在服务器上，在适当的时候进行修改替换即可。下面介绍两种常见的方法:  <code>RMI(Remote Method Invocation)</code> 与 <code>URLClassLoader</code>.</p>
 
 <h2 id="rmi">RMI</h2>

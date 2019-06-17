@@ -13,9 +13,9 @@
     <link rel="apple-touch-icon" href="/favicon.png" type="image/png">
     <link rel="apple-touch-icon-precomposed" href="/favicon.png" type="image/png">
 
-    <title>小胖轩</title>
+    <title>Javascript的undefined和null - 小胖轩</title>
 
-    <link rel="canonical" href="https://https://www.codeboy.me/page/5/">
+    <link rel="canonical" href="https://https://www.codeboy.me/2019/06/17/js-undefined-and-null/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -118,110 +118,138 @@
 </nav>
 
 
-    <!-- Page Header -->
-<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <!-- Post Header -->
+<header class="intro-header"
+        style="background-image: url('/img/post-bg-web.jpg')">
     <div class="container">
         <div class="row">
-            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 ">
-                <div class="site-heading">
-                    <h1>小胖轩</h1>
-                    <hr class="small">
-                    <span class="subheading">编码生涯的点点滴滴</span>
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#web" title="web">web</a>
+                        
+                    </div>
+                    <h1>Javascript的undefined和null</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by Codeboy on June 17, 2019</span>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-<!-- Main Content -->
+<!-- Post Content -->
 <article>
-    <div class="container">
-    	<div class="row">
-    		<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
-    			
-<div class="post-preview">
-    <a href="/2014/10/03/html-image-base64_svg/">
-        <h2 class="post-title">            Html中的图片使用字符串(base64,svg)代替
-        </h2>
-        
-        <div class="post-content-preview">
-        
-            最近看了一个网页,里面有图片,但是却没有引用外部的图片资源,很好奇.查看代码后发现,里面的图片是使用base64编码后的字符串代替了,这个叫做Data URI scheme.
+    <div class="container" style="overflow-y:hidden;">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-Data URI scheme支持的类型有：
-data:,文本数据
-data:text/plain,文本数据
-data:text/html,HTML代码
-data:text/html;base64,base64编码的...
-        </div>
-    </a>
-    <p class="post-meta">Posted by Codeboy on October 3, 2014</p>
-        
-</div>
-<hr>
+                <p>Javascript中的 <code>undefined</code> 和 <code>null</code> 非常的常见，它们有什么不同呢？首先看几个简单的示例：</p>
 
-<div class="post-preview">
-    <a href="/2014/10/03/get-and-post/">
-        <h2 class="post-title">            Get and Post
-        </h2>
-        
-        <div class="post-content-preview">
-        
-            最近在做一些有关文件上传等的工作,遇到了以下的问题:
+<pre><code class="language-nohighlight">var a = undefined;
+var b = null;
+console.log(a == b);
+console.log(a === b);
+console.log(typeof(a) == typeof(b));
+console.log(a + 1);
+console.log(b + 1);
+</code></pre>
 
-将表单以post方式提交给一个有参数的url(如:res.php?param=aaa),这样的得到的结果将会是什么呢?
+<p>上面的5个console日志会输出什么？</p>
 
-下面就从几个例子将有关get与post的相关内容进行测试:
+<h3 id="解析">解析</h3>
 
-get(参数名字相同)
+<p><code>undefined</code> 在javascript中表示一个没有设置值的变量， <code>null</code> 表示一个空对象引用。从表示含义上可以很清楚的区分两者， 不过两者在部分使用上有一些差异，如下表：</p>
 
-&lt;html&gt;
-&lt;body&gt;
-&lt;?php
-echo $_GET ['param'];
-?&gt;
- ...
-        </div>
-    </a>
-    <p class="post-meta">Posted by Codeboy on October 3, 2014</p>
-        
-</div>
-<hr>
+<table>
+  <thead>
+    <tr>
+      <th>特征</th>
+      <th>undefined</th>
+      <th>null</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>含义</td>
+      <td>无</td>
+      <td>空对象</td>
+    </tr>
+    <tr>
+      <td>表示数据</td>
+      <td>NaN</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>类型</td>
+      <td>undefined</td>
+      <td>object</td>
+    </tr>
+  </tbody>
+</table>
 
-<div class="post-preview">
-    <a href="/2014/10/03/datamine-svm/">
-        <h2 class="post-title">            SVM对简单验证码的识别
-        </h2>
-        
-        <div class="post-content-preview">
-        
-            在科大上学已经半年多了，在研一下的这个学期里，有太多的英语课，科大的英语课有很大一部分是需要进行预约的，预约后去EPC(English Practice Center)学习。每次在电脑上查询在哪个屋上课甚是麻烦，于是打算做一个android手机小应用来方便的查询预约课程信息以及对课程进行评价。当然最后也要加入一些其他的功能，比如课表，成绩，研究生新闻的查看。
+<p>以上几个示例:</p>
 
-不论是研究生系统还是EPC网站...
-        </div>
-    </a>
-    <p class="post-meta">Posted by Codeboy on October 3, 2014</p>
-        
-</div>
-<hr>
+<pre><code class="language-nohighlight">var a = undefined;
+var b = null;
+console.log(a == b);   // true
+console.log(a === b);   // false
+console.log(typeof(a) == typeof(b));   // false
+console.log(a + 1);    // NaN
+console.log(b + 1);  // 1
+</code></pre>
+
+<p>针对这两个的经典场景，在阮一峰老师的文章<a href="http://www.ruanyifeng.com/blog/2014/03/undefined-vs-null.html">undefined与null的区别</a>中给出了说明，这里引用一下。</p>
+
+<p><strong>null典型用法是</strong>：</p>
+
+<pre><code class="language-nohighlight">（1） 作为函数的参数，表示该函数的参数不是对象。
+（2） 作为对象原型链的终点。
+</code></pre>
+
+<p><strong>undefined典型用法是</strong>：</p>
+
+<pre><code class="language-nohighlight">（1）变量被声明了，但没有赋值时，就等于undefined。
+（2) 调用函数时，应该提供的参数没有提供，该参数等于undefined。
+（3）对象没有赋值的属性，该属性的值为undefined。
+（4）函数没有返回值时，默认返回undefined。
+</code></pre>
+
+<h3 id="小结">小结</h3>
+
+<p><code>undefined</code> 和 <code>null</code> 在javascript中的含义相近，存在差异， <code>undefined</code> 的场景更多一些。</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
 
 
-<!-- Pager -->
-
-<ul class="pager">
-    
-    <li class="previous">
-        <a href="/page/4">&larr; Newer Posts</a>
-    </li>
-    
-    
-</ul>
-
-
-    		</div>
-    	</div>
-    </div>
+            </div>
 </article>
+
+<!-- Post Comments -->
+
+<div id="disqus_thread" class="container"></div>
+<script>
+    let disqus_config = function () {
+    this.page.url = "/2019/06/17/js-undefined-and-null/";
+    this.page.identifier = "Javascript的undefined和null";
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codeboy.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
 
 
     <!-- Footer -->
