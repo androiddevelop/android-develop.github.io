@@ -23,7 +23,7 @@ console.log(b + 1);
 
 上面的5个console日志会输出什么？
 
-### 解析
+## 解析
 
 `undefined` 在javascript中表示一个没有设置值的变量， `null` 表示一个空对象引用。从表示含义上可以很清楚的区分两者， 不过两者在部分使用上有一些差异，如下表：
 
@@ -47,14 +47,14 @@ console.log(b + 1);  // 1
 
 针对这两个的经典场景，在阮一峰老师的文章[undefined与null的区别](http://www.ruanyifeng.com/blog/2014/03/undefined-vs-null.html)中给出了说明，这里引用一下。
 
-**null典型用法是**：
+#### null典型用法
 
 ```nohighlight
 （1） 作为函数的参数，表示该函数的参数不是对象。
 （2） 作为对象原型链的终点。
 ```
 
-**undefined典型用法是**：
+#### undefined典型用法
 
 ```nohighlight
 （1）变量被声明了，但没有赋值时，就等于undefined。
@@ -63,7 +63,7 @@ console.log(b + 1);  // 1
 （4）函数没有返回值时，默认返回undefined。
 ```
 
-### 小结
+## 小结
 
 `undefined` 和 `null` 在javascript中的含义相近，存在差异， `undefined` 的场景更多一些。
 

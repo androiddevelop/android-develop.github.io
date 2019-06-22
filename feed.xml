@@ -5,8 +5,8 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 17 Jun 2019 09:21:14 +0800</pubDate>
-    <lastBuildDate>Mon, 17 Jun 2019 09:21:14 +0800</lastBuildDate>
+    <pubDate>Sat, 22 Jun 2019 10:28:31 +0800</pubDate>
+    <lastBuildDate>Sat, 22 Jun 2019 10:28:31 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -24,7 +24,7 @@ console.log(b + 1);
 
 &lt;p&gt;上面的5个console日志会输出什么？&lt;/p&gt;
 
-&lt;h3 id=&quot;解析&quot;&gt;解析&lt;/h3&gt;
+&lt;h2 id=&quot;解析&quot;&gt;解析&lt;/h2&gt;
 
 &lt;p&gt;&lt;code&gt;undefined&lt;/code&gt; 在javascript中表示一个没有设置值的变量， &lt;code&gt;null&lt;/code&gt; 表示一个空对象引用。从表示含义上可以很清楚的区分两者， 不过两者在部分使用上有一些差异，如下表：&lt;/p&gt;
 
@@ -68,13 +68,13 @@ console.log(b + 1);  // 1
 
 &lt;p&gt;针对这两个的经典场景，在阮一峰老师的文章&lt;a href=&quot;http://www.ruanyifeng.com/blog/2014/03/undefined-vs-null.html&quot;&gt;undefined与null的区别&lt;/a&gt;中给出了说明，这里引用一下。&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;null典型用法是&lt;/strong&gt;：&lt;/p&gt;
+&lt;h4 id=&quot;null典型用法&quot;&gt;null典型用法&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;（1） 作为函数的参数，表示该函数的参数不是对象。
 （2） 作为对象原型链的终点。
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;strong&gt;undefined典型用法是&lt;/strong&gt;：&lt;/p&gt;
+&lt;h4 id=&quot;undefined典型用法&quot;&gt;undefined典型用法&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;（1）变量被声明了，但没有赋值时，就等于undefined。
 （2) 调用函数时，应该提供的参数没有提供，该参数等于undefined。
@@ -82,7 +82,7 @@ console.log(b + 1);  // 1
 （4）函数没有返回值时，默认返回undefined。
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&quot;小结&quot;&gt;小结&lt;/h3&gt;
+&lt;h2 id=&quot;小结&quot;&gt;小结&lt;/h2&gt;
 
 &lt;p&gt;&lt;code&gt;undefined&lt;/code&gt; 和 &lt;code&gt;null&lt;/code&gt; 在javascript中的含义相近，存在差异， &lt;code&gt;undefined&lt;/code&gt; 的场景更多一些。&lt;/p&gt;
 

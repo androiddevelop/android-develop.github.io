@@ -18,14 +18,15 @@
     <link rel="canonical" href="https://https://www.codeboy.me/2015/06/28/android-context/">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/codeboy.min.css">
 
     <link rel="alternate" type="application/rss+xml" href="feed.xml" title="小胖轩">
+
     <!-- Custom Fonts -->
-    <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -43,10 +44,6 @@
             display: none !important;
         }
     </style>
-
-    <script type="text/javascript">
-       // console.log("%c      ", "font-size:216px; background:url('https://www.codeboy.me/favicon.png') no-repeat ");
-    </script>
 </head>
 
 
@@ -143,7 +140,7 @@
 </header>
 
 <!-- Post Content -->
-<article>
+<article id="article">
     <div class="container" style="overflow-y:hidden;">
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
@@ -337,19 +334,64 @@
 
 <!-- Post Comments -->
 
+<script id="dsq-count-scr" src="//codeboy.disqus.com/count.js" async></script>
 <div id="disqus_thread" class="container"></div>
 <script>
     let disqus_config = function () {
-    this.page.url = "/2015/06/28/android-context/";
-    this.page.identifier = "Context, What Context?";
+        this.page.url = "/2015/06/28/android-context/";
+        this.page.identifier = "Context, What Context?";
     };
-    (function() {
+    (function () {
         var d = document, s = d.createElement('script');
         s.src = 'https://codeboy.disqus.com/embed.js';
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
 </script>
+
+
+
+<!-- Post Contents -->
+
+<!-- 目录插件 -->
+<script src="/js/autoc.min.js"></script>
+<link rel="stylesheet" href="/css/autoc.css">
+
+<script>
+    // 创建 Outline 实例
+    let navigation = new AutocJs({
+        // 文章正文 DOM 节点的 ID 选择器
+        article: '#article',
+        // 要收集的标题选择器
+        selector: 'h1,h2,h3,h4,h5,h6',
+        // 侧边栏导航的标题
+        title: 'Context, What Context?',
+        // 文章导读导航的位置
+        // outside - 以侧边栏菜单形式显示（默认值）
+        // inside - 在文章正文一开始的地方显示
+        position: 'outside',
+        // 标题图标链接的 URL 地址
+        // （默认）没有设置定制，点击链接页面滚动到标题位置
+        // 设置了链接地址，则不会滚动定位
+        anchorURL: '',
+        // 链接的显示位置
+        // front - 在标题最前面（默认值）
+        // back - 在标题后面
+        anchorAt: 'front',
+        // 是否生成文章导读导航
+        isGenerateOutline: true,
+        // 是否在文章导读导航中显示段落章节编号
+        isGenerateOutlineChapterCode: true,
+        // 是否在正文的文章标题中显示段落章节编号
+        isGenerateHeadingChapterCode: false,
+        // 是否在正文的文章标题中创建锚点
+        isGenerateHeadingAnchor: true
+    });
+    const article = document.getElementById('article');
+    const menu = document.getElementById('cb-menu');
+    menu.style.top = (article.offsetTop + 50) + 'px';
+</script>
+
 
 
 
@@ -439,7 +481,6 @@
 
 <script src="/search/js/bootstrap3-typeahead.min.js"></script>
 <script src="/search/js/cb-search.js"></script>
-<script id="dsq-count-scr" src="//codeboy.disqus.com/count.js" async></script>
 
 <!--<script>-->
 <!--    var _hmt = _hmt || [];-->

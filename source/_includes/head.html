@@ -15,14 +15,15 @@
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
 
     <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ '/css/bootstrap.min.css' | prepend: site.baseurl }}">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ '/css/codeboy.min.css' | prepend: site.baseurl }}">
 
     <link rel="alternate" type="application/rss+xml" href="feed.xml" title="小胖轩">
+
     <!-- Custom Fonts -->
-    <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ '/css/font-awesome.min.css' | prepend: site.baseurl }}">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -40,8 +41,4 @@
             display: none !important;
         }
     </style>
-
-    <script type="text/javascript">
-       // console.log("%c      ", "font-size:216px; background:url('https://www.codeboy.me/favicon.png') no-repeat ");
-    </script>
 </head>
