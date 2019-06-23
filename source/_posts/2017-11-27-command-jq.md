@@ -17,12 +17,12 @@ Json是一种轻量级的数据交换格式，简洁和清晰的层次结构使�
 ### 一、安装
 jq的官网地址[https://github.com/stedolan/jq](https://github.com/stedolan/jq)
 
-#### 1. mac
+#### mac
 	brew install jq
 
 > mac下安装时可能会提示更新xcode，如提示请更新。
 
-#### 2. linux
+#### linux
 	apt-get install jq
 	
 > ubuntu以及衍生版本可以直接仓库安装， 其他的发行版也可以尝试仓库或者源码编译

@@ -145,14 +145,14 @@
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-                <h3 id="1-查看wifi密码">1. 查看wifi密码</h3>
+                <h3 id="查看wifi密码">查看wifi密码</h3>
 
 <p>查询连接的wifi密码，没问题，前提是手机已经root了，可以查看系统文件，android的wifi密码明文保存在一下文件中，使用root explorer查看即可。</p>
 
 <pre><code>/data/misc/wifi/wpa_supplicant.conf
 </code></pre>
 
-<h3 id="2-查看activity堆栈情况">2. 查看activity堆栈情况</h3>
+<h3 id="查看activity堆栈情况">查看activity堆栈情况</h3>
 
 <pre><code>adb shell dumpsys activity ---------------查看ActvityManagerService 所有信息
 adb shell dumpsys activity activities ----------查看Activity组件信息
@@ -163,7 +163,7 @@ adb shell dumpsys activity intents --------------查看Intent信息
 adb shell dumpsys activity processes ---------查看进程信息
 </code></pre>
 
-<h3 id="3-查看apk中的androidmanifestxml文件">3. 查看apk中的AndroidManifest.xml文件</h3>
+<h3 id="查看apk中的androidmanifestxml文件">查看apk中的AndroidManifest.xml文件</h3>
 
 <p>可以使用apktool对apk进行反编译，不过现在很多的apk都进行了加固，可以防止apktool进行反编译，我们可以使用google提供的aapt(Android Asset Packaging Tool)进行查看:</p>
 
@@ -174,7 +174,7 @@ adb shell dumpsys activity processes ---------查看进程信息
   <p>其中target.apk为需要查看AndroidManifest.xml的apk包。</p>
 </blockquote>
 
-<h3 id="4-查看android的log">4. 查看android的log</h3>
+<h3 id="查看android的log">查看android的log</h3>
 
 <pre><code>adb logcat
 
@@ -201,7 +201,7 @@ adb shell dumpsys activity processes ---------查看进程信息
 "-B"选项 : 以二进制形式输出日志;
 </code></pre>
 
-<h3 id="5-模拟长按按键魅族手机长按有救了">5. 模拟长按按键(魅族手机长按有救了)</h3>
+<h3 id="模拟长按按键魅族手机长按有救了">模拟长按按键(魅族手机长按有救了)</h3>
 
 <pre><code>adb shell input keyevent --longpress KEYCODE_BACK  //长按返回键
  
@@ -210,12 +210,12 @@ adb shell input keyevent --longpress KEYCODE_HOME  //长按home键
 adb shell input keyevent --longpress KEYCODE_MENU  //长按菜单键
 </code></pre>
 
-<h3 id="6-重新挂载设备为可读可写">6. 重新挂载设备为可读可写</h3>
+<h3 id="重新挂载设备为可读可写">重新挂载设备为可读可写</h3>
 
 <pre><code>mount -o rw,remount /dev/block/mmcblk0p1 /system
 </code></pre>
 
-<h3 id="7-屏幕截图osx">7. 屏幕截图（osx）</h3>
+<h3 id="屏幕截图osx">屏幕截图（osx）</h3>
 
 <pre><code>adb shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' &gt; screen.png
 </code></pre>
@@ -285,7 +285,7 @@ adb shell input keyevent --longpress KEYCODE_MENU  //长按菜单键
         // 是否在正文的文章标题中显示段落章节编号
         isGenerateHeadingChapterCode: false,
         // 是否在正文的文章标题中创建锚点
-        isGenerateHeadingAnchor: true
+        isGenerateHeadingAnchor: false
     });
     const article = document.getElementById('article');
     const menu = document.getElementById('cb-menu');

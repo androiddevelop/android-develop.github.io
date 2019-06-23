@@ -145,7 +145,7 @@
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-                <h2 id="前言">前言</h2>
+                <h3 id="前言">前言</h3>
 
 <p>AsyncTask 在Android开发中是一个经常用到的类，允许用户在工作线程上完成后台计算等任务，之后将结果同步UI线程，比起 Thread 和  Handler 模型使用起来方便一些。</p>
 
@@ -158,7 +158,7 @@ If you truly want parallel execution, you can invoke executeOnExecutor(java.util
 
 <p>可以看出，从 Android1.6 到  Android2.2 之间，AsyncTask是并行执行的，从HONEYCOMB(2.3)开始，为了避免并行执行造成的通用应用错误，任务的执行方式修改为串行。</p>
 
-<h2 id="分析">分析</h2>
+<h3 id="分析">分析</h3>
 
 <p>我们从最新的Android 8.0中分析一下AsyncTask：</p>
 
@@ -250,7 +250,7 @@ private static class SerialExecutor implements Executor {
 
 <p>到此，AsyncTask 为什么串行执行已经分析完毕。</p>
 
-<h2 id="使用">使用</h2>
+<h3 id="使用">使用</h3>
 
 <p>当前主流的应用，如手机淘宝、支付宝等的最低支持版本均已经是4.0，所以在开发中，系统的默认的AsyncTask的执行时串行的，我们可以进行修改。上面分析中也有提到，在AsyncTask执行execute方法的时候，使用了默认的Executor，我们可以使用AsyncTask中提供的另外一个方法 executeOnExecutor 指定线程池来执行，需要注意的一点是AsyncTask提供了线程池的 AsyncTask.THREAD_POOL_EXECUTOR ，我们可以使用这个线程池，但是这个线程池的参数中的队列长度是128，线程池拒绝策略采用的 AbortPolicy  ，任务超出线程池可承受范围(MAXIMUM_POOL_SIZE + POOL_SIZE)时，将会发生异常。</p>
 
@@ -416,7 +416,7 @@ Caused by: java.util.concurrent.RejectedExecutionException: Task android.os.Asyn
         // 是否在正文的文章标题中显示段落章节编号
         isGenerateHeadingChapterCode: false,
         // 是否在正文的文章标题中创建锚点
-        isGenerateHeadingAnchor: true
+        isGenerateHeadingAnchor: false
     });
     const article = document.getElementById('article');
     const menu = document.getElementById('cb-menu');

@@ -13,7 +13,7 @@ console.log(b + 1);
 
 <p>上面的5个console日志会输出什么？</p>
 
-<h2 id="解析">解析</h2>
+<h3 id="解析">解析</h3>
 
 <p><code>undefined</code> 在javascript中表示一个没有设置值的变量， <code>null</code> 表示一个空对象引用。从表示含义上可以很清楚的区分两者， 不过两者在部分使用上有一些差异，如下表：</p>
 
@@ -71,7 +71,7 @@ console.log(b + 1);  // 1
 （4）函数没有返回值时，默认返回undefined。
 </code></pre>
 
-<h2 id="小结">小结</h2>
+<h3 id="小结">小结</h3>
 
 <p><code>undefined</code> 和 <code>null</code> 在javascript中的含义相近，存在差异， <code>undefined</code> 的场景更多一些。</p>
 

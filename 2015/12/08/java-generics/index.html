@@ -147,7 +147,7 @@
 
                 <p>Java泛型是JDK 5中引入的一个新特性，允许在定义类和接口的时候使用类型参数。</p>
 
-<h2 id="泛型类">泛型类</h2>
+<h3 id="泛型类">泛型类</h3>
 
 <p>泛型类是我们最经常使用的泛型形式了，如下:</p>
 
@@ -186,7 +186,7 @@ public class ToolsUtil&lt;T&gt; {
 }
 </code></pre>
 
-<h2 id="泛型方法">泛型方法</h2>
+<h3 id="泛型方法">泛型方法</h3>
 
 <p>随着需求越来越多，工具类 <code>ToolsUtil</code> 可能需要增加很多的工具类，但是并非其他的方法的参数返回值等都是 <code>T</code> ,我们需要进行粒度调整，这时候就是泛型方法表现的时候了。</p>
 
@@ -293,7 +293,7 @@ public class ToolsUtil {
 
 <p><strong>需要注意的一点是 <code>&lt;T&gt;</code> 必须在<code> 修饰词 </code>(public private static final等)和<code>返回值</code>之间</strong></p>
 
-<h2 id="总结">总结</h2>
+<h3 id="总结">总结</h3>
 
 <p>泛型方法在什么时候使用呢？</p>
 
@@ -368,7 +368,7 @@ public class ToolsUtil {
         // 是否在正文的文章标题中显示段落章节编号
         isGenerateHeadingChapterCode: false,
         // 是否在正文的文章标题中创建锚点
-        isGenerateHeadingAnchor: true
+        isGenerateHeadingAnchor: false
     });
     const article = document.getElementById('article');
     const menu = document.getElementById('cb-menu');

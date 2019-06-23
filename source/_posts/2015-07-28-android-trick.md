@@ -9,14 +9,14 @@ tags:
 author: 'Codeboy'
 ---
 
-### 1. 查看wifi密码
+### 查看wifi密码
 
 查询连接的wifi密码，没问题，前提是手机已经root了，可以查看系统文件，android的wifi密码明文保存在一下文件中，使用root explorer查看即可。
 
 	/data/misc/wifi/wpa_supplicant.conf
 
 
-### 2. 查看activity堆栈情况
+### 查看activity堆栈情况
 
 	adb shell dumpsys activity ---------------查看ActvityManagerService 所有信息
 	adb shell dumpsys activity activities ----------查看Activity组件信息
@@ -27,7 +27,7 @@ author: 'Codeboy'
 	adb shell dumpsys activity processes ---------查看进程信息
 
 
-### 3. 查看apk中的AndroidManifest.xml文件
+### 查看apk中的AndroidManifest.xml文件
 
 可以使用apktool对apk进行反编译，不过现在很多的apk都进行了加固，可以防止apktool进行反编译，我们可以使用google提供的aapt(Android Asset Packaging Tool)进行查看:
 
@@ -36,7 +36,7 @@ author: 'Codeboy'
 >其中target.apk为需要查看AndroidManifest.xml的apk包。
 
 
-### 4. 查看android的log
+### 查看android的log
 
 	adb logcat
 	
@@ -63,7 +63,7 @@ author: 'Codeboy'
 	"-B"选项 : 以二进制形式输出日志;
 
 
-### 5. 模拟长按按键(魅族手机长按有救了)
+### 模拟长按按键(魅族手机长按有救了)
 
 	adb shell input keyevent --longpress KEYCODE_BACK  //长按返回键
  
@@ -72,11 +72,11 @@ author: 'Codeboy'
 	adb shell input keyevent --longpress KEYCODE_MENU  //长按菜单键
 
 
-### 6. 重新挂载设备为可读可写
+### 重新挂载设备为可读可写
 
 	mount -o rw,remount /dev/block/mmcblk0p1 /system
 
-### 7. 屏幕截图（osx）
+### 屏幕截图（osx）
 
 	adb shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > screen.png
 

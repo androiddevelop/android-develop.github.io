@@ -14,7 +14,7 @@ author: 'Codeboy'
 
 几个月来，`Intellig IDEA` 依赖同步一直困扰这我，最开始使用`Intellig IDEA` 的时候并没有出现任何问题，即便有时候依赖不能同步，重新启动`Intellig IDEA` 或者在终端下执行``` gradle --refresh-dependencies ``` 来进行更新依赖。 但是随着`Intellig IDEA` 的更新以及gradle等的更新，后面新建的项目在同步上一直存在问题，下面将依赖同步的问题以及web开发中遇到的一个中文乱码问题提供解决方案。
 
-## 依赖同步
+### 依赖同步
 
 网上搜索到很多的解决方案是在gradle的窗口中，点击刷新按钮，但是最后并不能解决问题。起初的 `build.gradle` 文件内容如下:
 
@@ -68,7 +68,7 @@ dependencies {
 gradle idea
 ```
 
-## 中文乱码
+### 中文乱码
 
 在Web开发中，输出的日志和直接打印的汉字显示为问号，也即乱码。这个解决的办法比较容易，操作步骤如下：
 

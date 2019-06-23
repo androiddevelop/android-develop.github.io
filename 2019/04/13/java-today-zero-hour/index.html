@@ -147,7 +147,7 @@
 
                 <p>在一些按天计算的场景中，需要获取当天凌晨零点的时间，有什么快捷高效的做法呢？下面针对Java中的几种计算方式进行比较：</p>
 
-<h4 id="1-simpledateformat">1. SimpleDateFormat</h4>
+<h4 id="simpledateformat">SimpleDateFormat</h4>
 
 <p>获取当前时间对应的年月日，反向计算即可。</p>
 
@@ -162,7 +162,7 @@
 }
 </code></pre>
 
-<h4 id="2-calendar">2. Calendar</h4>
+<h4 id="calendar">Calendar</h4>
 
 <p>使用 <code>java.util.Calendar</code> 类，可以便捷去除时分秒以及毫秒的数值，</p>
 
@@ -177,7 +177,7 @@
 }
 </code></pre>
 
-<h4 id="3-除法">3. 除法</h4>
+<h4 id="除法">除法</h4>
 
 <p>借鉴 <code>SimpleDateFormat</code> 的方式，本次直接使用除法操作即可，需要注意一点的是时区问题，东八区相对于零时区增加了八个小时，处理中需要处理一下。</p>
 
@@ -189,7 +189,7 @@
 }
 </code></pre>
 
-<h3 id="小结">小结</h3>
+<h4 id="小结">小结</h4>
 
 <table>
   <thead>
@@ -283,7 +283,7 @@
         // 是否在正文的文章标题中显示段落章节编号
         isGenerateHeadingChapterCode: false,
         // 是否在正文的文章标题中创建锚点
-        isGenerateHeadingAnchor: true
+        isGenerateHeadingAnchor: false
     });
     const article = document.getElementById('article');
     const menu = document.getElementById('cb-menu');

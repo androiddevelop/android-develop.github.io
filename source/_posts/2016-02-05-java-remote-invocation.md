@@ -11,11 +11,11 @@ author: 'Codeboy'
 
 有时候我们需要能够及时的更新程序的部分逻辑，在java中可以使用相关远程调用技术，将相关的逻辑代码放置在服务器上，在适当的时候进行修改替换即可。下面介绍两种常见的方法:  `RMI(Remote Method Invocation)` 与 `URLClassLoader`.
 
-## RMI
+### RMI
 
 `rmi` 即 `Remote Method Invocation` ，操作步骤如下：
 
-#### 1. 定义远程接口
+#### 定义远程接口
 
 	package me.codeboy.test.rmi;
 
@@ -30,7 +30,7 @@ author: 'Codeboy'
 	    String getData() throws RemoteException; //获取数据
 	}
 
-#### 2. 服务器接口实现
+#### 服务器接口实现
 
 	package me.codeboy.test.rmi.server;
 
@@ -54,7 +54,7 @@ author: 'Codeboy'
 	    }
 	}
 
-#### 3. rmi服务端实现
+#### rmi服务端实现
 
 	import java.rmi.Naming;
 	import java.rmi.registry.LocateRegistry;
@@ -82,7 +82,7 @@ author: 'Codeboy'
 	    }
 	}
 
-#### 4. rmi客户端实现
+#### rmi客户端实现
 
 	package me.codeboy.test.rmi.client;
 
@@ -106,14 +106,14 @@ author: 'Codeboy'
 	    }
 	}
 
-#### 5. 运行
+#### 运行
 - 运行rmi server
 - 运行rmi client
 
 > 其中 `CBPrint` 使用第三方库[http://github.com/androiddevelop/CommonBase](http://github.com/androiddevelop/CommonBase)
 
 
-## URLClassLoader
+### URLClassLoader
 
 `URLClassLoader` 可以在客户端上加载服务端的jar包，利用反射机制进行方法的调用即可，Java的三个类加载器组成的初始类加载器 `bootstrap classloader` `extension classloader` `system classloader`, 其中后两个classloader都是 `URLClassLoader` 的子类。操作步骤如下:
 

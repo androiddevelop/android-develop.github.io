@@ -12,7 +12,7 @@ author: 'Codeboy'
 
 在一些按天计算的场景中，需要获取当天凌晨零点的时间，有什么快捷高效的做法呢？下面针对Java中的几种计算方式进行比较：
 
-#### 1. SimpleDateFormat
+#### SimpleDateFormat
 
 获取当前时间对应的年月日，反向计算即可。
 
@@ -28,7 +28,7 @@ private static long getTimeWay1() {
 }
 ```
 
-#### 2. Calendar
+#### Calendar
 
 使用 `java.util.Calendar` 类，可以便捷去除时分秒以及毫秒的数值，
 
@@ -44,7 +44,7 @@ private static long getTimeWay2() {
 }
 ```
 
-#### 3. 除法
+#### 除法
 
 借鉴 `SimpleDateFormat` 的方式，本次直接使用除法操作即可，需要注意一点的是时区问题，东八区相对于零时区增加了八个小时，处理中需要处理一下。
 
@@ -57,7 +57,7 @@ private static long getTimeWay3() {
 }
 ```
 
-### 小结
+#### 小结
 
 | 方式             | 性能 | 使用             |
 | ---------------- | ---- | ---------------- |

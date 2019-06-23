@@ -156,23 +156,23 @@
   <li><strong>多个线程可以同时读取,但是写操作与读操作,写操作与写操作互斥</strong> ④</li>
 </ul>
 
-<h2 id="快速的读取与写入">快速的读取与写入</h2>
+<h3 id="快速的读取与写入">快速的读取与写入</h3>
 
 <p>快速的读入与写入很容易是我们想起使用HashMap，而不是使用ArrayList等非结构，因为ArrayList在查找的时候需要遍历进行，不能够适应快读的读取，而HashMap使用hash值能够很快的读取对应的项，在写入方面ArrayList直接写入线性表的下一项，操作很快，HashMap需要对存入的key进行hash计算，之后检测是否有碰撞发生，整体上比ArrayList差一点。在数据量比较大的时候，ArrayList的读取速度和HashMap差距很大。</p>
 
-<h2 id="能够实现lru策略">能够实现Lru策略</h2>
+<h3 id="能够实现lru策略">能够实现Lru策略</h3>
 
 <p>实现Lru策略需要记录元素的添加与访问顺序，需要不断的调整结构，链表将是不二直选，java中提供了LinkedHashMap可以方便实现Lru策略。</p>
 
-<h2 id="能够适应多线程并发访问操作">能够适应多线程并发访问操作</h2>
+<h3 id="能够适应多线程并发访问操作">能够适应多线程并发访问操作</h3>
 
 <p>能够适应并发操作，则需要保证一些数据的同步，需要对相应的数据加锁操作。</p>
 
-<h2 id="读写锁">读写锁</h2>
+<h3 id="读写锁">读写锁</h3>
 
 <p>Java1.5中提供了读写锁(ReadWriteLock)，可能保证多个线程可以同时读取,但是写操作与读操作,写操作与写操作互斥。</p>
 
-<h2 id="实现">实现</h2>
+<h3 id="实现">实现</h3>
 
 <pre><code>package me.codeboy.util;
 
@@ -259,7 +259,7 @@ public class LruCache&lt;K, V&gt; {
   <p>重写LinkedHashMap的removeEldestEntry方法可以实现在size超过指定大小时按照Lru或者插入顺序删除相应的元素</p>
 </blockquote>
 
-<h2 id="使用">使用</h2>
+<h3 id="使用">使用</h3>
 
 <ul>
   <li>为了保证数据的统一性，持有LruCache的对象需要使用单例模式。</li>
@@ -329,7 +329,7 @@ public class LruCache&lt;K, V&gt; {
         // 是否在正文的文章标题中显示段落章节编号
         isGenerateHeadingChapterCode: false,
         // 是否在正文的文章标题中创建锚点
-        isGenerateHeadingAnchor: true
+        isGenerateHeadingAnchor: false
     });
     const article = document.getElementById('article');
     const menu = document.getElementById('cb-menu');

@@ -133,7 +133,7 @@ lunch //切换编译平台
 
 mmm ./frameworks/base/packages/SettingsProvider
 
-## 重新编译framework.jar
+### 重新编译framework.jar
 cd ./frameworks/base/core/
 mm
 cd ../../../

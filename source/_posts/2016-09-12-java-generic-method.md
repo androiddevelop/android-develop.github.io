@@ -16,7 +16,7 @@ Java在JDK 5中引入了泛型，使用起来方便了很多，下面是一段�
 List<String> list = new ArrayList<String>();
 ```
 
-## 泛型方法使用
+### 泛型方法使用
 
 不仅集合中可以使用，在定义类、接口和方法的时候也是经常使用的，但是关于泛型方法使用的场景还是不太多。下面从求两个数的最大数的实现上来看一下泛型类和泛型方法的简单使用：
 
@@ -88,7 +88,7 @@ public class MathTest {
 
 ```
 
-## 泛型方法优缺点
+### 泛型方法优缺点
 
 优点很明显，代码简洁多了，或者可以说比普通的泛型泛型更为简洁，网上有一段关于Android中频繁使用 `findViewById` 方法的静态泛型方法实现，被称为见过最牛逼的Android代码，但是事物都有两面性，静态泛型方法也有相应的缺点，再看一段代码:
 
@@ -125,7 +125,7 @@ public class Test {
 Exception in thread "main" java.lang.ClassCastException: java.util.ArrayList cannot be cast to java.lang.String
 ```
 
-## 原理探索
+### 原理探索
 
 看到了上面的结果，不禁想了解下泛型方法在类型擦除后最终转换成了什么，反编译上述静态泛型方法编译后的class文件如下:
 
@@ -169,7 +169,7 @@ public class Test {
 对于上述的代码反编译后对应 `Method convert:(Ljava/lang/Object;)Ljava/util/List;` 中，可以看到此时参数为Object类型，返回为List类型。
 
 
-## 小结
+### 小结
 
 尽管Java中的泛型是伪泛型，但是泛型可以使代码更加的简洁，只是在使用 `普通泛型方法` 和 `静态泛型方法` 时需要特别注意类型转化。
 

@@ -5,8 +5,8 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 22 Jun 2019 10:28:31 +0800</pubDate>
-    <lastBuildDate>Sat, 22 Jun 2019 10:28:31 +0800</lastBuildDate>
+    <pubDate>Sun, 23 Jun 2019 10:02:29 +0800</pubDate>
+    <lastBuildDate>Sun, 23 Jun 2019 10:02:29 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -24,7 +24,7 @@ console.log(b + 1);
 
 &lt;p&gt;上面的5个console日志会输出什么？&lt;/p&gt;
 
-&lt;h2 id=&quot;解析&quot;&gt;解析&lt;/h2&gt;
+&lt;h3 id=&quot;解析&quot;&gt;解析&lt;/h3&gt;
 
 &lt;p&gt;&lt;code&gt;undefined&lt;/code&gt; 在javascript中表示一个没有设置值的变量， &lt;code&gt;null&lt;/code&gt; 表示一个空对象引用。从表示含义上可以很清楚的区分两者， 不过两者在部分使用上有一些差异，如下表：&lt;/p&gt;
 
@@ -82,7 +82,7 @@ console.log(b + 1);  // 1
 （4）函数没有返回值时，默认返回undefined。
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&quot;小结&quot;&gt;小结&lt;/h2&gt;
+&lt;h3 id=&quot;小结&quot;&gt;小结&lt;/h3&gt;
 
 &lt;p&gt;&lt;code&gt;undefined&lt;/code&gt; 和 &lt;code&gt;null&lt;/code&gt; 在javascript中的含义相近，存在差异， &lt;code&gt;undefined&lt;/code&gt; 的场景更多一些。&lt;/p&gt;
 
@@ -138,7 +138,7 @@ classpath: 工程中的其他的class作为classpath
 
 &lt;h3 id=&quot;实施&quot;&gt;实施&lt;/h3&gt;
 
-&lt;h5 id=&quot;1-定义-javafileobject&quot;&gt;1. 定义 &lt;code&gt;JavaFileObject&lt;/code&gt;&lt;/h5&gt;
+&lt;h4 id=&quot;定义javafileobject&quot;&gt;定义JavaFileObject&lt;/h4&gt;
 
 &lt;p&gt;用于保存源码，jdk中提供了 &lt;code&gt;SimpleJavaFileObject&lt;/code&gt; , 可以在该类的基础上简单修改即可。&lt;/p&gt;
 
@@ -176,7 +176,7 @@ public class MyJavaFileObject extends SimpleJavaFileObject {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h5 id=&quot;2-定义classloader&quot;&gt;2. 定义classloader&lt;/h5&gt;
+&lt;h4 id=&quot;定义classloader&quot;&gt;定义classloader&lt;/h4&gt;
 
 &lt;p&gt;加载字节码，为什么定义呢，因为 &lt;code&gt;defineClass&lt;/code&gt; 是 &lt;code&gt;protected&lt;/code&gt; 修饰的, 实际上是做一个中转。&lt;/p&gt;
 
@@ -198,7 +198,7 @@ public class MyClassLoader extends ClassLoader {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h5 id=&quot;3-coderuntime&quot;&gt;3. CodeRuntime&lt;/h5&gt;
+&lt;h4 id=&quot;coderuntime&quot;&gt;CodeRuntime&lt;/h4&gt;
 
 &lt;p&gt;源码执行器，进行的操作如下:&lt;/p&gt;
 
@@ -1151,7 +1151,7 @@ done
         <title>零点时间</title>
         <description>&lt;p&gt;在一些按天计算的场景中，需要获取当天凌晨零点的时间，有什么快捷高效的做法呢？下面针对Java中的几种计算方式进行比较：&lt;/p&gt;
 
-&lt;h4 id=&quot;1-simpledateformat&quot;&gt;1. SimpleDateFormat&lt;/h4&gt;
+&lt;h4 id=&quot;simpledateformat&quot;&gt;SimpleDateFormat&lt;/h4&gt;
 
 &lt;p&gt;获取当前时间对应的年月日，反向计算即可。&lt;/p&gt;
 
@@ -1166,7 +1166,7 @@ done
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&quot;2-calendar&quot;&gt;2. Calendar&lt;/h4&gt;
+&lt;h4 id=&quot;calendar&quot;&gt;Calendar&lt;/h4&gt;
 
 &lt;p&gt;使用 &lt;code&gt;java.util.Calendar&lt;/code&gt; 类，可以便捷去除时分秒以及毫秒的数值，&lt;/p&gt;
 
@@ -1181,7 +1181,7 @@ done
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&quot;3-除法&quot;&gt;3. 除法&lt;/h4&gt;
+&lt;h4 id=&quot;除法&quot;&gt;除法&lt;/h4&gt;
 
 &lt;p&gt;借鉴 &lt;code&gt;SimpleDateFormat&lt;/code&gt; 的方式，本次直接使用除法操作即可，需要注意一点的是时区问题，东八区相对于零时区增加了八个小时，处理中需要处理一下。&lt;/p&gt;
 
@@ -1193,7 +1193,7 @@ done
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&quot;小结&quot;&gt;小结&lt;/h3&gt;
+&lt;h4 id=&quot;小结&quot;&gt;小结&lt;/h4&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
@@ -1241,7 +1241,7 @@ done
     
       <item>
         <title>Zip几点小知识</title>
-        <description>&lt;h2 id=&quot;问题来源&quot;&gt;问题来源&lt;/h2&gt;
+        <description>&lt;h3 id=&quot;问题来源&quot;&gt;问题来源&lt;/h3&gt;
 
 &lt;ol&gt;
   &lt;li&gt;zip怎么加速解压速度？&lt;/li&gt;
@@ -1249,7 +1249,7 @@ done
   &lt;li&gt;zip文件的时间是怎么计算的？ (二进制上是怎么计算的)&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h2 id=&quot;1-zip怎么加速解压速度&quot;&gt;1. zip怎么加速解压速度&lt;/h2&gt;
+&lt;h3 id=&quot;zip怎么加速解压速度&quot;&gt;zip怎么加速解压速度&lt;/h3&gt;
 
 &lt;p&gt;为什么会有这个问题，源于近来项目中有一些cache包下发到手机中，需要解压，但是在一些中低端手机上，解压速度非常的慢，在一些算法求解中，常见的方式是使用空间换时间，zip中可行么？答案是可行的，看一下zip的几个参数：&lt;/p&gt;
 
@@ -1260,7 +1260,7 @@ done
 
 &lt;p&gt;0-9之间代表不同的压缩率，可以使用 &lt;code&gt;-0&lt;/code&gt; 参数进行无损压缩，换句话说，即简单的将文件进行拼接即可。 对一个6.4M的js、css资源按照0、1、9压缩后，大小分别是5.7M、2.4M、2.1M，在手机解压速度测试中时间大幅度减少。&lt;/p&gt;
 
-&lt;h2 id=&quot;2-相同文件压缩后的zip的md5值是否相同&quot;&gt;2. 相同文件压缩后的zip的md5值是否相同&lt;/h2&gt;
+&lt;h3 id=&quot;相同文件压缩后的zip的md5值是否相同&quot;&gt;相同文件压缩后的zip的md5值是否相同&lt;/h3&gt;
 
 &lt;p&gt;一直有个疑问，对同一个文件进行压缩，一次压缩结果为 &lt;code&gt;1.zip&lt;/code&gt;, 另外一次是 &lt;code&gt;2.zip&lt;/code&gt;, 计算两个文件的md5，会是一样的么？ 先说一下结果，可能一样，也可能不一样，首先文件名对md5的结果没有影响，然后前后手动压缩一个文本文件，查看两个文件的二进制，发现只有一个字节不同，第一感觉大家应该都会想到是时间问题，确实是时间的改变造成了2个文件的差异，zip结构中有个 &lt;code&gt;Extra Filed&lt;/code&gt;，里面记录了文件上次修改和上次访问时间，当对文件进行第一次压缩时，文件的访问时间可能会被修改，因为该时间计算单位是秒，所以在脚本执行的情况下，会出现以下结果：&lt;/p&gt;
 
@@ -1303,7 +1303,7 @@ MD5 (h1.zip) = 5b69e56cc533d19c14c1aa234bd7d6e3
 
 &lt;p&gt;可以看出，md5 会随着时间的偏移改变。在计算文件差异的时候，经常不需要关系此种信息，我们可以使用 &lt;code&gt;-X&lt;/code&gt; 参数去除extra属性。&lt;/p&gt;
 
-&lt;h2 id=&quot;3-zip文件的时间计算&quot;&gt;3. zip文件的时间计算&lt;/h2&gt;
+&lt;h3 id=&quot;zip文件的时间计算&quot;&gt;zip文件的时间计算&lt;/h3&gt;
 
 &lt;p&gt;研究了下zip文件的格式，在 &lt;strong&gt;Local file header&lt;/strong&gt; 中有一个对应的文件修改日期和修改时间字段，分别为2个字节，如下(小端模式下，读取时需要倒序):&lt;/p&gt;
 
@@ -1387,7 +1387,7 @@ MD5 (h1.zip) = 5b69e56cc533d19c14c1aa234bd7d6e3
 
 &lt;p&gt;4e71 = 0100111 0011 10001 = 39-03-17(年+1980) = 2019-03-17&lt;/p&gt;
 
-&lt;h2 id=&quot;参考&quot;&gt;参考&lt;/h2&gt;
+&lt;h3 id=&quot;参考&quot;&gt;参考&lt;/h3&gt;
 
 &lt;ol&gt;
   &lt;li&gt;&lt;a href=&quot;http://adoyle.me/blog/why-zip-file-checksum-changed.html&quot;&gt;http://adoyle.me/blog/why-zip-file-checksum-changed.html&lt;/a&gt;&lt;/li&gt;
@@ -1411,7 +1411,7 @@ MD5 (h1.zip) = 5b69e56cc533d19c14c1aa234bd7d6e3
     
       <item>
         <title>Andorid AsyncTask解析</title>
-        <description>&lt;h2 id=&quot;前言&quot;&gt;前言&lt;/h2&gt;
+        <description>&lt;h3 id=&quot;前言&quot;&gt;前言&lt;/h3&gt;
 
 &lt;p&gt;AsyncTask 在Android开发中是一个经常用到的类，允许用户在工作线程上完成后台计算等任务，之后将结果同步UI线程，比起 Thread 和  Handler 模型使用起来方便一些。&lt;/p&gt;
 
@@ -1424,7 +1424,7 @@ If you truly want parallel execution, you can invoke executeOnExecutor(java.util
 
 &lt;p&gt;可以看出，从 Android1.6 到  Android2.2 之间，AsyncTask是并行执行的，从HONEYCOMB(2.3)开始，为了避免并行执行造成的通用应用错误，任务的执行方式修改为串行。&lt;/p&gt;
 
-&lt;h2 id=&quot;分析&quot;&gt;分析&lt;/h2&gt;
+&lt;h3 id=&quot;分析&quot;&gt;分析&lt;/h3&gt;
 
 &lt;p&gt;我们从最新的Android 8.0中分析一下AsyncTask：&lt;/p&gt;
 
@@ -1516,7 +1516,7 @@ private static class SerialExecutor implements Executor {
 
 &lt;p&gt;到此，AsyncTask 为什么串行执行已经分析完毕。&lt;/p&gt;
 
-&lt;h2 id=&quot;使用&quot;&gt;使用&lt;/h2&gt;
+&lt;h3 id=&quot;使用&quot;&gt;使用&lt;/h3&gt;
 
 &lt;p&gt;当前主流的应用，如手机淘宝、支付宝等的最低支持版本均已经是4.0，所以在开发中，系统的默认的AsyncTask的执行时串行的，我们可以进行修改。上面分析中也有提到，在AsyncTask执行execute方法的时候，使用了默认的Executor，我们可以使用AsyncTask中提供的另外一个方法 executeOnExecutor 指定线程池来执行，需要注意的一点是AsyncTask提供了线程池的 AsyncTask.THREAD_POOL_EXECUTOR ，我们可以使用这个线程池，但是这个线程池的参数中的队列长度是128，线程池拒绝策略采用的 AbortPolicy  ，任务超出线程池可承受范围(MAXIMUM_POOL_SIZE + POOL_SIZE)时，将会发生异常。&lt;/p&gt;
 

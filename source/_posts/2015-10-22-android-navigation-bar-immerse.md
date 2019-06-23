@@ -194,7 +194,7 @@ Android M已经发布了很久了，很多新的特性也非常的吸引人，�
 <img src="/img/android-navigation-enhance-qqmusic-after.png" style="max-width:49.5%;display:inline-block;">
 
 
-###  后记
+### 后记
 
 能够给该功能在设置中加一个开关就完美了，快来查看[Android导航栏隐藏与浮现(二)](/2016/09/16/android-navigation-bar-immerse-2/)吧。
 

@@ -167,7 +167,7 @@ data:image/x-icon;base64,base64编码的icon图片数据
 <p>用以下图片做为基准:
 <img src="/img/android.jpg" alt="img" /></p>
 
-<h2 id="1-base64">1. base64</h2>
+<h3 id="base64">base64</h3>
 
 <h4 id="-base64编码图片">① base64编码图片</h4>
 
@@ -192,7 +192,7 @@ data:image/x-icon;base64,base64编码的icon图片数据
 
 <p>就可以了.</p>
 
-<h2 id="2-svg">2. svg</h2>
+<h3 id="svg">svg</h3>
 
 <p>svg是另一种网页中使用字符串表示图片的方式，可以使用 <code>sketch</code>, <code>photoshop</code> 之类的软件打开图片后，导出为svg即可，导出后的文件使用文本编辑器打开如下:</p>
 
@@ -274,7 +274,7 @@ data:image/x-icon;base64,base64编码的icon图片数据
         // 是否在正文的文章标题中显示段落章节编号
         isGenerateHeadingChapterCode: false,
         // 是否在正文的文章标题中创建锚点
-        isGenerateHeadingAnchor: true
+        isGenerateHeadingAnchor: false
     });
     const article = document.getElementById('article');
     const menu = document.getElementById('cb-menu');

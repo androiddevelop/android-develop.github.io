@@ -43,21 +43,21 @@
 <h3 id="setuid">setUID</h3>
 <hr />
 
-<h4 id="1功能">1.功能</h4>
+<p>###功能</p>
 
 <p>文件执行中将以属主(owner)身份运行</p>
 
-<h4 id="2使用前提">2.使用前提</h4>
+<p>###使用前提</p>
 
 <p>操作文件必须具有可执行权限</p>
 
-<h4 id="3命令操作">3.命令操作</h4>
+<p>###命令操作</p>
 
 <pre><code>chmod 4xxx exec_file
 chmod u+s exec_file
 </code></pre>
 
-<h4 id="4检查文件">4.检查文件</h4>
+<p>###检查文件</p>
 
 <pre><code>find / -perm -4000
 </code></pre>
@@ -66,27 +66,27 @@ chmod u+s exec_file
 <h3 id="setgid">setGID</h3>
 <hr />
 
-<h4 id="1功能-1">1.功能</h4>
+<p>###功能</p>
 
 <ul>
   <li>操作对象是文件时，文件执行中将以组(group)身份运行</li>
   <li>操作对象是目录时，在此目录中创建的文件或目录将继承上级目录的group组，即与父目录组是相同的</li>
 </ul>
 
-<h4 id="2使用前提-1">2.使用前提</h4>
+<p>###使用前提</p>
 
 <ul>
   <li>操作的文件必须具有可执行权限</li>
   <li>操作的目录时需要具有相应的权限</li>
 </ul>
 
-<h4 id="3命令操作-1">3.命令操作</h4>
+<p>###命令操作</p>
 
 <pre><code>chmod 2xxx exec_file/dir
 chmod g+s exec_file/dir
 </code></pre>
 
-<h4 id="4检查文件-1">4.检查文件</h4>
+<p>###检查文件</p>
 
 <pre><code>find / -perm -2000
 </code></pre>
@@ -96,24 +96,24 @@ chmod g+s exec_file/dir
 <h3 id="setbitsticky-bit-粘着位">setBIT(Sticky Bit, 粘着位)</h3>
 <hr />
 
-<h4 id="1功能-2">1.功能</h4>
+<p>###功能</p>
 
 <p>如果目录被设置了setBIT，那么该目录下的文件，除文件创建者和root可以进行更改和删除操作外，其他用户不能进行更改删除操作</p>
 
-<h4 id="2使用前提-2">2.使用前提</h4>
+<p>###使用前提</p>
 
 <ul>
   <li>操作对象为目录</li>
   <li>用户需要对该目录具有写(w)和执行(x)权限</li>
 </ul>
 
-<h4 id="3命令操作-2">3.命令操作</h4>
+<p>###命令操作</p>
 
 <pre><code>chmod 1xxx dir
 chmod o+t dir
 </code></pre>
 
-<h4 id="4检查文件-2">4.检查文件</h4>
+<p>###检查文件</p>
 
 <pre><code>find / -perm -1000
 </code></pre>
@@ -123,17 +123,17 @@ chmod o+t dir
 <h3 id="chattr">chattr</h3>
 <hr />
 
-<h4 id="1功能-3">1.功能</h4>
+<p>###功能</p>
 
 <p>修改文件的隐藏属性，有很多的操作，常见的有a和i操作，a是让文件或目录仅供附加用途，i是不得任意更动文件或目录。</p>
 
-<h4 id="2命令操作">2.命令操作</h4>
+<p>###命令操作</p>
 
 <pre><code>chattr +a file/dir
 chattr +i file/dir
 </code></pre>
 
-<h4 id="3查看">3.查看</h4>
+<p>###查看</p>
 
 <pre><code>lsattr file/dir
 </code></pre>

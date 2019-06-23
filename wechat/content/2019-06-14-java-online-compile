@@ -37,7 +37,7 @@ classpath: 工程中的其他的class作为classpath
 
 <h3 id="实施">实施</h3>
 
-<h5 id="1-定义-javafileobject">1. 定义 <code>JavaFileObject</code></h5>
+<h4 id="定义javafileobject">定义JavaFileObject</h4>
 
 <p>用于保存源码，jdk中提供了 <code>SimpleJavaFileObject</code> , 可以在该类的基础上简单修改即可。</p>
 
@@ -75,7 +75,7 @@ public class MyJavaFileObject extends SimpleJavaFileObject {
 }
 </code></pre>
 
-<h5 id="2-定义classloader">2. 定义classloader</h5>
+<h4 id="定义classloader">定义classloader</h4>
 
 <p>加载字节码，为什么定义呢，因为 <code>defineClass</code> 是 <code>protected</code> 修饰的, 实际上是做一个中转。</p>
 
@@ -97,7 +97,7 @@ public class MyClassLoader extends ClassLoader {
 }
 </code></pre>
 
-<h5 id="3-coderuntime">3. CodeRuntime</h5>
+<h4 id="coderuntime">CodeRuntime</h4>
 
 <p>源码执行器，进行的操作如下:</p>
 

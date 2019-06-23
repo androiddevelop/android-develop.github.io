@@ -46,7 +46,7 @@ classpath: 工程中的其他的class作为classpath
 
 ### 实施
 
-##### 1. 定义 `JavaFileObject` 
+#### 定义JavaFileObject
 
 用于保存源码，jdk中提供了 `SimpleJavaFileObject` , 可以在该类的基础上简单修改即可。
 
@@ -85,7 +85,7 @@ public class MyJavaFileObject extends SimpleJavaFileObject {
 }
 ```
 
-##### 2. 定义classloader
+#### 定义classloader
 
 加载字节码，为什么定义呢，因为 `defineClass` 是 `protected` 修饰的, 实际上是做一个中转。
 
@@ -108,7 +108,7 @@ public class MyClassLoader extends ClassLoader {
 }
 ```
 
-##### 3. CodeRuntime
+#### CodeRuntime
 
 源码执行器，进行的操作如下:
 

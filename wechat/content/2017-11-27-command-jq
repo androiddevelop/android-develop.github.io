@@ -29,7 +29,7 @@
 <h3 id="一安装">一、安装</h3>
 <p>jq的官网地址<a href="https://github.com/stedolan/jq">https://github.com/stedolan/jq</a></p>
 
-<h4 id="1-mac">1. mac</h4>
+<h4 id="mac">mac</h4>
 <pre><code>brew install jq
 </code></pre>
 
@@ -37,7 +37,7 @@
   <p>mac下安装时可能会提示更新xcode，如提示请更新。</p>
 </blockquote>
 
-<h4 id="2-linux">2. linux</h4>
+<h4 id="linux">linux</h4>
 <pre><code>apt-get install jq
 </code></pre>
 

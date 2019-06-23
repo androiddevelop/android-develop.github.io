@@ -9,7 +9,7 @@ tags:
 author: 'Codeboy'
 ---
 
-## 前言
+### 前言
 
 AsyncTask 在Android开发中是一个经常用到的类，允许用户在工作线程上完成后台计算等任务，之后将结果同步UI线程，比起 Thread 和  Handler 模型使用起来方便一些。
 
@@ -25,7 +25,7 @@ If you truly want parallel execution, you can invoke executeOnExecutor(java.util
 
 
 
-## 分析
+### 分析
 
 我们从最新的Android 8.0中分析一下AsyncTask：
 
@@ -123,7 +123,7 @@ private static class SerialExecutor implements Executor {
 
 
 
-## 使用
+### 使用
 
 当前主流的应用，如手机淘宝、支付宝等的最低支持版本均已经是4.0，所以在开发中，系统的默认的AsyncTask的执行时串行的，我们可以进行修改。上面分析中也有提到，在AsyncTask执行execute方法的时候，使用了默认的Executor，我们可以使用AsyncTask中提供的另外一个方法 executeOnExecutor 指定线程池来执行，需要注意的一点是AsyncTask提供了线程池的 AsyncTask.THREAD_POOL_EXECUTOR ，我们可以使用这个线程池，但是这个线程池的参数中的队列长度是128，线程池拒绝策略采用的 AbortPolicy  ，任务超出线程池可承受范围(MAXIMUM_POOL_SIZE + POOL_SIZE)时，将会发生异常。
 

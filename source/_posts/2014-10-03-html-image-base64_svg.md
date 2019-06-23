@@ -30,7 +30,7 @@ author: 'Codeboy'
 用以下图片做为基准:
 ![img](/img/android.jpg)
 
-## 1. base64
+### base64
 
 #### ① base64编码图片
 
@@ -54,7 +54,7 @@ linux下直接可以使用base64+图片路径就可以产生base64编码后的�
 
 就可以了.
 
-## 2. svg
+### svg
 
 svg是另一种网页中使用字符串表示图片的方式，可以使用 `sketch`, `photoshop` 之类的软件打开图片后，导出为svg即可，导出后的文件使用文本编辑器打开如下:
 

@@ -128,7 +128,7 @@ jekyll serve --watch &amp;
   <p>③ 启动jekyll服务</p>
 </blockquote>
 
-<h2 id="需要配置的内容">需要配置的内容:</h2>
+<h3 id="需要配置的内容">需要配置的内容:</h3>
 <ol>
   <li>修改_config.xml中的配置信息。</li>
   <li>修改_includes/footer.html中分享的信息。</li>
@@ -137,7 +137,7 @@ jekyll serve --watch &amp;
   <li>修改about/index.html中个人信息。</li>
 </ol>
 
-<h2 id="更新内容">更新内容:</h2>
+<h3 id="更新内容">更新内容:</h3>
 
 <ol>
   <li>在Clean Blog的基础上修改，调整若干问题。</li>

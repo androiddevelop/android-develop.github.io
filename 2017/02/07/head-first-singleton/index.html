@@ -151,7 +151,7 @@
 
 <p>本文会带着你深入整个Singleton的世界,下面从几个版本来进行分析。</p>
 
-<h3 id="1-singleton教学版本">1. Singleton教学版本</h3>
+<h3 id="singleton教学版本">Singleton教学版本</h3>
 
 <p>这里直接给出一个Singleton的简单实现，我们姑且把这个版本叫做1.0版，如下所示：</p>
 
@@ -183,7 +183,7 @@ public class Singleton {
 
 <p>当然，如果你觉得知道了上面这些事情后就学成了，那得给你当头棒喝一下了，事情远远没有那么简单。</p>
 
-<h3 id="2-singleton实际版本">2. Singleton实际版本</h3>
+<h3 id="singleton实际版本">Singleton实际版本</h3>
 
 <p>上面的这个程序存在比较严重的问题，因为是全局性的实例，所以，在多线程情况下，所有的全局共享的东西都会变得非常的危险，这个也一样，在多线程情况下，如果多个线程同时调用getInstance()的话，那么，可能会有多个进程同时通过 (singleton== null)的条件检查，于是，多个实例就创建出来，并且很可能造成内存泄露问题。嗯，熟悉多线程的你一定会说——“我们需要线程互斥或同步”，没错，我们需要这个事情，于是我们的Singleton升级成1.1版，如下所示：</p>
 
@@ -298,7 +298,7 @@ public class Singleton {
 
 <p>但是，这个事情仅在Java 1.5版后有用，1.5版之前用这个变量也有问题，因为老版本的Java的内存模型是有缺陷的。</p>
 
-<h3 id="3-singleton简化版本">3. Singleton简化版本</h3>
+<h3 id="singleton简化版本">Singleton简化版本</h3>
 
 <p>上面的玩法实在是太复杂了，一点也不优雅，下面是一种更为优雅的方式：</p>
 
@@ -342,7 +342,7 @@ public class Singleton {
 
 <p>上面这种方式，仍然使用JVM本身机制保证了线程安全问题；由于 SingletonHolder 是私有的，除了 getInstance() 之外没有办法访问它，因此它只有在getInstance()被调用时才会真正创建；同时读取实例的时候不会进行同步，没有性能缺陷；也不依赖 JDK 版本。</p>
 
-<h3 id="4-singleton优雅版本">4. Singleton优雅版本</h3>
+<h3 id="singleton优雅版本">Singleton优雅版本</h3>
 
 <pre><code>public enum Singleton{
    INSTANCE;
@@ -355,7 +355,7 @@ public class Singleton {
 
 <p>这个版本基本上消除了绝大多数的问题。代码也非常简单，实在无法不用。这也是新版的《Effective Java》中推荐的模式。</p>
 
-<h3 id="5-其他">5. 其他</h3>
+<h3 id="其他">其他</h3>
 
 <p>Singleton的其它问题可以从原文中查看。</p>
 
@@ -424,7 +424,7 @@ public class Singleton {
         // 是否在正文的文章标题中显示段落章节编号
         isGenerateHeadingChapterCode: false,
         // 是否在正文的文章标题中创建锚点
-        isGenerateHeadingAnchor: true
+        isGenerateHeadingAnchor: false
     });
     const article = document.getElementById('article');
     const menu = document.getElementById('cb-menu');

@@ -42,11 +42,11 @@
     
          <p>有时候我们需要能够及时的更新程序的部分逻辑，在java中可以使用相关远程调用技术，将相关的逻辑代码放置在服务器上，在适当的时候进行修改替换即可。下面介绍两种常见的方法:  <code>RMI(Remote Method Invocation)</code> 与 <code>URLClassLoader</code>.</p>
 
-<h2 id="rmi">RMI</h2>
+<h3 id="rmi">RMI</h3>
 
 <p><code>rmi</code> 即 <code>Remote Method Invocation</code> ，操作步骤如下：</p>
 
-<h4 id="1-定义远程接口">1. 定义远程接口</h4>
+<h4 id="定义远程接口">定义远程接口</h4>
 
 <pre><code>package me.codeboy.test.rmi;
 
@@ -62,7 +62,7 @@ public interface IServer extends Remote {
 }
 </code></pre>
 
-<h4 id="2-服务器接口实现">2. 服务器接口实现</h4>
+<h4 id="服务器接口实现">服务器接口实现</h4>
 
 <pre><code>package me.codeboy.test.rmi.server;
 
@@ -87,7 +87,7 @@ public class ServerImpl extends UnicastRemoteObject implements IServer {
 }
 </code></pre>
 
-<h4 id="3-rmi服务端实现">3. rmi服务端实现</h4>
+<h4 id="rmi服务端实现">rmi服务端实现</h4>
 
 <pre><code>import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
@@ -116,7 +116,7 @@ public class RmiServer {
 }
 </code></pre>
 
-<h4 id="4-rmi客户端实现">4. rmi客户端实现</h4>
+<h4 id="rmi客户端实现">rmi客户端实现</h4>
 
 <pre><code>package me.codeboy.test.rmi.client;
 
@@ -141,7 +141,7 @@ public class RmiClient {
 }
 </code></pre>
 
-<h4 id="5-运行">5. 运行</h4>
+<h4 id="运行">运行</h4>
 <ul>
   <li>运行rmi server</li>
   <li>运行rmi client</li>
@@ -151,7 +151,7 @@ public class RmiClient {
   <p>其中 <code>CBPrint</code> 使用第三方库<a href="http://github.com/androiddevelop/CommonBase">http://github.com/androiddevelop/CommonBase</a></p>
 </blockquote>
 
-<h2 id="urlclassloader">URLClassLoader</h2>
+<h3 id="urlclassloader">URLClassLoader</h3>
 
 <p><code>URLClassLoader</code> 可以在客户端上加载服务端的jar包，利用反射机制进行方法的调用即可，Java的三个类加载器组成的初始类加载器 <code>bootstrap classloader</code> <code>extension classloader</code> <code>system classloader</code>, 其中后两个classloader都是 <code>URLClassLoader</code> 的子类。操作步骤如下:</p>
 

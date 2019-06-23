@@ -121,11 +121,11 @@ author: 'Codeboy'
 	 
 ### 结构
 
-##### 初始结构
+#### 初始结构
 
     <input type="text" class="form-control" id="text" placeholder="默认操作" autocomplete="off"/>
    
-##### autosuggest作用后的结构
+#### autosuggest作用后的结构
 
     <div class="as-wrapper">
         <input type="text" class="form-control" id="text" placeholder="默认操作" autocomplete="off"/>
