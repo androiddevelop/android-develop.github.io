@@ -100,6 +100,8 @@
     
 
     
+
+    
          <p>Android中有各种各样的context，不同context有不同的用途，不仅仅生命周期不同，同时能够实现的操作也不相同，下面看一篇外国朋友总结的文章:</p>
 
 <p><strong>Context is probably the most used element in Android application, it may also be the most misused.</strong></p>

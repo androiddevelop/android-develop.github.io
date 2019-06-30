@@ -1,5 +1,7 @@
 
     
+
+    
          <p>Javascript中的 <code>undefined</code> 和 <code>null</code> 非常的常见，它们有什么不同呢？首先看几个简单的示例：</p>
 
 <pre><code class="language-nohighlight">var a = undefined;

@@ -14,6 +14,8 @@
     
 
     
+
+    
          <p>在一些按天计算的场景中，需要获取当天凌晨零点的时间，有什么快捷高效的做法呢？下面针对Java中的几种计算方式进行比较：</p>
 
 <h4 id="simpledateformat">SimpleDateFormat</h4>
