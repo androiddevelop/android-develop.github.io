@@ -25,17 +25,15 @@ https://www.codeboy.me/.well-known/assetlinks.json
 
 内容是固定的，配置下应用的package和对应签名的sha哈希即可。
 
-```
+```nohighlight
 [
   {
-    "relation": [
-      "delegate_permission/common.handle_all_urls"
-    ],
+    "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
       "package_name": "me.codeboy.test",
       "sha256_cert_fingerprints": [
-        "91:C1:DF:23:EB:37:91:5D:60:9E:FA:19:3F:BF:B1:4B:72:A5:97:AC:F2:16:17:66:8F:56:44:CB:3A:18:A3:39"
+"91:C1:DF:23:EB:37:91:5D:60:9E:FA:19:3F:BF:B1:4B:72:A5:97:AC:F2:16:17:66:8F:56:44:CB:3A:18:A3:39"
       ]
     }
   }
@@ -52,15 +50,13 @@ keytool -list -v -keystore debug.keystore
 
 客户端上需要给对应的Activity配置上intent-filter即可,  如下:
 
-```xml
+```nohighlight
 <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="www.codeboy.me"
-                    android:scheme="https" />
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
+    <data android:host="www.codeboy.me"
+          android:scheme="https" />
 </intent-filter>
 ```
 

@@ -160,16 +160,14 @@
 
 <p>内容是固定的，配置下应用的package和对应签名的sha哈希即可。</p>
 
-<pre><code>[
+<pre><code class="language-nohighlight">[
   {
-    "relation": [
-      "delegate_permission/common.handle_all_urls"
-    ],
+    "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
       "package_name": "me.codeboy.test",
       "sha256_cert_fingerprints": [
-        "91:C1:DF:23:EB:37:91:5D:60:9E:FA:19:3F:BF:B1:4B:72:A5:97:AC:F2:16:17:66:8F:56:44:CB:3A:18:A3:39"
+"91:C1:DF:23:EB:37:91:5D:60:9E:FA:19:3F:BF:B1:4B:72:A5:97:AC:F2:16:17:66:8F:56:44:CB:3A:18:A3:39"
       ]
     }
   }
@@ -185,14 +183,12 @@
 
 <p>客户端上需要给对应的Activity配置上intent-filter即可,  如下:</p>
 
-<pre><code class="language-xml">&lt;intent-filter android:autoVerify="true"&gt;
-                &lt;action android:name="android.intent.action.VIEW" /&gt;
-                &lt;category android:name="android.intent.category.DEFAULT" /&gt;
-                &lt;category android:name="android.intent.category.BROWSABLE" /&gt;
-
-                &lt;data
-                    android:host="www.codeboy.me"
-                    android:scheme="https" /&gt;
+<pre><code class="language-nohighlight">&lt;intent-filter android:autoVerify="true"&gt;
+    &lt;action android:name="android.intent.action.VIEW" /&gt;
+    &lt;category android:name="android.intent.category.DEFAULT" /&gt;
+    &lt;category android:name="android.intent.category.BROWSABLE" /&gt;
+    &lt;data android:host="www.codeboy.me"
+          android:scheme="https" /&gt;
 &lt;/intent-filter&gt;
 </code></pre>
 

@@ -5,8 +5,8 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 30 Jun 2019 09:42:46 +0800</pubDate>
-    <lastBuildDate>Sun, 30 Jun 2019 09:42:46 +0800</lastBuildDate>
+    <pubDate>Sun, 30 Jun 2019 09:56:51 +0800</pubDate>
+    <lastBuildDate>Sun, 30 Jun 2019 09:56:51 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -26,16 +26,14 @@
 
 &lt;p&gt;内容是固定的，配置下应用的package和对应签名的sha哈希即可。&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;[
+&lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;[
   {
-    &quot;relation&quot;: [
-      &quot;delegate_permission/common.handle_all_urls&quot;
-    ],
+    &quot;relation&quot;: [&quot;delegate_permission/common.handle_all_urls&quot;],
     &quot;target&quot;: {
       &quot;namespace&quot;: &quot;android_app&quot;,
       &quot;package_name&quot;: &quot;me.codeboy.test&quot;,
       &quot;sha256_cert_fingerprints&quot;: [
-        &quot;91:C1:DF:23:EB:37:91:5D:60:9E:FA:19:3F:BF:B1:4B:72:A5:97:AC:F2:16:17:66:8F:56:44:CB:3A:18:A3:39&quot;
+&quot;91:C1:DF:23:EB:37:91:5D:60:9E:FA:19:3F:BF:B1:4B:72:A5:97:AC:F2:16:17:66:8F:56:44:CB:3A:18:A3:39&quot;
       ]
     }
   }
@@ -51,14 +49,12 @@
 
 &lt;p&gt;客户端上需要给对应的Activity配置上intent-filter即可,  如下:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-xml&quot;&gt;&amp;lt;intent-filter android:autoVerify=&quot;true&quot;&amp;gt;
-                &amp;lt;action android:name=&quot;android.intent.action.VIEW&quot; /&amp;gt;
-                &amp;lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&amp;gt;
-                &amp;lt;category android:name=&quot;android.intent.category.BROWSABLE&quot; /&amp;gt;
-
-                &amp;lt;data
-                    android:host=&quot;www.codeboy.me&quot;
-                    android:scheme=&quot;https&quot; /&amp;gt;
+&lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;&amp;lt;intent-filter android:autoVerify=&quot;true&quot;&amp;gt;
+    &amp;lt;action android:name=&quot;android.intent.action.VIEW&quot; /&amp;gt;
+    &amp;lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&amp;gt;
+    &amp;lt;category android:name=&quot;android.intent.category.BROWSABLE&quot; /&amp;gt;
+    &amp;lt;data android:host=&quot;www.codeboy.me&quot;
+          android:scheme=&quot;https&quot; /&amp;gt;
 &amp;lt;/intent-filter&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 
