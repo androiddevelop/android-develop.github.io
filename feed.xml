@@ -5,9 +5,195 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 30 Jun 2019 09:56:51 +0800</pubDate>
-    <lastBuildDate>Sun, 30 Jun 2019 09:56:51 +0800</lastBuildDate>
+    <pubDate>Thu, 04 Jul 2019 11:38:43 +0800</pubDate>
+    <lastBuildDate>Thu, 04 Jul 2019 11:38:43 +0800</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>HashSet.add覆盖问题</title>
+        <description>&lt;h3 id=&quot;背景&quot;&gt;背景&lt;/h3&gt;
+
+&lt;p&gt;假定对象A、B的hash值相同，equals方法也想等，那么向 &lt;code&gt;HashSet&lt;/code&gt; 中顺序添加A、B，最后集合中保留的是A或者B或者是A和B呢？&lt;/p&gt;
+
+&lt;h3 id=&quot;编码&quot;&gt;编码&lt;/h3&gt;
+
+&lt;p&gt;看以下代码，分析下输出：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.hash;
+
+import java.util.Objects;
+
+/**
+ * hash bean
+ * Created by yuedong.li on 2019-07-01
+ */
+public class HashBean {
+    String value;
+
+    @Override
+    public boolean equals(Object obj) {
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(&quot;test&quot;);
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.hash;
+
+import com.google.common.collect.Maps;
+
+import java.util.HashSet;
+import java.util.Map;
+
+/**
+ * set add问题
+ * Created by yuedong.li on 2019-07-01
+ */
+public class SetAdd {
+    public static void main(String[] args) {
+        HashBean bean = new HashBean();
+        bean.value = &quot;first&quot;;
+        HashBean bean2 = new HashBean();
+        bean2.value = &quot;second&quot;;
+
+        HashSet&amp;lt;HashBean&amp;gt; set = new HashSet&amp;lt;&amp;gt;();
+        set.add(bean);
+        set.add(bean2);
+        System.out.println(set.size());
+        System.out.println(set.iterator().next().value);
+
+        System.out.println();
+        Map&amp;lt;HashBean, String&amp;gt; map2 = Maps.newHashMap();
+        map2.put(bean, &quot;first&quot;);
+        map2.put(bean2, &quot;second&quot;);
+        System.out.println(map2.size());
+        System.out.println(map2.values().iterator().next());
+        System.out.println(map2.keySet().iterator().next());
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;分析&quot;&gt;分析&lt;/h3&gt;
+
+&lt;p&gt;这里先贴一下输出的结果:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;1
+first
+
+1
+second
+first
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;为什么会是这样的呢？我们先看一下Jdk1.8.0中 &lt;code&gt;HashSet.add&lt;/code&gt; 方法的调用栈:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;## HashSet
+public boolean add(E e) {
+	return map.put(e, PRESENT)==null;  //这里直接使用的是hashMap，将值当作key记录
+}
+
+## HashMap 
+/**
+ * Associates the specified value with the specified key in this map.
+ * If the map previously contained a mapping for the key, the old
+ * value is replaced.
+ *
+ * @param key key with which the specified value is to be associated
+ * @param value value to be associated with the specified key
+ * @return the previous value associated with &amp;lt;tt&amp;gt;key&amp;lt;/tt&amp;gt;, or
+ *         &amp;lt;tt&amp;gt;null&amp;lt;/tt&amp;gt; if there was no mapping for &amp;lt;tt&amp;gt;key&amp;lt;/tt&amp;gt;.
+ *         (A &amp;lt;tt&amp;gt;null&amp;lt;/tt&amp;gt; return can also indicate that the map
+ *         previously associated &amp;lt;tt&amp;gt;null&amp;lt;/tt&amp;gt; with &amp;lt;tt&amp;gt;key&amp;lt;/tt&amp;gt;.)
+ */
+public V put(K key, V value) {
+  return putVal(hash(key), key, value, false, true);
+}
+
+/**
+ * Implements Map.put and related methods
+ *
+ * @param hash hash for key
+ * @param key the key
+ * @param value the value to put
+ * @param onlyIfAbsent if true, don't change existing value
+ * @param evict if false, the table is in creation mode.
+ * @return previous value, or null if none
+ */
+final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+               boolean evict) {
+    Node&amp;lt;K,V&amp;gt;[] tab; Node&amp;lt;K,V&amp;gt; p; int n, i;
+    if ((tab = table) == null || (n = tab.length) == 0)
+        n = (tab = resize()).length;
+    if ((p = tab[i = (n - 1) &amp;amp; hash]) == null)
+        tab[i] = newNode(hash, key, value, null);
+    else {
+        Node&amp;lt;K,V&amp;gt; e; K k;
+        if (p.hash == hash &amp;amp;&amp;amp;
+            ((k = p.key) == key || (key != null &amp;amp;&amp;amp; key.equals(k))))
+            e = p;
+        else if (p instanceof TreeNode)
+            e = ((TreeNode&amp;lt;K,V&amp;gt;)p).putTreeVal(this, tab, hash, key, value);
+        else {
+            for (int binCount = 0; ; ++binCount) {
+                if ((e = p.next) == null) {
+                    p.next = newNode(hash, key, value, null);
+                    if (binCount &amp;gt;= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                        treeifyBin(tab, hash);
+                    break;
+                }
+                if (e.hash == hash &amp;amp;&amp;amp;
+                    ((k = e.key) == key || (key != null &amp;amp;&amp;amp; key.equals(k))))
+                    break;
+                p = e;
+            }
+        }
+        if (e != null) { // existing mapping for key
+            V oldValue = e.value;
+            if (!onlyIfAbsent || oldValue == null)
+                e.value = value;
+            afterNodeAccess(e);
+            return oldValue;
+        }
+    }
+    ++modCount;
+    if (++size &amp;gt; threshold)
+        resize();
+    afterNodeInsertion(evict的);
+    return null;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;从代码中可以看出，&lt;code&gt;HashSet.add&lt;/code&gt; 直接调用&lt;code&gt;HashMap.put&lt;/code&gt; 方法，&lt;code&gt;HashSet&lt;/code&gt;的内部实现也确实是&lt;code&gt;HashMap&lt;/code&gt;,  &lt;code&gt;HashSet.add&lt;/code&gt; 的值直接作为&lt;code&gt;HashMap&lt;/code&gt;的key进行存储，从&lt;code&gt;HashMap.putVal&lt;/code&gt; 方法中可以看出，&lt;code&gt;HashMap&lt;/code&gt;的key并没有做替换，在 &lt;code&gt;onlyIfAbsent&lt;/code&gt;是false或者原先值为null的情况下，新value会替换旧value。&lt;/p&gt;
+
+&lt;h3 id=&quot;小结&quot;&gt;小结&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;HashSet&lt;/code&gt;在add的时候，在两个对象相等的情况下，是不进行替换的。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;HashMap&lt;/code&gt;在put的时候，在两个key相等的情况下，是不进行替换的，在两个value相同的情况下，是要根据 &lt;code&gt;putVal&lt;/code&gt; 方法中的&lt;code&gt;onlyIfAbsent&lt;/code&gt;字段进行决定的。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
+
+  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>Thu, 04 Jul 2019 00:00:00 +0800</pubDate>
+        <link>https://https://www.codeboy.me/2019/07/04/hashset-add/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2019/07/04/hashset-add/</guid>
+        
+        <category>java</category>
+        
+        
+      </item>
     
       <item>
         <title>Andorid AppLink配置</title>
@@ -1321,176 +1507,6 @@ done
         <guid isPermaLink="true">https://https://www.codeboy.me/2019/04/13/java-today-zero-hour/</guid>
         
         <category>java</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Zip几点小知识</title>
-        <description>&lt;h3 id=&quot;问题来源&quot;&gt;问题来源&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;zip怎么加速解压速度？&lt;/li&gt;
-  &lt;li&gt;相同文件分别压缩为 &lt;code&gt;a.zip&lt;/code&gt;  和 &lt;code&gt;b.zip&lt;/code&gt; 后，计算出的md5一样么？原因是？&lt;/li&gt;
-  &lt;li&gt;zip文件的时间是怎么计算的？ (二进制上是怎么计算的)&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;zip怎么加速解压速度&quot;&gt;zip怎么加速解压速度&lt;/h3&gt;
-
-&lt;p&gt;为什么会有这个问题，源于近来项目中有一些cache包下发到手机中，需要解压，但是在一些中低端手机上，解压速度非常的慢，在一些算法求解中，常见的方式是使用空间换时间，zip中可行么？答案是可行的，看一下zip的几个参数：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;-0   store only 不压缩
--1   compress faster 最快压缩，压缩率最差。
--9   compress better 最大压缩，压缩率最佳。
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;0-9之间代表不同的压缩率，可以使用 &lt;code&gt;-0&lt;/code&gt; 参数进行无损压缩，换句话说，即简单的将文件进行拼接即可。 对一个6.4M的js、css资源按照0、1、9压缩后，大小分别是5.7M、2.4M、2.1M，在手机解压速度测试中时间大幅度减少。&lt;/p&gt;
-
-&lt;h3 id=&quot;相同文件压缩后的zip的md5值是否相同&quot;&gt;相同文件压缩后的zip的md5值是否相同&lt;/h3&gt;
-
-&lt;p&gt;一直有个疑问，对同一个文件进行压缩，一次压缩结果为 &lt;code&gt;1.zip&lt;/code&gt;, 另外一次是 &lt;code&gt;2.zip&lt;/code&gt;, 计算两个文件的md5，会是一样的么？ 先说一下结果，可能一样，也可能不一样，首先文件名对md5的结果没有影响，然后前后手动压缩一个文本文件，查看两个文件的二进制，发现只有一个字节不同，第一感觉大家应该都会想到是时间问题，确实是时间的改变造成了2个文件的差异，zip结构中有个 &lt;code&gt;Extra Filed&lt;/code&gt;，里面记录了文件上次修改和上次访问时间，当对文件进行第一次压缩时，文件的访问时间可能会被修改，因为该时间计算单位是秒，所以在脚本执行的情况下，会出现以下结果：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;➜  zip ./a.sh 
-adding: hello.txt (stored 0%)
-MD5 (h1.zip) = a277a7f05ca3cba3eb119424068aad95
-adding: hello.txt (stored 0%)
-MD5 (h1.zip) = cd8924673f41e81b585a809df8e6b714
-  adding: hello.txt (stored 0%)
-MD5 (h1.zip) = cd8924673f41e81b585a809df8e6b714
-  adding: hello.txt (stored 0%)
-MD5 (h1.zip) = cd8924673f41e81b585a809df8e6b714
-  adding: hello.txt (stored 0%)
-MD5 (h1.zip) = cd8924673f41e81b585a809df8e6b714
-  adding: hello.txt (stored 0%)
-MD5 (h1.zip) = cd8924673f41e81b585a809df8e6b714
-  adding: hello.txt (stored 0%)
-MD5 (h1.zip) = cd8924673f41e81b585a809df8e6b714
-  adding: hello.txt (stored 0%)
-MD5 (h1.zip) = cd8924673f41e81b585a809df8e6b714
-  adding: hello.txt (stored 0%)
-MD5 (h1.zip) = cd8924673f41e81b585a809df8e6b714
-  adding: hello.txt (stored 0%)
-MD5 (h1.zip) = cd8924673f41e81b585a809df8e6b714
-  adding: hello.txt (stored 0%)
-MD5 (h1.zip) = cd8924673f41e81b585a809df8e6b714
-  adding: hello.txt (stored 0%)
-MD5 (h1.zip) = cd8924673f41e81b585a809df8e6b714
-  adding: hello.txt (stored 0%)
-MD5 (h1.zip) = cd8924673f41e81b585a809df8e6b714
-  adding: hello.txt (stored 0%)
-MD5 (h1.zip) = cd8924673f41e81b585a809df8e6b714
-  adding: hello.txt (stored 0%)
-MD5 (h1.zip) = cd8924673f41e81b585a809df8e6b714
-  adding: hello.txt (stored 0%)
-MD5 (h1.zip) = 5b69e56cc533d19c14c1aa234bd7d6e3
-  adding: hello.txt (stored 0%)
-MD5 (h1.zip) = 5b69e56cc533d19c14c1aa234bd7d6e3
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;可以看出，md5 会随着时间的偏移改变。在计算文件差异的时候，经常不需要关系此种信息，我们可以使用 &lt;code&gt;-X&lt;/code&gt; 参数去除extra属性。&lt;/p&gt;
-
-&lt;h3 id=&quot;zip文件的时间计算&quot;&gt;zip文件的时间计算&lt;/h3&gt;
-
-&lt;p&gt;研究了下zip文件的格式，在 &lt;strong&gt;Local file header&lt;/strong&gt; 中有一个对应的文件修改日期和修改时间字段，分别为2个字节，如下(小端模式下，读取时需要倒序):&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;Offset&lt;/th&gt;
-      &lt;th&gt;字符&lt;/th&gt;
-      &lt;th&gt;备注&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;0&lt;/td&gt;
-      &lt;td&gt;50 4b 03 04&lt;/td&gt;
-      &lt;td&gt;头部魔数&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;4&lt;/td&gt;
-      &lt;td&gt;0a 00&lt;/td&gt;
-      &lt;td&gt;版本 (10)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;6&lt;/td&gt;
-      &lt;td&gt;00 00&lt;/td&gt;
-      &lt;td&gt;标记, 加密与否&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;8&lt;/td&gt;
-      &lt;td&gt;00 00&lt;/td&gt;
-      &lt;td&gt;压缩算法&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;10&lt;/td&gt;
-      &lt;td&gt;89 aa&lt;/td&gt;
-      &lt;td&gt;最近修改时间 (这个)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;12&lt;/td&gt;
-      &lt;td&gt;71 4e&lt;/td&gt;
-      &lt;td&gt;最近修改日期 (这个)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;14&lt;/td&gt;
-      &lt;td&gt;2d 3b 08 af&lt;/td&gt;
-      &lt;td&gt;crc-32&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;18&lt;/td&gt;
-      &lt;td&gt;0c 00 00 00&lt;/td&gt;
-      &lt;td&gt;压缩大小，12B (12)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;22&lt;/td&gt;
-      &lt;td&gt;0c 00 00 00&lt;/td&gt;
-      &lt;td&gt;未压缩大小，12B&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;26&lt;/td&gt;
-      &lt;td&gt;09 00&lt;/td&gt;
-      &lt;td&gt;文件名字长度 (9)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;28&lt;/td&gt;
-      &lt;td&gt;1c 00&lt;/td&gt;
-      &lt;td&gt;扩展区域长度 (28)&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;30&lt;/td&gt;
-      &lt;td&gt; &lt;/td&gt;
-      &lt;td&gt;文件内容&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h4 id=&quot;最近修改时间&quot;&gt;最近修改时间&lt;/h4&gt;
-
-&lt;p&gt;aa89 = 10101 010100 01001 =  21:20:09&lt;/p&gt;
-
-&lt;h4 id=&quot;最近修改日期&quot;&gt;最近修改日期&lt;/h4&gt;
-
-&lt;p&gt;4e71 = 0100111 0011 10001 = 39-03-17(年+1980) = 2019-03-17&lt;/p&gt;
-
-&lt;h3 id=&quot;参考&quot;&gt;参考&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;&lt;a href=&quot;http://adoyle.me/blog/why-zip-file-checksum-changed.html&quot;&gt;http://adoyle.me/blog/why-zip-file-checksum-changed.html&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://opensource.apple.com/source/zip/zip-6/unzip/unzip/proginfo/extra.fld&quot;&gt;https://opensource.apple.com/source/zip/zip-6/unzip/unzip/proginfo/extra.fld&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
-
-  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
-&lt;/blockquote&gt;
-</description>
-        <pubDate>Wed, 20 Mar 2019 00:00:00 +0800</pubDate>
-        <link>https://https://www.codeboy.me/2019/03/20/zip-tricks/</link>
-        <guid isPermaLink="true">https://https://www.codeboy.me/2019/03/20/zip-tricks/</guid>
-        
-        <category>linux</category>
         
         
       </item>

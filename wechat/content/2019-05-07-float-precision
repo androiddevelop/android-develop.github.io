@@ -12,6 +12,8 @@
     
 
     
+
+    
          <p>整数、浮点数是开发中经常使用的类型，在Java中，整数常用的有 <code>Integer</code> 和 <code>Long</code> ，浮点数有 <code>Float</code> 和 <code>Double</code> 。如果使用 <code>Float</code> 来存储 <code>Integer</code> 的值可行么？粗略看上去，肯定是没问题的，下面我们看个例子:</p>
 
 <pre><code>public class Test {

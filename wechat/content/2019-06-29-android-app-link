@@ -1,5 +1,7 @@
 
     
+
+    
          <h3 id="前言">前言</h3>
 
 <p>客户端开发中，经常会遇到appA跳转appB的场景，之前Android中使用比较多的是 <code>DeepLink</code>，ios中对应的是 <code>Scheme</code>, 两者基本类似，在用户触发某个操作后，系统提示是否打开对应app，用户选择同意后进入指定app。</p>
