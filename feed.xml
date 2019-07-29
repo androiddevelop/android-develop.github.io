@@ -5,8 +5,8 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 29 Jul 2019 12:16:26 +0800</pubDate>
-    <lastBuildDate>Mon, 29 Jul 2019 12:16:26 +0800</lastBuildDate>
+    <pubDate>Mon, 29 Jul 2019 12:19:46 +0800</pubDate>
+    <lastBuildDate>Mon, 29 Jul 2019 12:19:46 +0800</lastBuildDate>
     <generator>Jekyll v3.8.6</generator>
     
       <item>
@@ -34,7 +34,7 @@
 &lt;ol&gt;
   &lt;li&gt;下载&lt;a href=&quot;http://cdn.codeboy.org/clipboard-0.0.1.jar&quot;&gt;clipboard-0.0.1.jar&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;执行以下命令即可
-    &lt;pre&gt;&lt;code&gt;java -jar clipboard-0.0.1.jar
+    &lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;java -jar clipboard-0.0.1.jar
 &lt;/code&gt;&lt;/pre&gt;
   &lt;/li&gt;
 &lt;/ol&gt;

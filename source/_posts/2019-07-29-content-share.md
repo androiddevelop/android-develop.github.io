@@ -29,7 +29,7 @@ author: 'Codeboy'
 
 1. 下载[clipboard-0.0.1.jar](http://cdn.codeboy.org/clipboard-0.0.1.jar)
 2. 执行以下命令即可
-```
+```nohighlight
 java -jar clipboard-0.0.1.jar
 ```
 

@@ -23,7 +23,7 @@
 <ol>
   <li>下载<a href="http://cdn.codeboy.org/clipboard-0.0.1.jar">clipboard-0.0.1.jar</a></li>
   <li>执行以下命令即可
-    <pre><code>java -jar clipboard-0.0.1.jar
+    <pre><code class="language-nohighlight">java -jar clipboard-0.0.1.jar
 </code></pre>
   </li>
 </ol>
