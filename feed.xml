@@ -5,9 +5,63 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 08 Jul 2019 01:17:32 +0800</pubDate>
-    <lastBuildDate>Mon, 08 Jul 2019 01:17:32 +0800</lastBuildDate>
-    <generator>Jekyll v3.8.5</generator>
+    <pubDate>Mon, 29 Jul 2019 12:16:26 +0800</pubDate>
+    <lastBuildDate>Mon, 29 Jul 2019 12:16:26 +0800</lastBuildDate>
+    <generator>Jekyll v3.8.6</generator>
+    
+      <item>
+        <title>内容共享</title>
+        <description>&lt;h3 id=&quot;背景&quot;&gt;背景&lt;/h3&gt;
+
+&lt;p&gt;工作时有两台主力电脑，一台Mac，一台Ubuntu，之前经常基本上是Mac共享内容给Ubuntu，也有了&lt;a href=&quot;/2019/04/17/clipboard-sync&quot;&gt;剪切板同步&lt;/a&gt;这篇文章。随着Ubuntu上做的事情越来越多，也需要反向共享，结合日常工作中也需要和很多业务方同学来进行文本、图片的共享，于是决定做一个简单内容共享的Web应用。&lt;/p&gt;
+
+&lt;h3 id=&quot;目标&quot;&gt;目标&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;多设备间可以访问，共享文本和图片。&lt;/li&gt;
+  &lt;li&gt;支持房间，可以针对特定的共享有单独的区域。&lt;/li&gt;
+  &lt;li&gt;支持设置访问密码。(目前暂不支持)&lt;/li&gt;
+  &lt;li&gt;PC端直接粘贴即可，提升效率。&lt;/li&gt;
+  &lt;li&gt;自动清理信息，清理24小时内没有任何访问的房间。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;demo&quot;&gt;Demo&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://share.codeboy.org&quot;&gt;share.codeboy.org&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;部署&quot;&gt;部署&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;下载&lt;a href=&quot;http://cdn.codeboy.org/clipboard-0.0.1.jar&quot;&gt;clipboard-0.0.1.jar&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;执行以下命令即可
+    &lt;pre&gt;&lt;code&gt;java -jar clipboard-0.0.1.jar
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;默认80端口，如果需要修改，可以 &lt;code&gt;application.properties&lt;/code&gt; 中端口号即可。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;二次开发&quot;&gt;二次开发&lt;/h3&gt;
+
+&lt;p&gt;项目基于 &lt;code&gt;SpringBoot&lt;/code&gt; + &lt;code&gt;thymeleaf&lt;/code&gt; 开发，可以在此基础上进一步改造。
+项目地址： &lt;a href=&quot;https://github.com/androiddevelop/ContentShare&quot;&gt;https://github.com/androiddevelop/ContentShare&lt;/a&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
+
+  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>Mon, 29 Jul 2019 00:00:00 +0800</pubDate>
+        <link>https://https://www.codeboy.me/2019/07/29/content-share/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2019/07/29/content-share/</guid>
+        
+        <category>java</category>
+        
+        
+      </item>
     
       <item>
         <title>HashSet.add覆盖问题</title>
@@ -1415,98 +1469,6 @@ done
         <guid isPermaLink="true">https://https://www.codeboy.me/2019/04/17/clipboard-sync/</guid>
         
         <category>linux</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>零点时间</title>
-        <description>&lt;p&gt;在一些按天计算的场景中，需要获取当天凌晨零点的时间，有什么快捷高效的做法呢？下面针对Java中的几种计算方式进行比较：&lt;/p&gt;
-
-&lt;h4 id=&quot;simpledateformat&quot;&gt;SimpleDateFormat&lt;/h4&gt;
-
-&lt;p&gt;获取当前时间对应的年月日，反向计算即可。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;private static long getTimeWay1() {
-    try {
-        SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;, Locale.CHINA);
-        return sdf.parse(sdf.format(System.currentTimeMillis())).getTime();
-    } catch (ParseException e) {
-        e.printStackTrace();
-    }
-    return -1;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&quot;calendar&quot;&gt;Calendar&lt;/h4&gt;
-
-&lt;p&gt;使用 &lt;code&gt;java.util.Calendar&lt;/code&gt; 类，可以便捷去除时分秒以及毫秒的数值，&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;private static long getTimeWay2() {
-    Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
-    //注意，这里不是Calendar.HOUR, 需要按照24小时的Calendar.HOUR_OF_DAY进行
-    calendar.set(Calendar.HOUR_OF_DAY, 0);
-    calendar.set(Calendar.MINUTE, 0);
-    calendar.set(Calendar.SECOND, 0);
-    calendar.set(Calendar.MILLISECOND, 0);
-    return calendar.getTimeInMillis();
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&quot;除法&quot;&gt;除法&lt;/h4&gt;
-
-&lt;p&gt;借鉴 &lt;code&gt;SimpleDateFormat&lt;/code&gt; 的方式，本次直接使用除法操作即可，需要注意一点的是时区问题，东八区相对于零时区增加了八个小时，处理中需要处理一下。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;private static long getTimeWay3() {
-    long ONE_DAY = 24 * 3600 * 1000;
-    long now = System.currentTimeMillis();
-    long offset = TimeZone.getDefault().getRawOffset();
-    return (now + offset) / ONE_DAY * ONE_DAY - offset;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&quot;小结&quot;&gt;小结&lt;/h4&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;方式&lt;/th&gt;
-      &lt;th&gt;性能&lt;/th&gt;
-      &lt;th&gt;使用&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;SimpleDateFormat&lt;/td&gt;
-      &lt;td&gt;一般&lt;/td&gt;
-      &lt;td&gt;一般&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Calendar&lt;/td&gt;
-      &lt;td&gt;高&lt;/td&gt;
-      &lt;td&gt;方便&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;除法&lt;/td&gt;
-      &lt;td&gt;最高&lt;/td&gt;
-      &lt;td&gt;时区问题需要注意&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;对比下来, 推荐使用第二种&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
-
-  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
-&lt;/blockquote&gt;
-</description>
-        <pubDate>Sat, 13 Apr 2019 00:00:00 +0800</pubDate>
-        <link>https://https://www.codeboy.me/2019/04/13/java-today-zero-hour/</link>
-        <guid isPermaLink="true">https://https://www.codeboy.me/2019/04/13/java-today-zero-hour/</guid>
-        
-        <category>java</category>
         
         
       </item>
