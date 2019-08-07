@@ -157,7 +157,7 @@
 
 <p><code>JSONP</code> 和 <code>CORS</code> 均需要服务端进行适当适配和改造，这里不再讲述，感兴趣的小伙伴可以自行查询。这里我们对同域请求的实现进行说明。</p>
 
-<p><code>同域请求</code> ,顾名思义就是将相同域下的请求进行代理，其实是一种 <code>反向代理</code> , 用最近项目开发中的一个例子来进行叙述和配置。前端页面部署在 <code>project.example.com</code> 中，服务端代码也部署在该服务器上，但是端口是 <code>9999</code> , 正常情况下，<code>http://project.example.com/test.html</code> 页面中是访问不到 <code>http://project.example.com:9999/api/getData</code> 的数据的，此事我们可以加一层代理，将  <code>http://project.example.com/api/getData</code> 全部代理转发到  <code>http://project.example.com:9999/api/getData</code> 即可。</p>
+<p><code>同域请求</code> ,顾名思义就是将相同域下的请求进行代理，其实是一种 <code>反向代理</code> , 用最近项目开发中的一个例子来进行叙述和配置。前端页面部署在 <code>project.example.com</code> 中，服务端代码也部署在该服务器上，但是端口是 <code>9999</code> , 正常情况下，<code>http://project.example.com/test.html</code> 页面中是访问不到 <code>http://project.example.com:9999/api/getData</code> 的数据的，此时我们可以加一层代理，将  <code>http://project.example.com/api/getData</code> 全部代理转发到  <code>http://project.example.com:9999/api/getData</code> 即可。</p>
 
 <h3 id="准备环境">准备环境</h3>
 
