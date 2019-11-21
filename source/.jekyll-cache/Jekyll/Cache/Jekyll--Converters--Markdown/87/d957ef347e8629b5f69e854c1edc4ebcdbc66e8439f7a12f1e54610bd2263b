@@ -1,0 +1,225 @@
+I" <p>d3是javascript的一个可视化库，可以制作很漂亮的表格等，其中有一个非常好玩的力学图，可以方便的进行拖拽等，但是关于更新的操作网上介绍的很少，下面介绍下关于力学图的更新，先看一个例子(<a href="http://example.codeboy.me/d3/force-layout.html">http://example.codeboy.me/d3/force-layout.html</a>,点击一次下图后可以直接按回车键添加)：</p>
+
+<iframe src="https://example.codeboy.me/d3/force-layout.html" width="100%" height="500px" frameborder="0" scrolling="no"> </iframe>
+
+<p>绘制图形的方式基本上可以分为svg与canvas两种，两者各有优缺点，不对于以后屏幕越来越大，svg更加的有优势，并且svg可以很方便的进行事件交互。</p>
+
+<p>下面看一下这个力学图具体实现：</p>
+
+<h3 id="整体代码">整体代码</h3>
+
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"&gt;
+
+&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+&lt;link href="css/bootstrap.min.css" rel="stylesheet"&gt;
+&lt;script src="js/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script src="js/bootstrap.min.js"&gt;&lt;/script&gt;
+&lt;script src="js/layer/layer.min.js"&gt;&lt;/script&gt;
+&lt;script src="js/d3.min.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;title&gt;d3 layout update&lt;/title&gt;
+&lt;/head&gt;
+&lt;body style="height: 100%;"&gt;
+&lt;div class="container" style="padding-left: 0; width: 100%;"&gt;
+    &lt;div id="svg"&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    $(document).ready(function () {
+        var height = document.body.clientHeight;
+        var width = document.body.clientWidth;
+
+        var nodes_data = [{'name': '0'},
+            {'name': '1'},
+            {'name': '2'},
+            {'name': '3'},
+            {'name': '4'},
+            {'name': '5'},
+            {'name': '6'}];
+            
+        var edges_data = [{'source': 0, 'target': 1},
+            {'source': 0, 'target': 2},
+            {'source': 0, 'target': 3},
+            {'source': 0, 'target': 4},
+            {'source': 0, 'target': 5},
+            {'source': 0, 'target': 6}];
+
+        var color = d3.scale.category20();
+        var edgeWidth = 2;
+        var r = 40;
+        var svg = d3.select("#svg").append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+        var force = d3.layout.force()
+                .nodes(nodes_data)
+                .links(edges_data)
+                .size([width, height])
+                .linkDistance(200)
+                .friction(0.8)
+                .charge(-500)
+                .start();
+
+        //边
+        var links = svg.selectAll("line")
+                .data(edges_data)
+                .enter()
+                .append("line")
+                .attr("marker-end", "url(#arrow)")
+                .style("stroke", "#ccc")
+                .style("stroke-width", edgeWidth);
+	//节点
+        var nodes = svg.selectAll("circle")
+                .data(nodes_data)
+                .enter()
+                .append("circle")
+                .attr("r", r)
+                .style("fill", function (d, i) {
+                    return color(i);
+                })
+                .on("click", function (d, i) {
+                    if (i == 0) {
+                        update();
+                    }
+                })
+                .call(force.drag);
+	//标签
+        var nodes_labels = svg.selectAll("text")
+                .data(nodes_data)
+                .enter()
+                .append("text")
+                .attr("dx", function (d, i) {
+                    return -16 * (nodes_data[i].name.length);
+                })
+                .attr("dy", 5)
+                .attr("fill", "#fff")
+                .style("font-size", 16)
+                .text(function (d, i) {
+                    if (i == 0) {
+                        return "点我";
+                    }
+                    return "";
+                });
+
+	//运动刷新
+        force.on("tick", function (d) {
+            links.attr("x1", function (d) {
+                var distance = Math.sqrt((d.target.y - d.source.y) * (d.target.y - d.source.y) +
+                        (d.target.x - d.source.x) * (d.target.x - d.source.x));
+                var x_distance = (d.target.x - d.source.x) / distance * r;
+                return d.source.x + x_distance;
+            }).attr("y1", function (d) {
+                var distance = Math.sqrt((d.target.y - d.source.y) * (d.target.y - d.source.y) +
+                        (d.target.x - d.source.x) * (d.target.x - d.source.x));
+                var y_distance = (d.target.y - d.source.y) / distance * r;
+                return d.source.y + y_distance;
+            }).attr("x2", function (d) {
+                var distance = Math.sqrt((d.target.y - d.source.y) * (d.target.y - d.source.y) +
+                        (d.target.x - d.source.x) * (d.target.x - d.source.x));
+                var x_distance = (d.target.x - d.source.x) / distance * r;
+                return d.target.x - x_distance;
+            }).attr("y2", function (d) {
+                var distance = Math.sqrt((d.target.y - d.source.y) * (d.target.y - d.source.y) +
+                        (d.target.x - d.source.x) * (d.target.x - d.source.x));
+                var y_distance = (d.target.y - d.source.y) / distance * r;
+                return d.target.y - y_distance;
+            });
+
+
+            nodes.attr("cx", function (d) {
+                return d.x;
+            }).attr("cy", function (d) {
+                return d.y;
+            });
+
+            nodes_labels.attr("x", function (d) {
+                return d.x;
+            });
+            nodes_labels.attr("y", function (d) {
+                return d.y;
+            });
+
+
+        });
+
+	//用于产生不同颜色的节点
+        var colorIndex = 8;
+
+        //添加节点更新
+        function update() {
+            nodes_data.push({'name': 'xxx'});
+            edges_data.push({'source': 0, 'target': nodes_data.length - 1});
+
+            links = links.data(force.links());
+
+            links.enter()
+                    .append("line")
+                    .style("stroke", "#ccc")
+                    .style("stroke-width", 2);
+
+            links.exit().remove();
+
+            nodes = nodes.data(force.nodes());
+            nodes.enter().append("circle")
+                    .attr("r", 40)
+                    .style("fill", color(colorIndex++))
+                    .call(force.drag);
+
+            nodes.exit().remove();
+
+            force.start();
+        }
+
+        //回车事件
+        $(document).keydown(function(e) {
+            if(e.which == 13) {
+               update();
+            }
+        });
+    });
+
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<h3 id="更新讲解">更新讲解</h3>
+
+<p>更新部分只有 <code>update()</code>函数，更新的操作分为以下</p>
+
+<ol>
+  <li>数据更新</li>
+  <li>力学图重新加载数据</li>
+  <li>追加对应的边与节点(enter)</li>
+  <li>去除无用的元素(remove)</li>
+  <li>执行 <code>force.start()</code> 操作</li>
+</ol>
+
+<p>只要按照顺序进行，新增的节点等就可以很好的添加。</p>
+
+<h3 id="例子说明">例子说明</h3>
+
+<p>例子中有几点需要说明一下</p>
+
+<ol>
+  <li>
+    <p><code>force.on("tick", function (d){...}) </code>中的计算用户绘制线条的时候只绘制两个圆之间的部分，当然这么做也便于添加箭头，也能较少一些其他的重叠操作。</p>
+  </li>
+  <li>
+    <p><code>var nodes_labels = svg.selectAll("text")</code>中仅仅对第一个点进行了标注，用于提示点击操作，也可以对所有的点进行标注的。</p>
+  </li>
+</ol>
+
+<h3 id="总结">总结</h3>
+
+<p>d3的github(<a href="https://github.com/mbostock/d3/wiki/Gallery">https://github.com/mbostock/d3/wiki/Gallery</a>)上有很多的例子，大家可以找到自己喜欢的进行学习，同时也需要对svg有一定的学习，方便我们自己进行一些改进。</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+:ET

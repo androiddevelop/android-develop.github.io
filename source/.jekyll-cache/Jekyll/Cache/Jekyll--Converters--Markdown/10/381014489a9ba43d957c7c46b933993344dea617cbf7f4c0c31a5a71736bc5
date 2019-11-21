@@ -1,0 +1,5 @@
+I"�<p>在使用Android Handler的时候，可能会遇到编译器给我们这样的警告:</p>
+
+<pre><code>This Handler class should be static or leaks might occur
+</code></pre>
+:ET

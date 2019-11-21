@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keyword"
+          content="codeboy, @codeboy, 小胖轩, 玄恒, Blog, Github, 博客, 互联网, 前端, 服务端, 玄恒的个人网站, android, mobile, server, web, datamine ">
+    <meta name="description" content="编码生涯的点点滴滴">
+    <link rel="icon" href="/favicon.png" type="image/png"/>
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon-precomposed" href="/favicon.png" type="image/png">
+
+    <title>HashMap的小优化 - 小胖轩</title>
+
+    <link rel="canonical" href="https://https://www.codeboy.me/2015/04/29/java-hashmap-trick/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/codeboy.min.css">
+
+    <link rel="alternate" type="application/rss+xml" href="feed.xml" title="小胖轩">
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .ds-powered-by {
+            display: none !important;
+        }
+
+        .ds-post-toolbar .ds-sync {
+            display: none !important;
+        }
+    </style>
+</head>
+
+
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">小胖轩</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">首页</a>
+                </li>
+                <li>
+                    <a href="/open/">开源</a>
+                </li>
+
+                <li>
+                    <a href="/tags/">标签</a>
+                </li>
+
+                <li>
+                    <a href="/about/">关于</a>
+                </li>
+		<!--
+                
+                <li>
+                    <a href="/apps/">Apps</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/about/index2/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/open/">Open</a>
+                </li>
+                
+                <li>
+                    <a href="/privacy/">评论政策</a>
+                </li>
+                
+                <li>
+                    <a href="/tags/">Tags</a>
+                </li>
+                
+		-->
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header"
+        style="background-image: url('/img/post-bg-java.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#java" title="java">java</a>
+                        
+                    </div>
+                    <h1>HashMap的小优化</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by Codeboy on April 29, 2015</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article id="article">
+    <div class="container" style="overflow-y:hidden;">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
+
+                <p>HashMap是我们平日内用的非常多的集合框架，网上介绍有很多的实现原理，在存放数据数量已知的情况下，我们可以在构建hashmap的时候指定其容量，减少扩展空间时消耗的时间。下面看一个例子:</p>
+
+<pre><code>import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * HashMap测试
+ * 
+ * @author YD
+ *
+ */
+public class MapTest {
+    public static void main(String[] args) {
+        int num = 10000;  //数据容量
+        Map&lt;Integer, String&gt; map1 = new HashMap&lt;Integer, String&gt;();
+        Map&lt;Integer, String&gt; map2 = new HashMap&lt;Integer, String&gt;(num);
+        Map&lt;Integer, String&gt; map3 = new HashMap&lt;Integer, String&gt;(num * 2);
+
+        long time1 = System.currentTimeMillis();
+        for (int i = 0; i &lt; num; i++)
+            map1.put(i, "haha");
+        long time2 = System.currentTimeMillis();
+        for (int i = 0; i &lt; num; i++)
+            map2.put(i, "haha");
+        long time3 = System.currentTimeMillis();
+        for (int i = 0; i &lt; num; i++)
+            map3.put(i, "haha");
+        long time4 = System.currentTimeMillis();
+        System.out.println("map1 time: " + (time2 - time1) + "ms");
+        System.out.println("map2 time: " + (time3 - time2) + "ms");
+        System.out.println("map3 time: " + (time4 - time3) + "ms");
+    }
+}
+</code></pre>
+
+<p>在数据量为10000的时候，多次测试，得出的较多的结果是</p>
+
+<pre><code>map1 time: 14ms
+map2 time: 9ms
+map3 time: 4ms
+</code></pre>
+
+<p>在数据量为100000的时候，结果如下</p>
+
+<pre><code>map1 time: 31ms
+map2 time: 16ms
+map3 time: 9ms
+</code></pre>
+
+<p>如果数据量更大的时候，升值1000000(一百万)时,结果如下</p>
+
+<pre><code>map1 time: 119ms
+map2 time: 47ms
+map3 time: 59ms
+</code></pre>
+
+<p>数据量再增加10倍后(一千万)，结果如下</p>
+
+<pre><code>map1 time: 7718ms
+map2 time: 1035ms
+map3 time: 2156ms
+</code></pre>
+
+<p>可以看出，当我们预先知道数据量的时候，在构建hashmap的时候指定数据容量，可以在数据量大的时候减少消耗时间。指定数据容量时，不应该过多的分配空间。</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+
+
+            </div>
+</article>
+
+<!-- Post Comments -->
+
+<script id="dsq-count-scr" src="//codeboy.disqus.com/count.js" async></script>
+<div id="disqus_thread" class="container"></div>
+<script>
+    let disqus_config = function () {
+        this.page.url = "/2015/04/29/java-hashmap-trick/";
+        this.page.identifier = "HashMap的小优化";
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codeboy.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+<!-- Post Contents -->
+
+<!-- 目录插件 -->
+<script src="/js/autoc.min.js"></script>
+<link rel="stylesheet" href="/css/autoc.css">
+
+<script>
+    // 创建 Outline 实例
+    let navigation = new AutocJs({
+        // 文章正文 DOM 节点的 ID 选择器
+        article: '#article',
+        // 要收集的标题选择器
+        selector: 'h1,h2,h3,h4,h5,h6',
+        // 侧边栏导航的标题
+        title: 'HashMap的小优化',
+        // 文章导读导航的位置
+        // outside - 以侧边栏菜单形式显示（默认值）
+        // inside - 在文章正文一开始的地方显示
+        position: 'outside',
+        // 标题图标链接的 URL 地址
+        // （默认）没有设置定制，点击链接页面滚动到标题位置
+        // 设置了链接地址，则不会滚动定位
+        anchorURL: '',
+        // 链接的显示位置
+        // front - 在标题最前面（默认值）
+        // back - 在标题后面
+        anchorAt: 'front',
+        // 是否生成文章导读导航
+        isGenerateOutline: true,
+        // 是否在文章导读导航中显示段落章节编号
+        isGenerateOutlineChapterCode: true,
+        // 是否在正文的文章标题中显示段落章节编号
+        isGenerateHeadingChapterCode: false,
+        // 是否在正文的文章标题中创建锚点
+        isGenerateHeadingAnchor: false
+    });
+    const article = document.getElementById('article');
+    const menu = document.getElementById('cb-menu');
+    menu.style.top = (article.offsetTop + 50) + 'px';
+</script>
+
+
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                        <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/codeboy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/androiddevelop">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 小胖轩 2019</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="/js/jquery.tagcloud.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $.fn.tagcloud.defaults = {
+        //size: {start: 1, end: 1, unit: 'em'},
+        color: {start: '#bbbbee', end: '#0085a1'},
+    };
+    $(function () {
+        $('#tag_cloud a').tagcloud();
+    });
+</script>
+
+<!-- Highlight.js -->
+<script src="//cdn.bootcss.com/highlight.js/9.4.0/highlight.min.js"></script>
+<link href="//cdn.bootcss.com/highlight.js/9.4.0/styles/solarized-dark.min.css" rel="stylesheet">
+
+<div class="cb-search-tool" style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px;
+      opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control cb-search-content" id="cb-search-content" style="position: fixed; top: 60px"
+           placeholder="文章标题 日期 标签">
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png" id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/codeboy.min.js"></script>
+
+<div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png" id="cb-search-btn" title="双击ctrl试一下"/>
+</div>
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
+
+<!--<script>-->
+<!--    var _hmt = _hmt || [];-->
+<!--    (function () {-->
+<!--        var hm = document.createElement("script");-->
+<!--        hm.src = "https://hm.baidu.com/hm.js?c9b7fde5670aa3eac4c08693f5b4d398";-->
+<!--        var s = document.getElementsByTagName("script")[0];-->
+<!--        s.parentNode.insertBefore(hm, s);-->
+<!--    })();-->
+<!--</script>-->
+
+
+
+</body>
+
+</html>

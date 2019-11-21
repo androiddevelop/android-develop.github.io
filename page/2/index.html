@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keyword"
+          content="codeboy, @codeboy, 小胖轩, 玄恒, Blog, Github, 博客, 互联网, 前端, 服务端, 玄恒的个人网站, android, mobile, server, web, datamine ">
+    <meta name="description" content="编码生涯的点点滴滴">
+    <link rel="icon" href="/favicon.png" type="image/png"/>
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon-precomposed" href="/favicon.png" type="image/png">
+
+    <title>小胖轩</title>
+
+    <link rel="canonical" href="https://https://www.codeboy.me/page/2/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/codeboy.min.css">
+
+    <link rel="alternate" type="application/rss+xml" href="feed.xml" title="小胖轩">
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .ds-powered-by {
+            display: none !important;
+        }
+
+        .ds-post-toolbar .ds-sync {
+            display: none !important;
+        }
+    </style>
+</head>
+
+
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">小胖轩</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">首页</a>
+                </li>
+                <li>
+                    <a href="/open/">开源</a>
+                </li>
+
+                <li>
+                    <a href="/tags/">标签</a>
+                </li>
+
+                <li>
+                    <a href="/about/">关于</a>
+                </li>
+		<!--
+                
+                <li>
+                    <a href="/apps/">Apps</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/about/index2/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/open/">Open</a>
+                </li>
+                
+                <li>
+                    <a href="/privacy/">评论政策</a>
+                </li>
+                
+                <li>
+                    <a href="/tags/">Tags</a>
+                </li>
+                
+		-->
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>小胖轩</h1>
+                    <hr class="small">
+                    <span class="subheading">编码生涯的点点滴滴</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<article>
+    <div class="container">
+    	<div class="row">
+    		<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
+    			
+<div class="post-preview">
+    <a href="/2017/11/27/command-jq/">
+        <h2 class="post-title">            Shell下解析Json之jq
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            Json是一种轻量级的数据交换格式，简洁和清晰的层次结构使得Json成为理想的数据交换语言，易于人阅读和编写，同时也易于机器解析和生成，并有效地提升网络传输效率。
+
+软件开发中经常会将对象序列化为Json，或者将对应的Json串反序列化为对象，在Android开发、服务端开发中都有很多库，如fastjson、gson等, 今天来看一下shell的json解析工具jq。
+
+一、安装
+jq的官网...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on November 27, 2017</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/10/01/regex-trick/">
+        <h2 class="post-title">            正则表达式之非获取匹配
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            正则表达式是平时开发中经常用到的技巧，大部分时候我们需要的是判断字符串有没有含有固定的模式串，但是某些场景下需要使用非获取匹配，下面根据一种常见的情景:
+
+匹配所有含有 app://page.cb/myPage?id=xxxx的地址，但是排除参数中携带downgrade=true的地址。
+
+具体用几个例子说明一下:
+
+原始地址: app://page.cb/myPage
+匹配结果: no， ...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on October 1, 2017</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/05/30/chrome-plugin-for-save/">
+        <h2 class="post-title">            Chrome内容保存插件 - Just One File
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            随着互联网的发展，当前我们可以方便的在网站中找到各种各样的资源，尽管现在网络已经无处不在，但是有些时候我们仍然需要保存一些信息到本地，于是开发一个Chrome插件的想法产生了。
+
+初衷
+
+
+  所见即所存
+
+
+
+  目前很多网站都是动态产生的，而浏览器保存的是网页源码， 看到的和保存的内容是可能不一样的，特别是在没有网络的情况下打开。
+
+
+
+
+  去除无用信息
+
+
+
+  很多网站页面中充满了...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on May 30, 2017</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/02/07/head-first-singleton/">
+        <h2 class="post-title">            深入浅出单实例Singleton模式
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            [转载]
+        
+            单实例Singleton设计模式可能是被讨论和使用的最广泛的一个设计模式了，这可能也是面试中问得最多的一个设计模式了。这个设计模式主要目的是想在整个系统中只能出现一个类的实例。这样做当然是有必然的，比如你的软件的全局配置信息，或者是一个Factory，或是一个主控类等等。
+
+本文会带着你深入整个Singleton的世界,下面从几个版本来进行分析。
+
+Singleton教学版本
+
+这里直接给出...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on February 7, 2017</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/11/29/hexo-search-component/">
+        <h2 class="post-title">            Hexo search组件
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            当前主流的静态博客有Jekyll和Hexo，之前的文章已经介绍了Jekyll中的搜索组件&lt;Jekyll search组件&gt;,本文来介绍下hexo博客中怎么添加搜索组件，组件项目地址https://github.com/androiddevelop/hexo-search.
+
+截图
+
+
+
+双击ctrl或者点击右下角搜索图标查看效果
+
+操作
+
+
+  点击右下角图标进行搜索
+  双击c...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on November 29, 2016</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/09/16/android-navigation-bar-immerse-2/">
+        <h2 class="post-title">            Android导航栏隐藏与浮现(二)
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            在Android导航栏隐藏与浮现(一)中已经以 Nexus5 为例，Android M 为基础介绍了怎么实现底部导航栏的隐藏与浮现，本文将介绍怎么在设置(辅助功能)中加入控制该功能的开关。
+
+
+
+上图可以看到，应用中加入了一个 Enhance Navigation bar 的选项，该功能开启后可以长点击任务键(Recent)时，导航栏隐藏；从下不向上滑时，导航栏展示。 关闭后即取消了该功能。...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on September 16, 2016</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/09/12/java-generic-method/">
+        <h2 class="post-title">            Java泛型方法
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            Java在JDK 5中引入了泛型，使用起来方便了很多，下面是一段很常见的泛型使用：
+
+List&lt;String&gt; list = new ArrayList&lt;String&gt;();
+
+
+泛型方法使用
+
+不仅集合中可以使用，在定义类、接口和方法的时候也是经常使用的，但是关于泛型方法使用的场景还是不太多。下面从求两个数的最大数的实现上来看一下泛型类和泛型方法的简单使用：
+
+泛型...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on September 12, 2016</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/05/12/linux-special-privileges/">
+        <h2 class="post-title">            Linux特殊权限
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            Linux下常用的权限的有读、写和执行，也即常说的rwx，但是除了rwx权限外，Linux系统还有着一些特殊权限，他们是setUID、setGID和setBIT，同时还有一个chattr命令来修改文件的隐藏属性，具体介绍如下:
+
+
+
+setUID
+
+
+###功能
+
+文件执行中将以属主(owner)身份运行
+
+###使用前提
+
+操作文件必须具有可执行权限
+
+###命令操作
+
+chmod 4xx...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on May 12, 2016</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/03/03/intellij-idea-problems/">
+        <h2 class="post-title">            Intellij IDEA依赖同步及乱码问题
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            随着 Intellig IDEA 的流行，越来越多的Java程序员开始用上这个更加强大的编译器。 Intellig IDEA 不仅可以智能联想，还集成了很多的工具，例如 gradle.
+
+几个月来，Intellig IDEA 依赖同步一直困扰这我，最开始使用Intellig IDEA 的时候并没有出现任何问题，即便有时候依赖不能同步，重新启动Intellig IDEA 或者在终端下执行gra...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on March 3, 2016</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/02/05/java-remote-invocation/">
+        <h2 class="post-title">            Java调用远程方法
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            有时候我们需要能够及时的更新程序的部分逻辑，在java中可以使用相关远程调用技术，将相关的逻辑代码放置在服务器上，在适当的时候进行修改替换即可。下面介绍两种常见的方法:  RMI(Remote Method Invocation) 与 URLClassLoader.
+
+RMI
+
+rmi 即 Remote Method Invocation ，操作步骤如下：
+
+定义远程接口
+
+package ...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on February 5, 2016</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/01/18/jekyll-search-component/">
+        <h2 class="post-title">            Jekyll search组件
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            之前的文章&lt;给jekyll添加炫酷简洁的搜索&gt;中介绍了怎么给jekyll添加全局搜索功能，为了能够更快的加入搜索功能，现在已经将搜索功能提取出来，做成一个单独的组件，放在了https://github.com/androiddevelop/jekyll-search.
+
+截图
+
+
+
+双击ctrl或者点击右下角搜索图标查看效果
+
+操作
+
+
+  点击右下角图标进行搜索
+  双击ctr...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on January 18, 2016</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2016/01/06/jquery-prop-and-attr/">
+        <h2 class="post-title">            Jquery操作单选框选中状态
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            前端开发中经常使用到单选框(radio)与多选框(checkbox)组件，需要对组件的状态进行设置和读取，下面看一段网上流行的操作代码：
+
+&lt;div class="cb-container"&gt;
+&lt;input type="radio" class="cb-radio" id="r1" name="rd" value="left"/&gt;
+&lt;input type="ra...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on January 6, 2016</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/12/22/jquery-auto-suggest/">
+        <h2 class="post-title">            Bootstrap输入建议库 autosuggest.js
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            轻量级输入提示控件auto suggest.github地址:https://github.com/androiddevelop/autosuggest.js。首先看一下下面的例子:
+
+ 
+
+autosuggest.js
+
+适用于Bootstrap的Ajax输入建议控件(Demo)
+
+在bootcomplete.js的基础上大幅度改进，改动如下:
+
+
+  文本框是去焦点时自动隐藏输入提示组件...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on December 22, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/12/16/d3-force-layout-update/">
+        <h2 class="post-title">            d3力学图(force layout)更新
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            d3是javascript的一个可视化库，可以制作很漂亮的表格等，其中有一个非常好玩的力学图，可以方便的进行拖拽等，但是关于更新的操作网上介绍的很少，下面介绍下关于力学图的更新，先看一个例子(http://example.codeboy.me/d3/force-layout.html,点击一次下图后可以直接按回车键添加)：
+
+ 
+
+绘制图形的方式基本上可以分为svg与canvas两种，两者各...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on December 16, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/12/08/java-generics/">
+        <h2 class="post-title">            Java Generics(泛型)
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            Java泛型是JDK 5中引入的一个新特性，允许在定义类和接口的时候使用类型参数。
+
+泛型类
+
+泛型类是我们最经常使用的泛型形式了，如下:
+
+/**
+ * 工具类
+ * Created by yuedong.li on 12/8/15.
+ */
+public class ToolsUtil&lt;T&gt; {
+    /**
+     * if-else替代
+     * @param c...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on December 8, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/12/01/develop-feeling/">
+        <h2 class="post-title">            编码感悟
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            
+  这几天一直想写一下自己在编码上的一些感受与感悟，趁着这个晚上，大体的写一下，有问题还望大家多多指教。
+
+
+从本科开始接触编码，到现在已经有接近七年的时间。从最开始的伪代码，C语言，Java，到后面的JavaEE开发，Android开发，Ios开发，经历了很多。曾几何时自己一直是一种任务导向的写代码，虽然接触的很多，但是很多都是比较重复的事情，在重复的事情下面，并不去总结，去抽象，而是一...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on December 1, 2015</p>
+        
+</div>
+<hr>
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+    <li class="previous">
+        <a href="/">&larr; Newer Posts</a>
+    </li>
+    
+    
+    <li class="next">
+        <a href="/page/3">Older Posts &rarr;</a>
+    </li>
+    
+</ul>
+
+
+    		</div>
+    	</div>
+    </div>
+</article>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                        <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/codeboy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/androiddevelop">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 小胖轩 2019</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="/js/jquery.tagcloud.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $.fn.tagcloud.defaults = {
+        //size: {start: 1, end: 1, unit: 'em'},
+        color: {start: '#bbbbee', end: '#0085a1'},
+    };
+    $(function () {
+        $('#tag_cloud a').tagcloud();
+    });
+</script>
+
+<!-- Highlight.js -->
+<script src="//cdn.bootcss.com/highlight.js/9.4.0/highlight.min.js"></script>
+<link href="//cdn.bootcss.com/highlight.js/9.4.0/styles/solarized-dark.min.css" rel="stylesheet">
+
+<div class="cb-search-tool" style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px;
+      opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control cb-search-content" id="cb-search-content" style="position: fixed; top: 60px"
+           placeholder="文章标题 日期 标签">
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png" id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/codeboy.min.js"></script>
+
+<div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png" id="cb-search-btn" title="双击ctrl试一下"/>
+</div>
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
+
+<!--<script>-->
+<!--    var _hmt = _hmt || [];-->
+<!--    (function () {-->
+<!--        var hm = document.createElement("script");-->
+<!--        hm.src = "https://hm.baidu.com/hm.js?c9b7fde5670aa3eac4c08693f5b4d398";-->
+<!--        var s = document.getElementsByTagName("script")[0];-->
+<!--        s.parentNode.insertBefore(hm, s);-->
+<!--    })();-->
+<!--</script>-->
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keyword"
+          content="codeboy, @codeboy, 小胖轩, 玄恒, Blog, Github, 博客, 互联网, 前端, 服务端, 玄恒的个人网站, android, mobile, server, web, datamine ">
+    <meta name="description" content="编码生涯的点点滴滴">
+    <link rel="icon" href="/favicon.png" type="image/png"/>
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon-precomposed" href="/favicon.png" type="image/png">
+
+    <title>小胖轩</title>
+
+    <link rel="canonical" href="https://https://www.codeboy.me/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/codeboy.min.css">
+
+    <link rel="alternate" type="application/rss+xml" href="feed.xml" title="小胖轩">
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .ds-powered-by {
+            display: none !important;
+        }
+
+        .ds-post-toolbar .ds-sync {
+            display: none !important;
+        }
+    </style>
+</head>
+
+
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">小胖轩</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">首页</a>
+                </li>
+                <li>
+                    <a href="/open/">开源</a>
+                </li>
+
+                <li>
+                    <a href="/tags/">标签</a>
+                </li>
+
+                <li>
+                    <a href="/about/">关于</a>
+                </li>
+		<!--
+                
+                <li>
+                    <a href="/apps/">Apps</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/about/index2/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/open/">Open</a>
+                </li>
+                
+                <li>
+                    <a href="/privacy/">评论政策</a>
+                </li>
+                
+                <li>
+                    <a href="/tags/">Tags</a>
+                </li>
+                
+		-->
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 ">
+                <div class="site-heading">
+                    <h1>小胖轩</h1>
+                    <hr class="small">
+                    <span class="subheading">编码生涯的点点滴滴</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<article>
+    <div class="container">
+    	<div class="row">
+    		<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
+    			
+<div class="post-preview">
+    <a href="/2019/11/20/arrays-aslist-uoexception/">
+        <h2 class="post-title">            Arrays.asList之UnsupportedOperationException
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            前言
+
+Java中经常会数组转化为List的场景，Java中的Arrays 中提供了一个 asList 方法可以快捷的转化，我们来看下面一段代码：
+
+import java.util.Arrays;
+import java.util.List;
+
+public class Test {
+    public static void main(String[] args) {
+        ...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on November 20, 2019</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2019/08/08/collection-sync/">
+        <h2 class="post-title">            Java中的同步操作
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            背景
+
+经常
+
+目标
+
+
+  多设备间可以访问，共享文本和图片。
+  支持房间，可以针对特定的共享有单独的区域。
+  支持设置访问密码。(目前暂不支持)
+  PC端直接粘贴即可，提升效率。
+  自动清理信息，清理24小时内没有任何访问的房间。
+
+
+Demo
+
+share.codeboy.org
+
+部署
+
+
+  下载clipboard-0.0.1.jar
+  执行以下命令即可
+    java...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on August 8, 2019</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2019/07/29/content-share/">
+        <h2 class="post-title">            内容共享
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            背景
+
+工作时有两台主力电脑，一台Mac，一台Ubuntu，之前经常基本上是Mac共享内容给Ubuntu，也有了剪切板同步这篇文章。随着Ubuntu上做的事情越来越多，也需要反向共享，结合日常工作中也需要和很多业务方同学来进行文本、图片的共享，于是决定做一个简单内容共享的Web应用。
+
+目标
+
+
+  多设备间可以访问，共享文本和图片。
+  支持房间，可以针对特定的共享有单独的区域。
+  支持...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on July 29, 2019</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2019/07/04/hashset-add/">
+        <h2 class="post-title">            HashSet.add覆盖问题
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            背景
+
+假定对象A、B的hash值相同，equals方法也想等，那么向 HashSet 中顺序添加A、B，最后集合中保留的是A或者B或者是A和B呢？
+
+编码
+
+看以下代码，分析下输出：
+
+package me.codeboy.test.hash;
+
+import java.util.Objects;
+
+/**
+ * hash bean
+ * Created by yuedong.li on ...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on July 4, 2019</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2019/06/29/android-app-link/">
+        <h2 class="post-title">            Andorid AppLink配置
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            前言
+
+客户端开发中，经常会遇到appA跳转appB的场景，之前Android中使用比较多的是 DeepLink，ios中对应的是 Scheme, 两者基本类似，在用户触发某个操作后，系统提示是否打开对应app，用户选择同意后进入指定app。
+
+DeepLink 一方面流程上稍微长一些，另一方面存在scheme 被别人占用等问题，在Android6.0，有了 AppLink, 可以完美解决上...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on June 29, 2019</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2019/06/17/js-undefined-and-null/">
+        <h2 class="post-title">            Javascript的undefined和null
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            Javascript中的 undefined 和 null 非常的常见，它们有什么不同呢？首先看几个简单的示例：
+
+var a = undefined;
+var b = null;
+console.log(a == b);
+console.log(a === b);
+console.log(typeof(a) == typeof(b));
+console.log(a + 1);
+consol...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on June 17, 2019</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2019/06/14/java-online-compile/">
+        <h2 class="post-title">            Java源码在线编译执行
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            在告警平台中，经常会用到规则配置，一些简单的规则配置可以使用基本表达式来完成，对于一些复杂的规则，很难进行表达或者完全覆盖，如果告警规则等由一些具备编程能力的开发同学来完成，是否可以考虑规则直接使用源码来描述，动态执行呢？这样可以在系统不重新部署的情况下加入新的规则配置。
+
+下面我们根据 JDK6 中新增的 JavaCompiler ，来实现源码线上编译，完成简单类的线上运行，并获取对应的结...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on June 14, 2019</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2019/06/05/java-string-spilt/">
+        <h2 class="post-title">            Java字符串单字符分割
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            Java中分割字符串经常会使用到 String.split ，本文中针对单字符分割的场景进行简单讨论，首先看几个例子:
+
+"".split("=")      //示例1
+"=".split("=")     //示例2
+"==".split("=")    //示例3
+"=".split("=", 1)  //示例4
+"=".split("=", 2)  //示例5
+"=".split("...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on June 5, 2019</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2019/06/01/domain-proxy/">
+        <h2 class="post-title">            同域代理
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            前沿
+
+跨域请求 对于每一个前端开发应该都不会陌生，由于一些安全策略的限制，默认情况下浏览器不允许在一个域下请求另外一个域下的资源，例如 www.codeboy.me 下请求 test.codeboy.me 下的资源，相同的域要求协议、域名、端口都必须相同。
+
+当前解决的方案有以下几种:
+1. JSONP
+2. 同域请求
+3. CORS(跨域资源共享)
+
+
+JSONP 和 CORS 均需要服...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on June 1, 2019</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2019/05/27/java-proxy/">
+        <h2 class="post-title">            Java代理
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            代理是在开发中经常用到的一种模式，不暴露真实的对象，取而代之的提供代理对象，在代理对象中可以对实际操作的前后进行一些处理，也即流行的面向切面编程(AOP)，Spring中的拦截器使用的就是代理模式。
+
+我们对一个需要两步完成的任务，使用普通模式、静态代理、动态代理和cglib分别实现下：
+
+准备工作
+
+定义接口 ITask 和实现类 Task
+
+package me.codeboy.test...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on May 27, 2019</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2019/05/07/float-precision/">
+        <h2 class="post-title">            浮点精度
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            整数、浮点数是开发中经常使用的类型，在Java中，整数常用的有 Integer 和 Long ，浮点数有 Float 和 Double 。如果使用 Float 来存储 Integer 的值可行么？粗略看上去，肯定是没问题的，下面我们看个例子:
+
+public class Test {
+    public static void main(String[] args) {
+        i...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on May 7, 2019</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2019/04/17/clipboard-sync/">
+        <h2 class="post-title">            剪切板同步
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            工作中有两台主机，系统上一台macOS，一台Ubuntu，macOS作为主力机，经常需要将复制文本同步，之前的方案是登陆两个不同的微信进行分享，不过每次都需要打开，比较麻烦。
+
+有没有什么办法能够解决 macOS 到 Ubuntu 的单向文本复制呢？单向解决了，双向基本也没有问题，鉴于作者没有双向需求，故本文只介绍 macOS 到 Ubuntu 的单项文本同步方案,。目前可行的方案有：
+
+
+...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on April 17, 2019</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2019/04/13/java-today-zero-hour/">
+        <h2 class="post-title">            零点时间
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            在一些按天计算的场景中，需要获取当天凌晨零点的时间，有什么快捷高效的做法呢？下面针对Java中的几种计算方式进行比较：
+
+SimpleDateFormat
+
+获取当前时间对应的年月日，反向计算即可。
+
+private static long getTimeWay1() {
+    try {
+        SimpleDateFormat sdf = new SimpleDateForma...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on April 13, 2019</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2019/03/20/zip-tricks/">
+        <h2 class="post-title">            Zip几点小知识
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            问题来源
+
+
+  zip怎么加速解压速度？
+  相同文件分别压缩为 a.zip  和 b.zip 后，计算出的md5一样么？原因是？
+  zip文件的时间是怎么计算的？ (二进制上是怎么计算的)
+
+
+zip怎么加速解压速度
+
+为什么会有这个问题，源于近来项目中有一些cache包下发到手机中，需要解压，但是在一些中低端手机上，解压速度非常的慢，在一些算法求解中，常见的方式是使用空间换时间，zi...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on March 20, 2019</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2018/08/04/android-async-task/">
+        <h2 class="post-title">            Andorid AsyncTask解析
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            前言
+
+AsyncTask 在Android开发中是一个经常用到的类，允许用户在工作线程上完成后台计算等任务，之后将结果同步UI线程，比起 Thread 和  Handler 模型使用起来方便一些。
+
+AsyncTask 使用起来如此方便了，那么有什么需要注意的问题么？看一段AsyncTask官网的介绍文档：
+
+When first introduced, AsyncTasks were e...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on August 4, 2018</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2018/01/07/linux-command-ln/">
+        <h2 class="post-title">            Linux命令之ln
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            背景
+
+这几天一直想更换下osx下用户家目录的名字，为什么要更换呢? 因为之前托同学帮忙买来mac的时候已经创建了用户，当时也懒，也没用过osx，所以就一直到现在了。公司里的电脑是另外一台Macbook Pro，每次有一些牵扯到绝对路径的脚本等内容使用时，都需要改动配置等，于是乎决定对自己这台mac进行家目录重命名，大概的操作如下:
+
+系统设置 --&gt;  用户和组 --&gt; 解锁左...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on January 7, 2018</p>
+        
+</div>
+<hr>
+
+
+<!-- Pager -->
+
+<ul class="pager">
+    
+    
+    <li class="next">
+        <a href="/page/2">Older Posts &rarr;</a>
+    </li>
+    
+</ul>
+
+
+    		</div>
+    	</div>
+    </div>
+</article>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                        <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/codeboy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/androiddevelop">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 小胖轩 2019</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="/js/jquery.tagcloud.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $.fn.tagcloud.defaults = {
+        //size: {start: 1, end: 1, unit: 'em'},
+        color: {start: '#bbbbee', end: '#0085a1'},
+    };
+    $(function () {
+        $('#tag_cloud a').tagcloud();
+    });
+</script>
+
+<!-- Highlight.js -->
+<script src="//cdn.bootcss.com/highlight.js/9.4.0/highlight.min.js"></script>
+<link href="//cdn.bootcss.com/highlight.js/9.4.0/styles/solarized-dark.min.css" rel="stylesheet">
+
+<div class="cb-search-tool" style="position: fixed; top: 0px ; bottom: 0px; left: 0px; right:  0px;
+      opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control cb-search-content" id="cb-search-content" style="position: fixed; top: 60px"
+           placeholder="文章标题 日期 标签">
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png" id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/codeboy.min.js"></script>
+
+<div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png" id="cb-search-btn" title="双击ctrl试一下"/>
+</div>
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
+
+<!--<script>-->
+<!--    var _hmt = _hmt || [];-->
+<!--    (function () {-->
+<!--        var hm = document.createElement("script");-->
+<!--        hm.src = "https://hm.baidu.com/hm.js?c9b7fde5670aa3eac4c08693f5b4d398";-->
+<!--        var s = document.getElementsByTagName("script")[0];-->
+<!--        s.parentNode.insertBefore(hm, s);-->
+<!--    })();-->
+<!--</script>-->
+
+
+
+</body>
+
+</html>

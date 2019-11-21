@@ -1,0 +1,269 @@
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+         <p>在<a href="/2015/10/22/android-navigation-bar-immerse/">Android导航栏隐藏与浮现(一)</a>中已经以 <code>Nexus5</code> 为例，<code>Android M</code> 为基础介绍了怎么实现底部导航栏的隐藏与浮现，本文将介绍怎么在设置(辅助功能)中加入控制该功能的开关。</p>
+
+<p><img src="/img/android-navigation-enhance.png" style="max-width:49.5%;  clear: both;  display: block;  margin:auto;" /></p>
+
+<p>上图可以看到，应用中加入了一个 <code>Enhance Navigation bar</code> 的选项，该功能开启后可以长点击任务键(Recent)时，导航栏隐藏；从下不向上滑时，导航栏展示。 关闭后即取消了该功能。下面看一下整体的操作步骤:</p>
+
+<ul>
+  <li>添加试图到相应布局</li>
+  <li>实现状态保存，控制逻辑</li>
+  <li>在导航栏的操作中判断开关状态</li>
+  <li>编译打包</li>
+</ul>
+
+<h3 id="添加试图">添加试图</h3>
+
+<h4 id="-添加中文资源名称">① 添加中文资源名称</h4>
+
+<p>在 <code>Settings.apk</code> 中修改相应的资源文件即可，修改中可以参考系统设置中的 <code>Large text</code>, 步骤如下：</p>
+
+<p>修改 <code>./packages/apps/Settings/res/values-zh-rCN/strings.xml</code>，添加资源名称：</p>
+
+<pre><code>&lt;string name="accessibility_toggle_enhance_navigation_bar_preference_title"&gt;"增强导航栏功能"&lt;/string&gt;
+</code></pre>
+
+<h4 id="-添加英文资源名称">② 添加英文资源名称</h4>
+
+<p>修改 <code>./packages/apps/Settings/res/values/strings.xml</code>，添加资源名称：</p>
+
+<pre><code>&lt;string name="accessibility_toggle_enhance_navigation_bar_preference_title"&gt;Enhance navigation bar&lt;/string&gt;
+</code></pre>
+
+<h4 id="-添加选择开关">③ 添加选择开关</h4>
+
+<p>修改 <code>./packages/apps/Settings/res/xml/accessibility_settings.xml</code>，添加开关：</p>
+
+<pre><code>&lt;SwitchPreference
+  android:key="toggle_enhance_navigation_bar_preference"
+  android:title="@string/accessibility_toggle_enhance_navigation_bar_preference_title"
+  android:persistent="false"/&gt;
+</code></pre>
+
+<blockquote>
+  <p>位置自己可以定义，文本放置在<code>Large text</code>功能下方。</p>
+</blockquote>
+
+<h3 id="控制逻辑">控制逻辑</h3>
+
+<h4 id="-添加开关字段">① 添加开关字段</h4>
+
+<p>修改 <code>./frameworks/base/core/java/android/provider/Settings.java</code>,在内部类<code>Secure</code>中添加字段:</p>
+
+<pre><code>public static final String ACCESSIBILITY_ENHANCE_NAVIGATION_BAR = "enhance_navigation_bar";
+</code></pre>
+
+<h4 id="-添加默认开关">② 添加默认开关</h4>
+
+<p>修改文件 <code>./frameworks/base/packages/SettingsProvider/res/values/defaults.xml</code>,添加默认开关:</p>
+
+<pre><code>&lt;bool name="def_accessibility_enhance_navigation_bar"&gt;false&lt;/bool&gt;
+</code></pre>
+
+<h4 id="-添加控制逻辑">③ 添加控制逻辑</h4>
+
+<p>修改文件 <code>./packages/apps/Settings/src/com/android/settings/accessibility/AccessibilitySettings.java</code>, 修改部分基本和 <code>Large text</code> 的相同，diff后的试图如下，也可以根据下面提供修改前和修改后的文件，可以使用 <code>diff</code> 工具对比查看。</p>
+
+<p><a href="/file/diff.html">diff后的文件对比试图</a></p>
+
+<p><a href="/file/AccessibilitySettings_before.java">AccessibilitySettings修改前</a>     <a href="/file/AccessibilitySettings_after.java">AccessibilitySettings修改后</a></p>
+
+<h3 id="读取状态控制功能开关">读取状态，控制功能开关</h3>
+
+<p>修改 <code>./frameworks/base/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java</code>,添加变量:</p>
+
+<pre><code>private boolean enhanceNavigationSwitch = false; //默认关闭
+</code></pre>
+<p>在recent键长点击处添加开关控制：</p>
+
+<pre><code>try {
+//读取开关状态
+    enhanceNavigationSwitch = Settings.Secure.getInt(mContext.getContentResolver(), android.provider.Settings.Secure.ACCESSIBILITY_ENHANCE_NAVIGATION_BAR) == 1;
+} catch (Settings.SettingNotFoundException e) {
+    e.printStackTrace();
+}
+//开关关闭不进行任何操作
+if (!enhanceNavigationSwitch) {
+    return true;
+}
+</code></pre>
+<blockquote>
+  <p>在<code>public boolean onLongClick(View view)</code>的开始部分，用于判断是否执行长点击隐藏导航栏</p>
+</blockquote>
+
+<h3 id="编译打包">编译打包</h3>
+
+<p>使用 <code>mmm</code> 命令针对涉及的模块进行打包。</p>
+
+<pre><code>source build/envsetup.sh  //初始化环境变量
+lunch //切换编译平台
+
+mmm ./frameworks/base/packages/SettingsProvider
+
+### 重新编译framework.jar
+cd ./frameworks/base/core/
+mm
+cd ../../../
+
+mmm ./frameworks/base/packages/SystemUI/
+mmm ./packages/apps/Settings/
+</code></pre>
+<p>使用 <code>make snod</code> 命令生成 <code>system.img</code>。</p>
+
+<h3 id="小结">小结</h3>
+
+<p>两次的结合完整的解决了导航栏的隐藏与浮现以及功能控制。</p>
+
+<p>刷机需谨慎！刷机需谨慎！刷机需谨慎！如若刷机请提前备份数据！</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+

@@ -1,0 +1,2 @@
+I"�<p>之前的文章&lt;<a href="/2015/07/11/jekyll-search/">给jekyll添加炫酷简洁的搜索</a>&gt;中介绍了怎么给jekyll添加全局搜索功能，为了能够更快的加入搜索功能，现在已经将搜索功能提取出来，做成一个单独的组件，放在了<a href="https://github.com/androiddevelop/jekyll-search">https://github.com/androiddevelop/jekyll-search</a>.</p>
+:ET

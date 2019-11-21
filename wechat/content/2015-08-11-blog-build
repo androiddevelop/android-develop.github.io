@@ -1,0 +1,217 @@
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+         <p>本文介绍了<a href="http://codeboy.me">codeboy.me</a>网站的搭建过程。</p>
+
+<p>网站使用了jeykll进行构建，在CleanBlog等模板的基础上进行改造。jekyll是一个简单的免费的Blog生成工具，类似WordPress。但是和WordPress又有很大的不同，原因是jekyll只是一个生成静态网页的工具，不需要数据库支持。但是可以配合第三方服务,例如Disqus。最关键的是jekyll可以免费部署在Github上，而且可以绑定自己的域名。</p>
+
+<p>下面介绍一下怎么搭建一个和codeboy.me外观相同的网站。</p>
+
+<h3 id="安装相应的">安装相应的:</h3>
+
+<ol>
+  <li>
+    <p>安装jeykll。</p>
+
+    <pre><code> gem install jekyll	
+</code></pre>
+  </li>
+  <li>
+    <p>将CodeboyBlog复制到服务器(部署到github.io的方式可以google一下，很多的文章)。</p>
+
+    <pre><code> git clone https://github.com/androiddevelop/CodeboyBlog.git
+</code></pre>
+  </li>
+  <li>
+    <p>进行CodeboyBlog目录，运行命令生成网站即可。</p>
+
+    <pre><code> jekyll serve --watch &amp;
+</code></pre>
+  </li>
+</ol>
+
+<p>为了能够更好的生成网站，我们可以写一个脚本:</p>
+
+<pre><code>#!/bin/bash
+
+ps aux |grep jekyll |awk '{print $2}' | xargs kill -9
+cd /path/to/blog
+jekyll serve --watch &amp;
+</code></pre>
+
+<blockquote>
+  <p>命令解释：</p>
+
+  <p>① ps开头的命令是关闭所有jekyll的进程</p>
+
+  <p>② cd到网站的根目录</p>
+
+  <p>③ 启动jekyll服务</p>
+</blockquote>
+
+<h3 id="需要配置的内容">需要配置的内容:</h3>
+<ol>
+  <li>修改_config.xml中的配置信息。</li>
+  <li>修改_includes/footer.html中分享的信息。</li>
+  <li>修改_layouts/page.html与_layouts/post.html中页面统计信息。</li>
+  <li>修改_layouts/post.html中文章评论信息(更换为自己多说评论插件id)。</li>
+  <li>修改about/index.html中个人信息。</li>
+</ol>
+
+<h3 id="更新内容">更新内容:</h3>
+
+<ol>
+  <li>在Clean Blog的基础上修改，调整若干问题。</li>
+  <li>加入文章搜索功能，pc上可以双击ctrl触发。</li>
+  <li>优化界面，更好的适配手机。</li>
+</ol>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+

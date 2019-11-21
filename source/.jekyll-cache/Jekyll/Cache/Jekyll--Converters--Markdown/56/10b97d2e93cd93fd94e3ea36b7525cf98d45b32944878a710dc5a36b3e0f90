@@ -1,0 +1,185 @@
+I"<p><strong>怎么获取所有分组中某列最大的行？</strong>下面用一个例子来说明下：</p>
+
+<p>一共公司有若干员工，每个员工有各自的id, group_id(部门), salary(工资).现在的问题转变为</p>
+
+<pre><code>求公司各部门最高工资的员工
+</code></pre>
+
+<p>首先明确一个问题，一个部门的若干个员工可能同时拥有最高的工资，需要都列举出来。</p>
+
+<p>看一下员工的数据库表结构(只包含有用的列):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Null</th>
+      <th>Key</th>
+      <th>Default</th>
+      <th>Extra</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>id</td>
+      <td>int(11)</td>
+      <td>NO</td>
+      <td>PRI</td>
+      <td>NULL</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>group_id</td>
+      <td>int(11)</td>
+      <td>YES</td>
+      <td> </td>
+      <td>NULL</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>salary</td>
+      <td>int(11)</td>
+      <td>YES</td>
+      <td> </td>
+      <td>NULL</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>添加的测试数据如下:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>group_id</th>
+      <th>salary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+      <td>100</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>1</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>1</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>2</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>2</td>
+      <td>300</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>我们需要做的步骤如下:</p>
+
+<ul>
+  <li>
+    <ol>
+      <li>获取各个部门最高的工资</li>
+    </ol>
+  </li>
+  <li>
+    <ol>
+      <li>查找各个部门工资等于最高工资的员工</li>
+    </ol>
+  </li>
+</ul>
+
+<h4 id="获取各个部门最高的工资">获取各个部门最高的工资</h4>
+
+<pre><code>select group_id, max(salary) as max_salary from employee group by group_id ;
+</code></pre>
+
+<p>执行后的结果:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>group_id</th>
+      <th>max_salary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>300</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="查找各个部门工资等于最高工资的员工">查找各个部门工资等于最高工资的员工</h4>
+
+<pre><code>select a.id, a.group_id, a.salary from employee as a, b where a.group_id=b.group_id and a.salary=b.max_salary ;
+</code></pre>
+
+<blockquote>
+  <p>假设第一执行后的数据存在表b中。</p>
+</blockquote>
+
+<p>这样就得到了最终的结果:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>group_id</th>
+      <th>salary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+      <td>1</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>1</td>
+      <td>200</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>2</td>
+      <td>300</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>我们可以简单的将<strong>获取各个部门最高的工资</strong>的代码替换b即可，组合后的语句如下:</p>
+
+<pre><code>select a.id, a.group_id, a.salary from employee as a, (select group_id, max(salary) as max_salary from employee group by group_id) as b where a.group_id=b.group_id and a.salary=b.max_salary ;
+</code></pre>
+
+<p>执行后的结果相同。</p>
+
+<h4 id="总结">总结</h4>
+<pre><code>我们首先按照部门进行分组，获取每组最大的工资(表b); 之后将表a(原表)与表b做一下笛卡尔积，筛选出我们需要的数据即可。
+</code></pre>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+:ET

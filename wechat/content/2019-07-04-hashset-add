@@ -1,0 +1,321 @@
+
+    
+
+    
+
+    
+
+    
+         <h3 id="背景">背景</h3>
+
+<p>假定对象A、B的hash值相同，equals方法也想等，那么向 <code>HashSet</code> 中顺序添加A、B，最后集合中保留的是A或者B或者是A和B呢？</p>
+
+<h3 id="编码">编码</h3>
+
+<p>看以下代码，分析下输出：</p>
+
+<pre><code class="language-java">package me.codeboy.test.hash;
+
+import java.util.Objects;
+
+/**
+ * hash bean
+ * Created by yuedong.li on 2019-07-01
+ */
+public class HashBean {
+    String value;
+
+    @Override
+    public boolean equals(Object obj) {
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash("test");
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+}
+</code></pre>
+
+<pre><code class="language-java">package me.codeboy.test.hash;
+
+import com.google.common.collect.Maps;
+
+import java.util.HashSet;
+import java.util.Map;
+
+/**
+ * set add问题
+ * Created by yuedong.li on 2019-07-01
+ */
+public class SetAdd {
+    public static void main(String[] args) {
+        HashBean bean = new HashBean();
+        bean.value = "first";
+        HashBean bean2 = new HashBean();
+        bean2.value = "second";
+
+        HashSet&lt;HashBean&gt; set = new HashSet&lt;&gt;();
+        set.add(bean);
+        set.add(bean2);
+        System.out.println(set.size());
+        System.out.println(set.iterator().next().value);
+
+        System.out.println();
+        Map&lt;HashBean, String&gt; map2 = Maps.newHashMap();
+        map2.put(bean, "first");
+        map2.put(bean2, "second");
+        System.out.println(map2.size());
+        System.out.println(map2.values().iterator().next());
+        System.out.println(map2.keySet().iterator().next());
+    }
+}
+</code></pre>
+
+<h3 id="分析">分析</h3>
+
+<p>这里先贴一下输出的结果:</p>
+
+<pre><code class="language-nohighlight">1
+first
+
+1
+second
+first
+</code></pre>
+
+<p>为什么会是这样的呢？我们先看一下Jdk1.8.0中 <code>HashSet.add</code> 方法的调用栈:</p>
+
+<pre><code class="language-java">## HashSet
+public boolean add(E e) {
+	return map.put(e, PRESENT)==null;  //这里直接使用的是hashMap，将值当作key记录
+}
+
+## HashMap 
+/**
+ * Associates the specified value with the specified key in this map.
+ * If the map previously contained a mapping for the key, the old
+ * value is replaced.
+ *
+ * @param key key with which the specified value is to be associated
+ * @param value value to be associated with the specified key
+ * @return the previous value associated with &lt;tt&gt;key&lt;/tt&gt;, or
+ *         &lt;tt&gt;null&lt;/tt&gt; if there was no mapping for &lt;tt&gt;key&lt;/tt&gt;.
+ *         (A &lt;tt&gt;null&lt;/tt&gt; return can also indicate that the map
+ *         previously associated &lt;tt&gt;null&lt;/tt&gt; with &lt;tt&gt;key&lt;/tt&gt;.)
+ */
+public V put(K key, V value) {
+  return putVal(hash(key), key, value, false, true);
+}
+
+/**
+ * Implements Map.put and related methods
+ *
+ * @param hash hash for key
+ * @param key the key
+ * @param value the value to put
+ * @param onlyIfAbsent if true, don't change existing value
+ * @param evict if false, the table is in creation mode.
+ * @return previous value, or null if none
+ */
+final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+               boolean evict) {
+    Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; int n, i;
+    if ((tab = table) == null || (n = tab.length) == 0)
+        n = (tab = resize()).length;
+    if ((p = tab[i = (n - 1) &amp; hash]) == null)
+        tab[i] = newNode(hash, key, value, null);
+    else {
+        Node&lt;K,V&gt; e; K k;
+        if (p.hash == hash &amp;&amp;
+            ((k = p.key) == key || (key != null &amp;&amp; key.equals(k))))
+            e = p;
+        else if (p instanceof TreeNode)
+            e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(this, tab, hash, key, value);
+        else {
+            for (int binCount = 0; ; ++binCount) {
+                if ((e = p.next) == null) {
+                    p.next = newNode(hash, key, value, null);
+                    if (binCount &gt;= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                        treeifyBin(tab, hash);
+                    break;
+                }
+                if (e.hash == hash &amp;&amp;
+                    ((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))
+                    break;
+                p = e;
+            }
+        }
+        if (e != null) { // existing mapping for key
+            V oldValue = e.value;
+            if (!onlyIfAbsent || oldValue == null)
+                e.value = value;
+            afterNodeAccess(e);
+            return oldValue;
+        }
+    }
+    ++modCount;
+    if (++size &gt; threshold)
+        resize();
+    afterNodeInsertion(evict的);
+    return null;
+}
+</code></pre>
+
+<p>从代码中可以看出，<code>HashSet.add</code> 直接调用<code>HashMap.put</code> 方法，<code>HashSet</code>的内部实现也确实是<code>HashMap</code>,  <code>HashSet.add</code> 的值直接作为<code>HashMap</code>的key进行存储，从<code>HashMap.putVal</code> 方法中可以看出，<code>HashMap</code>的key并没有做替换，在 <code>onlyIfAbsent</code>是false或者原先值为null的情况下，新value会替换旧value。</p>
+
+<h3 id="小结">小结</h3>
+
+<p><code>HashSet</code>在add的时候，在两个对象相等的情况下，是不进行替换的。</p>
+
+<p><code>HashMap</code>在put的时候，在两个key相等的情况下，是不进行替换的，在两个value相同的情况下，是要根据 <code>putVal</code> 方法中的<code>onlyIfAbsent</code>字段进行决定的。</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+

@@ -1,0 +1,5 @@
+me.codeboy.common.framework.hibernate.core
+me.codeboy.common.framework.hibernate.util
+me.codeboy.common.framework.workflow.bean
+me.codeboy.common.framework.workflow.core
+me.codeboy.common.framework.workflow.util

@@ -1,0 +1,329 @@
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+         <p>android4.0+已经占据目前主流android系统版本了，在5.0版本发布后，android的LaunchMode与StartActivityForResult的关系发生了一些改变。</p>
+
+<p>两个Activity，A和B，现在由A页面跳转到B页面，看一下LaunchMode与StartActivityForResult之间的关系：</p>
+
+<h3 id="android50之前">android5.0之前</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>stand</th>
+      <th>singleTop</th>
+      <th>singleTask</th>
+      <th>singleInstance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>stand</td>
+      <td>√</td>
+      <td>√</td>
+      <td>x</td>
+      <td>x</td>
+    </tr>
+    <tr>
+      <td>singleTop</td>
+      <td>√</td>
+      <td>√</td>
+      <td>x</td>
+      <td>x</td>
+    </tr>
+    <tr>
+      <td>singleTask</td>
+      <td>√</td>
+      <td>√</td>
+      <td>x</td>
+      <td>x</td>
+    </tr>
+    <tr>
+      <td>singleInstance</td>
+      <td>x</td>
+      <td>x</td>
+      <td>x</td>
+      <td>x</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="android50之后">android5.0之后</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>stand</th>
+      <th>singleTop</th>
+      <th>singleTask</th>
+      <th>singleInstance</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>stand</td>
+      <td>√</td>
+      <td>√</td>
+      <td>√</td>
+      <td>√</td>
+    </tr>
+    <tr>
+      <td>singleTop</td>
+      <td>√</td>
+      <td>√</td>
+      <td>√</td>
+      <td>√</td>
+    </tr>
+    <tr>
+      <td>singleTask</td>
+      <td>√</td>
+      <td>√</td>
+      <td>√</td>
+      <td>√</td>
+    </tr>
+    <tr>
+      <td>singleInstance</td>
+      <td>√</td>
+      <td>√</td>
+      <td>√</td>
+      <td>√</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="为什么会是这样的呢"><strong>为什么会是这样的呢？</strong></h3>
+
+<p><strong>ActivityStackSupervisor</strong>类中的<strong>startActivityUncheckedLocked</strong>方法在5.0中进行了修改。在5.0之前，当启动一个Activity时，系统将首先检查Activity的launchMode，如果为A页面设置为<strong>SingleInstance</strong>或者B页面设置为<strong>singleTask</strong>或者<strong>singleInstance</strong>,则会在LaunchFlags中加入<strong>FLAG_ACTIVITY_NEW_TASK</strong>标志，而如果含有<strong>FLAG_ACTIVITY_NEW_TASK</strong>标志的话，<strong>onActivityResult</strong>将会立即接收到一个cancle的信息。</p>
+
+<pre><code>if (sourceRecord == null) {
+    // This activity is not being started from another...  in this
+    // case we -always- start a new task.
+    if ((launchFlags&amp;Intent.FLAG_ACTIVITY_NEW_TASK) == 0) {
+        Slog.w(TAG, "startActivity called from non-Activity context; forcing " +
+                "Intent.FLAG_ACTIVITY_NEW_TASK for: " + intent);
+        launchFlags |= Intent.FLAG_ACTIVITY_NEW_TASK;
+    }
+} else if (sourceRecord.launchMode == ActivityInfo.LAUNCH_SINGLE_INSTANCE) {
+    // The original activity who is starting us is running as a single
+    // instance...  this new activity it is starting must go on its
+    // own task.
+    launchFlags |= Intent.FLAG_ACTIVITY_NEW_TASK;
+} else if (r.launchMode == ActivityInfo.LAUNCH_SINGLE_INSTANCE
+        || r.launchMode == ActivityInfo.LAUNCH_SINGLE_TASK) {
+    // The activity being started is a single instance...  it always
+    // gets launched into its own task.
+    launchFlags |= Intent.FLAG_ACTIVITY_NEW_TASK;
+}
+// ......
+if (r.resultTo != null &amp;&amp; (launchFlags&amp;Intent.FLAG_ACTIVITY_NEW_TASK) != 0) {
+    // For whatever reason this activity is being launched into a new
+    // task...  yet the caller has requested a result back.  Well, that
+    // is pretty messed up, so instead immediately send back a cancel
+    // and let the new task continue launched as normal without a
+    // dependency on its originator.
+    Slog.w(TAG, "Activity is launching as a new task, so cancelling activity result.");
+    r.resultTo.task.stack.sendActivityResultLocked(-1,
+            r.resultTo, r.resultWho, r.requestCode,
+        Activity.RESULT_CANCELED, null);
+    r.resultTo = null;
+}
+</code></pre>
+
+<p>在5.0(含)之后的系统中，对此方法进行了修改：</p>
+
+<pre><code>final boolean launchSingleTop = r.launchMode == ActivityInfo.LAUNCH_SINGLE_TOP;
+final boolean launchSingleInstance = r.launchMode == ActivityInfo.LAUNCH_SINGLE_INSTANCE;
+final boolean launchSingleTask = r.launchMode == ActivityInfo.LAUNCH_SINGLE_TASK;
+int launchFlags = intent.getFlags();
+if ((launchFlags &amp; Intent.FLAG_ACTIVITY_NEW_DOCUMENT) != 0 &amp;&amp;
+        (launchSingleInstance || launchSingleTask)) {
+    // We have a conflict between the Intent and the Activity manifest, manifest wins.
+    Slog.i(TAG, "Ignoring FLAG_ACTIVITY_NEW_DOCUMENT, launchMode is " +
+            "\"singleInstance\" or \"singleTask\"");
+    launchFlags &amp;=
+            ~(Intent.FLAG_ACTIVITY_NEW_DOCUMENT | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+} else {
+    switch (r.info.documentLaunchMode) {
+        case ActivityInfo.DOCUMENT_LAUNCH_NONE:
+            break;
+        case ActivityInfo.DOCUMENT_LAUNCH_INTO_EXISTING:
+            launchFlags |= Intent.FLAG_ACTIVITY_NEW_DOCUMENT;
+            break;
+        case ActivityInfo.DOCUMENT_LAUNCH_ALWAYS:
+            launchFlags |= Intent.FLAG_ACTIVITY_NEW_DOCUMENT;
+            break;
+        case ActivityInfo.DOCUMENT_LAUNCH_NEVER:
+            launchFlags &amp;= ~Intent.FLAG_ACTIVITY_MULTIPLE_TASK;
+            break;
+    }
+}
+final boolean launchTaskBehind = r.mLaunchTaskBehind
+        &amp;&amp; !launchSingleTask &amp;&amp; !launchSingleInstance
+        &amp;&amp; (launchFlags &amp; Intent.FLAG_ACTIVITY_NEW_DOCUMENT) != 0;
+if (r.resultTo != null &amp;&amp; (launchFlags &amp; Intent.FLAG_ACTIVITY_NEW_TASK) != 0) {
+    // For whatever reason this activity is being launched into a new
+    // task...  yet the caller has requested a result back.  Well, that
+    // is pretty messed up, so instead immediately send back a cancel
+    // and let the new task continue launched as normal without a
+    // dependency on its originator.
+    Slog.w(TAG, "Activity is launching as a new task, so cancelling activity result.");
+    r.resultTo.task.stack.sendActivityResultLocked(-1,
+            r.resultTo, r.resultWho, r.requestCode,
+            Activity.RESULT_CANCELED, null);
+    r.resultTo = null;
+}
+</code></pre>
+
+<p>这就解析了为什么5.0(含)之后的系统即便启动的页面设置<strong>launchMode</strong>为<strong>singleTask</strong>或<strong>singleInstance</strong>，<strong>onActivityResult</strong>依旧可以正常工作。</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+

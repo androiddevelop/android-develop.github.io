@@ -1,0 +1,179 @@
+I"�<p>轻量级输入提示控件auto suggest.github地址:<a href="https://github.com/androiddevelop/autosuggest.js">https://github.com/androiddevelop/autosuggest.js</a>。首先看一下下面的例子:</p>
+
+<iframe src="https://example.codeboy.me/autosuggest/index.html" width="100%" height="200px" frameborder="0" scrolling="no"> </iframe>
+
+<h1 id="autosuggestjs">autosuggest.js</h1>
+
+<p>适用于Bootstrap的Ajax输入建议控件(<a href="https://example.codeboy.me/autosuggest/index.html">Demo</a>)</p>
+
+<p>在<a href="https://github.com/getwebhelp/bootcomplete.js">bootcomplete.js</a>的基础上大幅度改进，改动如下:</p>
+
+<ol>
+  <li><strong>文本框是去焦点时自动隐藏输入提示组件</strong></li>
+  <li><strong>增加最大建议数目限制(maxNum)</strong></li>
+  <li><strong>增加键盘方向键选择</strong></li>
+  <li><strong>增加文本对齐选择(align)</strong></li>
+  <li><strong>增加回车触发函数(nextStep)</strong></li>
+  <li><strong>增加以分隔符分割的联想(split)</strong></li>
+  <li><strong>增加匹配高亮(highlight)</strong></li>
+  <li><strong>增加第一个item是否默认被选中操作(firstSelected)</strong></li>
+</ol>
+
+<h3 id="依赖">依赖</h3>
+
+<ul>
+  <li><a href="https://jquery.com/download/">jQuery</a>(&gt;=1.0)</li>
+  <li><a href="http://getbootstrap.com/getting-started/">Bootstrap</a>(&gt;=3.0)</li>
+</ul>
+
+<h3 id="基本使用">基本使用</h3>
+
+<pre><code>$('#input').autosuggest({url:'/search.php'});
+</code></pre>
+
+<h3 id="json数据格式必须">json数据格式(必须)</h3>
+
+<pre><code>[ 
+  {
+   "id" : someId, 
+   "label" : "some label name"
+  }
+]
+</code></pre>
+
+<blockquote>
+  <p>id可以是任意值
+如果服务端返回数据非此种格式，请修改。</p>
+</blockquote>
+
+<h3 id="参数">参数</h3>
+
+<h4 id="url">url:</h4>
+
+<p>提交请求地址, 可以是json文件，注意跨域问题</p>
+
+<h4 id="method非必须">method(非必须):</h4>
+
+<p>请求方式(<code>get</code>, <code>post</code>), 默认<code>get</code></p>
+
+<h4 id="queryparamname非必须">queryParamName(非必须):</h4>
+
+<p>传递当前输入框的值时的参数名称,默认 <code>query</code>,即如果是get方式并保持该值为默认值,则请求url为 <code>xxx.com?query=input_value</code> ,如果设置此值为 <code>search</code> ,则url为 <code>xxx.com?search=input_value</code></p>
+
+<h4 id="align非必须">align(非必须):</h4>
+<p>对齐方式,默认左对齐,可选项 <code>left</code> , <code>center</code> , <code>right</code></p>
+
+<h4 id="wrapperclass非必须">wrapperClass(非必须):</h4>
+
+<p>包围输入框外层div的css样式,见下面结构介绍</p>
+
+<h4 id="menuclass非必须">menuClass(非必须):</h4>
+
+<p>自动补全菜单的css样式，如果需要自定义请提供, 见下面结构介绍</p>
+
+<h4 id="minlength非必须">minLength(非必须):</h4>
+
+<p>发起请求的最小长度，只有&gt;= 此长度时才会出现建议框,默认最小长度为 <code>2</code></p>
+
+<h4 id="maxnum非必须">maxNum(非必须):</h4>
+
+<p>最大建议数目,默认最多给出 <code>10</code> 个建议提示</p>
+
+<h4 id="firstselected非必须">firstSelected(非必须):</h4>
+<p>第一个是否默认被选中，默认false</p>
+
+<h4 id="highlight非必须">highlight(非必须):</h4>
+
+<p>是否高亮显示匹配内容, 默认 <code>false</code></p>
+
+<h4 id="split非必须">split(非必须):</h4>
+<p>分隔符, 例如我们需要文本框中输入多个省份,使用逗号分开,那么我们可以设定 <code>split</code> 为 <code>,</code> , 之后 <code>autosuggest.js</code> 会根据最后一个逗号后面的内容进行建议.  默认为 <code>null</code> ，即把文本框中所有输入视为一个文本进行建议.</p>
+
+<h4 id="open非必须">open(非必须):</h4>
+
+<p>建议框由隐藏状态变为可见状态时的回调,默认null</p>
+
+<h4 id="close非必须">close(非必须):</h4>
+
+<p>建议框由可见状态变为隐藏状态时的回调,默认null</p>
+
+<h4 id="nextstep非必须">nextStep(非必须):</h4>
+
+<p>选中建议词后,建议框消失,之后点击回车要执行的函数。</p>
+
+<h4 id="immediate非必须">immediate(非必须)</h4>
+
+<p>是否鼠标选中后或者键盘选中回车后立刻执行nextStep操作, 默认 <code>false</code> ,即选中后,所选项将会填充到输入框中,需要再次回车执行nextStep操作</p>
+
+<h4 id="extra非必须">extra(非必须):</h4>
+
+<p>除了queryParam之外的其他参数. 使用:</p>
+
+<pre><code> "key1" : "value1",
+ "key2" : "value2"
+</code></pre>
+
+<h3 id="结构">结构</h3>
+
+<h4 id="初始结构">初始结构</h4>
+
+<pre><code>&lt;input type="text" class="form-control" id="text" placeholder="默认操作" autocomplete="off"/&gt;
+</code></pre>
+
+<h4 id="autosuggest作用后的结构">autosuggest作用后的结构</h4>
+
+<pre><code>&lt;div class="as-wrapper"&gt;
+    &lt;input type="text" class="form-control" id="text" placeholder="默认操作" autocomplete="off"/&gt;
+    &lt;div class="as-menu list-group" style="display: none;"&gt;
+        &lt;span href="#" class="list-group-item  as-align-left" data-id="1" data-label="beijing"&gt;beijing&lt;/span&gt;
+        &lt;span href="#" class="list-group-item  as-align-left" data-id="2" data-label="shanghai"&gt;shanghai&lt;/span&gt;
+        &lt;span href="#" class="list-group-item  as-align-left " data-id="3" data-label="hangzhou"&gt;hangzhou&lt;/span&gt;
+        &lt;span href="#" class="list-group-item  as-align-left " data-id="4" data-label="guangzhou"&gt;guangzhou&lt;/span&gt;
+        &lt;span href="#" class="list-group-item  as-align-left " data-id="5" data-label="zhengzhou"&gt;zhengzhou&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<h3 id="例子">例子</h3>
+
+<pre><code>//简单实例
+$("#test").autosuggest({
+    url: 'city.json',
+    queryParamName: 'search'
+});
+
+//复杂实例
+$("#test").autosuggest({
+    url: 'city.json',
+    minLength: 1,
+    maxNum: 3,
+    align: 'center',
+    queryParamName: 'search'
+    method: 'post',
+    highlight: true,
+    queryParamName: 'search',
+    extra: {
+        "key1": "value1",
+        "key2": "value2"
+    },
+    nextStep: function () {
+        alert("test");
+    },
+    split: ' ',
+    open: function(){
+        console.log("start open");
+    },
+    close: function(){
+        console.log("start close");
+    }
+});
+</code></pre>
+
+<p>有任何问题,欢迎发送邮件到<a href="mailto:app@codeboy.me">app@codeboy.me</a>交流.。</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+:ET
