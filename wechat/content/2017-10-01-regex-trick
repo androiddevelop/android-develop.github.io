@@ -32,8 +32,6 @@
     
 
     
-
-    
          <p>正则表达式是平时开发中经常用到的技巧，大部分时候我们需要的是判断字符串有没有含有固定的模式串，但是某些场景下需要使用非获取匹配，下面根据一种常见的情景:</p>
 
 <p><strong>匹配所有含有 <code>app://page.cb/myPage?id=xxxx</code>的地址，但是排除参数中携带<code>downgrade=true</code>的地址。</strong></p>

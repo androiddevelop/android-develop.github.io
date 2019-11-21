@@ -4,8 +4,6 @@
     
 
     
-
-    
          <h3 id="背景">背景</h3>
 
 <p>假定对象A、B的hash值相同，equals方法也想等，那么向 <code>HashSet</code> 中顺序添加A、B，最后集合中保留的是A或者B或者是A和B呢？</p>

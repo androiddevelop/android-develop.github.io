@@ -2,7 +2,7 @@
 layout: post
 comments: true
 title: 'Arrays.asList之UnsupportedOperationException'
-date: '2019-11-20'
+date: '2019-08-20'
 header-img: "img/post-bg-java.jpg"
 tags:
      - java

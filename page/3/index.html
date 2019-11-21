@@ -137,29 +137,6 @@
     		<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
     			
 <div class="post-preview">
-    <a href="/2015/11/30/mysql-tomcat-character/">
-        <h2 class="post-title">            Mysql与Tomcat编码问题
-        </h2>
-        
-        <div class="post-content-preview">
-        
-            日常中不论移动开发还是web开发，与中文相关的编码总是很奇怪，经常出现乱码。下面针对常用的数据库mysql与服务器tomcat进行编码配置说明，统一 UTF-8.
-
-Mysql
-
-数据库基本上是一个项目不可缺少的部分了，mysql作为最通用的数据库，用户量非常的大, 下面针对的mysql在ubuntu系统下的编码进行配置，其他系统基本相同。
-
-
-  
-    修正mysql配置文件/etc/...
-        </div>
-    </a>
-    <p class="post-meta">Posted by Codeboy on November 30, 2015</p>
-        
-</div>
-<hr>
-
-<div class="post-preview">
     <a href="/2015/11/15/polya-cube-color/">
         <h2 class="post-title">            正方体涂色问题
         </h2>
@@ -476,6 +453,39 @@ adb shell dumpsys activity ---------------查看Actv...
         </div>
     </a>
     <p class="post-meta">Posted by Codeboy on July 28, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2015/07/25/vim-chinese-display/">
+        <h2 class="post-title">            Ubuntu Vim中文显示
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            英文版的Ubuntu系统自带的编码是en_US.UTF-8，并不包含中文编码集，可以在以下文件中查看:
+
+/var/lib/locales/supported.d/local
+
+
+默认情况下，使用vim打开含有中文的文本后，看到的将是乱码。
+
+怎么显示中文呢?
+
+
+  生成中文编码集
+  添加vim编码
+
+
+生成中文编码集
+
+将中文编码集加入系统:
+
+sudo /var/lib/locale...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on July 25, 2015</p>
         
 </div>
 <hr>

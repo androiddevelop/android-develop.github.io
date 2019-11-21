@@ -94,8 +94,6 @@
     
 
     
-
-    
          <p>英文版的Ubuntu系统自带的编码是en_US.UTF-8，并不包含中文编码集，可以在以下文件中查看:</p>
 
 <pre><code>/var/lib/locales/supported.d/local
