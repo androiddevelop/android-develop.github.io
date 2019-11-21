@@ -22,7 +22,7 @@ author: 'Codeboy'
 
 `JSONP` 和 `CORS` 均需要服务端进行适当适配和改造，这里不再讲述，感兴趣的小伙伴可以自行查询。这里我们对同域请求的实现进行说明。
 
-`同域请求` ,顾名思义就是将相同域下的请求进行代理，其实是一种 `反向代理` , 用最近项目开发中的一个例子来进行叙述和配置。前端页面部署在 `project.example.com` 中，服务端代码也部署在该服务器上，但是端口是 `9999` , 正常情况下，`http://project.example.com/test.html` 页面中是访问不到 `http://project.example.com:9999/api/getData` 的数据的，此事我们可以加一层代理，将  `http://project.example.com/api/getData` 全部代理转发到  `http://project.example.com:9999/api/getData` 即可。
+`同域请求` ,顾名思义就是将相同域下的请求进行代理，其实是一种 `反向代理` , 用最近项目开发中的一个例子来进行叙述和配置。前端页面部署在 `project.example.com` 中，服务端代码也部署在该服务器上，但是端口是 `9999` , 正常情况下，`http://project.example.com/test.html` 页面中是访问不到 `http://project.example.com:9999/api/getData` 的数据的，此时我们可以加一层代理，将  `http://project.example.com/api/getData` 全部代理转发到  `http://project.example.com:9999/api/getData` 即可。
 
 ### 准备环境
 
