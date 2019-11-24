@@ -160,7 +160,7 @@ public void remove(int index) {
 
 ### 小结
 
-使用 `Arrays.asList` 时，如果需要对结果进行修改，需要构建 `java.util.ArrayList` 之后继续进行操作，不能在 `Arrays.asList` 的产物中直接进行操作。
+使用 `Arrays.asList` 时，如果需要对结果进行修改，需要构建 `java.util.ArrayList` 之后在进行操作，不能在 `Arrays.asList` 的产物上直接进行操作。
 
 
 
