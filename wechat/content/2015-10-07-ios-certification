@@ -76,6 +76,8 @@
     
 
     
+
+    
          <p>ios8出来的时候，使用企业证书打出的包不能够下载，后来网上提供了一定的解决，在plist中的bundle id后面加上ios8fix，如下:</p>
 
 <pre><code> &lt;key&gt;bundle-identifier&lt;/key&gt;

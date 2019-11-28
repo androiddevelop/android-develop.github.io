@@ -3,6 +3,14 @@
 	"data" : [
 	 
 	{
+		"title" : "Andorid开发调试之run-as - android",
+		"url" : "/2019/09/10/android-run-as/"
+	}
+	
+	,
+	
+    
+	{
 		"title" : "Arrays.asList之UnsupportedOperationException - java",
 		"url" : "/2019/08/20/arrays-aslist-uoexception/"
 	}

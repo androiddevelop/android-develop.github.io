@@ -1,5 +1,7 @@
 
     
+
+    
          <h3 id="前言">前言</h3>
 
 <p>Java中经常会数组转化为List的场景，Java中的<code>Arrays</code> 中提供了一个 <code>asList</code> 方法可以快捷的转化，我们来看下面一段代码：</p>

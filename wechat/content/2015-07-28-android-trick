@@ -92,6 +92,8 @@
     
 
     
+
+    
          <h3 id="查看wifi密码">查看wifi密码</h3>
 
 <p>查询连接的wifi密码，没问题，前提是手机已经root了，可以查看系统文件，android的wifi密码明文保存在一下文件中，使用root explorer查看即可。</p>

@@ -5,9 +5,83 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 25 Nov 2019 00:09:01 +0800</pubDate>
-    <lastBuildDate>Mon, 25 Nov 2019 00:09:01 +0800</lastBuildDate>
+    <pubDate>Thu, 28 Nov 2019 08:02:23 +0800</pubDate>
+    <lastBuildDate>Thu, 28 Nov 2019 08:02:23 +0800</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
+    
+      <item>
+        <title>Andorid开发调试之run-as</title>
+        <description>&lt;h3 id=&quot;前言&quot;&gt;前言&lt;/h3&gt;
+
+&lt;p&gt;Android开发中，经常会将一些文件放在内部目录中，也即&lt;code&gt;/data/data/pacakge_id&lt;/code&gt;中，db文件也在该目录中 ，在非root的手机中，我们无法直接访问&lt;code&gt; /data/data&lt;/code&gt; 下的文件，调试起来非常的不方便，解决的办法有几种：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;找一台root的手机，想看什么看什么&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;断点调试，可以稍微麻烦的看到本应用的目录及文件&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;run-as命令&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;本文来讲解一下&lt;code&gt;run-as&lt;/code&gt;。&lt;/p&gt;
+
+&lt;h3 id=&quot;run-as&quot;&gt;run-as&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;run-as&lt;/code&gt; 命令来获取debug应用的私有数据，在对debug包测试的时候，使用该命令可以切换用户到系统分配给对应debug应用的uid，下面以我的一个测试应用&lt;code&gt;me.codeboy.test&lt;/code&gt; 为例看一下:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;➜ ~ adb shell
+chiron:/ $ whoami
+shell
+
+chiron:/ $ ls /data/data/me.codeboy.test
+ls: /data/data/me.codeboy.test: Permission denied
+
+1|chiron:/ $ run-as me.codeboy.test
+chiron:/data/data/me.codeboy.test $ ls
+cache code_cache shared_prefs 
+
+chiron:/data/data/me.codeboy.test $ whoami
+u0_a279
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以看出在默认的shell环境下，用户身份是&lt;code&gt;shell&lt;/code&gt;，无法查看应用的私有数据，运行 &lt;code&gt;run-as&lt;/code&gt; 后，身份切换了 &lt;code&gt;u0_a279&lt;/code&gt;, 这个用户其实是测试应用的uid，所以可以自由的访问其私有目录。&lt;/p&gt;
+
+&lt;p&gt;Android中一个应用有一个uid，可以通过一下方式获取:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;try {
+  		PackageManager pm = getPackageManager();
+  		ApplicationInfo ai = pm.getApplicationInfo(&quot;me.codeboy.test&quot;, 0);
+  		Toast.makeText(MainActivity.this, Integer.toString(ai.uid,10), Toast.LENGTH_SHORT).show();
+    } catch (PackageManager.NameNotFoundException e) {
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;执行后，输出的结果是10279。&lt;/p&gt;
+
+&lt;p&gt;每个Android应用程序的u0_axxx都是不一样的，同时UID是从10000开始，u0_a后面的数字加上10000所得的值，既是UID，这个和测试应用的输出也非常的吻合，&lt;code&gt;u0_a279&lt;/code&gt; 和 &lt;code&gt;10279&lt;/code&gt;。&lt;/p&gt;
+
+&lt;h3 id=&quot;小结&quot;&gt;小结&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;run-as&lt;/code&gt; 让可以在非root的手机上查看应用的私有目录，对开发调试来说非常的方便。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
+
+  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>Tue, 10 Sep 2019 00:00:00 +0800</pubDate>
+        <link>https://https://www.codeboy.me/2019/09/10/android-run-as/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2019/09/10/android-run-as/</guid>
+        
+        <category>android</category>
+        
+        
+      </item>
     
       <item>
         <title>Arrays.asList之UnsupportedOperationException</title>
@@ -1448,82 +1522,6 @@ step2 print task!!
         <pubDate>Mon, 27 May 2019 00:00:00 +0800</pubDate>
         <link>https://https://www.codeboy.me/2019/05/27/java-proxy/</link>
         <guid isPermaLink="true">https://https://www.codeboy.me/2019/05/27/java-proxy/</guid>
-        
-        <category>java</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>浮点精度</title>
-        <description>&lt;p&gt;整数、浮点数是开发中经常使用的类型，在Java中，整数常用的有 &lt;code&gt;Integer&lt;/code&gt; 和 &lt;code&gt;Long&lt;/code&gt; ，浮点数有 &lt;code&gt;Float&lt;/code&gt; 和 &lt;code&gt;Double&lt;/code&gt; 。如果使用 &lt;code&gt;Float&lt;/code&gt; 来存储 &lt;code&gt;Integer&lt;/code&gt; 的值可行么？粗略看上去，肯定是没问题的，下面我们看个例子:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public class Test {
-    public static void main(String[] args) {
-        int a = 12345678;
-        System.out.println(a);
-        System.out.println((float) a);
-        System.out.println(Float.valueOf(a + &quot;&quot;).intValue());
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;结果会输出什么呢？&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;12345678
-1.2345678E7
-12345678
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;完全正确，不要急，我们将变量a的值调大一些，修改为 123456789，再次执行，输出结果如下:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;123456789
-1.23456792E8
-123456792
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;差了一些，有误差了，这个为什么呢？因为浮点数的表示是按照 &lt;code&gt;IEEE 754 &lt;/code&gt;标准的，可以参考&lt;a href=&quot;https://www.zhihu.com/question/21711083&quot;&gt;https://www.zhihu.com/question/21711083&lt;/a&gt; , 字节数和尾数部分见下表：&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;类型&lt;/th&gt;
-      &lt;th&gt;字节数&lt;/th&gt;
-      &lt;th&gt;尾数长度&lt;/th&gt;
-      &lt;th&gt;精确范围&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Float&lt;/td&gt;
-      &lt;td&gt;4&lt;/td&gt;
-      &lt;td&gt;23&lt;/td&gt;
-      &lt;td&gt;-2^24 ~ 2^24&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Double&lt;/td&gt;
-      &lt;td&gt;8&lt;/td&gt;
-      &lt;td&gt;52&lt;/td&gt;
-      &lt;td&gt;-2^53 ~ 2^53&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;因为最高位是1的缘故，加上尾数长度，可以计算出能够精确表示的范围，可以看出 &lt;code&gt;Float&lt;/code&gt; 最大精确数值为 &lt;code&gt;16777216&lt;/code&gt; ,&lt;code&gt;Double&lt;/code&gt; 最大精确数值为 &lt;code&gt;9007199254740992&lt;/code&gt; ，上文中的 &lt;code&gt;12345678&lt;/code&gt; 和 &lt;code&gt;123456789&lt;/code&gt; 刚好在 &lt;code&gt;16777216&lt;/code&gt; 的两侧， 所以出现了上文中的结果。&lt;/p&gt;
-
-&lt;h3 id=&quot;小结&quot;&gt;小结&lt;/h3&gt;
-
-&lt;p&gt;当前时间戳的范围超过了 &lt;code&gt;Float&lt;/code&gt; 的范围，在进行类型转化时已经要注意。 需要精度高的类型，可以选择 &lt;code&gt;BigDecimal&lt;/code&gt; 来完成，如果明确确定对应的数值大小在精确表示范围内，也可以进行转换。&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
-
-  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
-&lt;/blockquote&gt;
-</description>
-        <pubDate>Tue, 07 May 2019 00:00:00 +0800</pubDate>
-        <link>https://https://www.codeboy.me/2019/05/07/float-precision/</link>
-        <guid isPermaLink="true">https://https://www.codeboy.me/2019/05/07/float-precision/</guid>
         
         <category>java</category>
         

@@ -12,6 +12,8 @@
     
 
     
+
+    
          <p>Java中分割字符串经常会使用到 <code>String.split</code> ，本文中针对单字符分割的场景进行简单讨论，首先看几个例子:</p>
 
 <pre><code class="language-nohighlight">"".split("=")      //示例1
