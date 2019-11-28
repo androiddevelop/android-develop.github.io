@@ -184,7 +184,7 @@ u0_a279
 
 <p>可以看出在默认的shell环境下，用户身份是<code>shell</code>，无法查看应用的私有数据，运行 <code>run-as</code> 后，身份切换了 <code>u0_a279</code>, 这个用户其实是测试应用的uid，也可以自由的访问其私有目录。</p>
 
-<p>Android中每一个应用都有一个uid，可以通过一下方式获取:</p>
+<p>Android中每一个应用都有一个uid，可以通过以下方式获取:</p>
 
 <pre><code class="language-java">try {
 	PackageManager pm = getPackageManager();

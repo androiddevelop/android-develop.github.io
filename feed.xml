@@ -5,8 +5,8 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 28 Nov 2019 08:13:58 +0800</pubDate>
-    <lastBuildDate>Thu, 28 Nov 2019 08:13:58 +0800</lastBuildDate>
+    <pubDate>Thu, 28 Nov 2019 08:23:34 +0800</pubDate>
+    <lastBuildDate>Thu, 28 Nov 2019 08:23:34 +0800</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
     
       <item>
@@ -50,7 +50,7 @@ u0_a279
 
 &lt;p&gt;可以看出在默认的shell环境下，用户身份是&lt;code&gt;shell&lt;/code&gt;，无法查看应用的私有数据，运行 &lt;code&gt;run-as&lt;/code&gt; 后，身份切换了 &lt;code&gt;u0_a279&lt;/code&gt;, 这个用户其实是测试应用的uid，也可以自由的访问其私有目录。&lt;/p&gt;
 
-&lt;p&gt;Android中每一个应用都有一个uid，可以通过一下方式获取:&lt;/p&gt;
+&lt;p&gt;Android中每一个应用都有一个uid，可以通过以下方式获取:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;try {
 	PackageManager pm = getPackageManager();
