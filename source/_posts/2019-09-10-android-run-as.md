@@ -25,7 +25,7 @@ Android开发中，经常会将一些文件放在内部目录中，也即`/data/
 
 `run-as` 命令来获取debug应用的私有数据，在对debug包测试的时候，使用该命令可以切换用户到系统分配给对应debug应用的uid，下面以我的一个测试应用`me.codeboy.test` 为例看一下:
 
-```shell
+```bash
 ➜ ~ adb shell
 chiron:/ $ whoami
 shell

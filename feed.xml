@@ -5,8 +5,8 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 28 Nov 2019 08:02:23 +0800</pubDate>
-    <lastBuildDate>Thu, 28 Nov 2019 08:02:23 +0800</lastBuildDate>
+    <pubDate>Thu, 28 Nov 2019 08:08:09 +0800</pubDate>
+    <lastBuildDate>Thu, 28 Nov 2019 08:08:09 +0800</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
     
       <item>
@@ -33,7 +33,7 @@
 
 &lt;p&gt;&lt;code&gt;run-as&lt;/code&gt; 命令来获取debug应用的私有数据，在对debug包测试的时候，使用该命令可以切换用户到系统分配给对应debug应用的uid，下面以我的一个测试应用&lt;code&gt;me.codeboy.test&lt;/code&gt; 为例看一下:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&quot;language-shell&quot;&gt;➜ ~ adb shell
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;➜ ~ adb shell
 chiron:/ $ whoami
 shell
 
