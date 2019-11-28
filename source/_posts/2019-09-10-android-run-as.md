@@ -47,10 +47,10 @@ Android中一个应用有一个uid，可以通过一下方式获取:
 
 ```java
 try {
-  		PackageManager pm = getPackageManager();
-  		ApplicationInfo ai = pm.getApplicationInfo("me.codeboy.test", 0);
-  		Toast.makeText(MainActivity.this, Integer.toString(ai.uid,10), Toast.LENGTH_SHORT).show();
-    } catch (PackageManager.NameNotFoundException e) {
+	PackageManager pm = getPackageManager();
+	ApplicationInfo ai = pm.getApplicationInfo("me.codeboy.test", 0);
+	Toast.makeText(MainActivity.this, Integer.toString(ai.uid,10), Toast.LENGTH_SHORT).show();
+  } catch (PackageManager.NameNotFoundException e) {
 }
 ```
 

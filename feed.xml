@@ -5,8 +5,8 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 28 Nov 2019 08:08:41 +0800</pubDate>
-    <lastBuildDate>Thu, 28 Nov 2019 08:08:41 +0800</lastBuildDate>
+    <pubDate>Thu, 28 Nov 2019 08:10:03 +0800</pubDate>
+    <lastBuildDate>Thu, 28 Nov 2019 08:10:03 +0800</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
     
       <item>
@@ -53,10 +53,10 @@ u0_a279
 &lt;p&gt;Android中一个应用有一个uid，可以通过一下方式获取:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;try {
-  		PackageManager pm = getPackageManager();
-  		ApplicationInfo ai = pm.getApplicationInfo(&quot;me.codeboy.test&quot;, 0);
-  		Toast.makeText(MainActivity.this, Integer.toString(ai.uid,10), Toast.LENGTH_SHORT).show();
-    } catch (PackageManager.NameNotFoundException e) {
+	PackageManager pm = getPackageManager();
+	ApplicationInfo ai = pm.getApplicationInfo(&quot;me.codeboy.test&quot;, 0);
+	Toast.makeText(MainActivity.this, Integer.toString(ai.uid,10), Toast.LENGTH_SHORT).show();
+  } catch (PackageManager.NameNotFoundException e) {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
