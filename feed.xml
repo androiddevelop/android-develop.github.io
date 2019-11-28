@@ -5,15 +5,15 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 28 Nov 2019 08:10:03 +0800</pubDate>
-    <lastBuildDate>Thu, 28 Nov 2019 08:10:03 +0800</lastBuildDate>
+    <pubDate>Thu, 28 Nov 2019 08:13:58 +0800</pubDate>
+    <lastBuildDate>Thu, 28 Nov 2019 08:13:58 +0800</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
     
       <item>
         <title>Andorid开发调试之run-as</title>
         <description>&lt;h3 id=&quot;前言&quot;&gt;前言&lt;/h3&gt;
 
-&lt;p&gt;Android开发中，经常会将一些文件放在内部目录中，也即&lt;code&gt;/data/data/pacakge_id&lt;/code&gt;中，db文件也在该目录中 ，在非root的手机中，我们无法直接访问&lt;code&gt; /data/data&lt;/code&gt; 下的文件，调试起来非常的不方便，解决的办法有几种：&lt;/p&gt;
+&lt;p&gt;Android开发中，经常会将一些文件放在内部目录中，即&lt;code&gt;/data/data/pacakge_id&lt;/code&gt;中，db文件也在该目录中 ，在非root的手机中，我们无法直接访问&lt;code&gt; /data/data&lt;/code&gt; 下的文件，调试起来非常的不方便，解决的办法有几种：&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;
@@ -27,11 +27,11 @@
   &lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;本文来讲解一下&lt;code&gt;run-as&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;前两种并不陌生，本文来讲解一下第三个&lt;code&gt;run-as&lt;/code&gt;。&lt;/p&gt;
 
 &lt;h3 id=&quot;run-as&quot;&gt;run-as&lt;/h3&gt;
 
-&lt;p&gt;&lt;code&gt;run-as&lt;/code&gt; 命令来获取debug应用的私有数据，在对debug包测试的时候，使用该命令可以切换用户到系统分配给对应debug应用的uid，下面以我的一个测试应用&lt;code&gt;me.codeboy.test&lt;/code&gt; 为例看一下:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;run-as&lt;/code&gt; 命令可以获取debug应用的私有数据，在调试debug包的时候，可以使用该命令将用户切换到系统分配给debug应用的用户上，之后就可以访问其私有数据。下面以我的一个测试应用&lt;code&gt;me.codeboy.test&lt;/code&gt; 为例看一下:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;➜ ~ adb shell
 chiron:/ $ whoami
@@ -48,9 +48,9 @@ chiron:/data/data/me.codeboy.test $ whoami
 u0_a279
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;可以看出在默认的shell环境下，用户身份是&lt;code&gt;shell&lt;/code&gt;，无法查看应用的私有数据，运行 &lt;code&gt;run-as&lt;/code&gt; 后，身份切换了 &lt;code&gt;u0_a279&lt;/code&gt;, 这个用户其实是测试应用的uid，所以可以自由的访问其私有目录。&lt;/p&gt;
+&lt;p&gt;可以看出在默认的shell环境下，用户身份是&lt;code&gt;shell&lt;/code&gt;，无法查看应用的私有数据，运行 &lt;code&gt;run-as&lt;/code&gt; 后，身份切换了 &lt;code&gt;u0_a279&lt;/code&gt;, 这个用户其实是测试应用的uid，也可以自由的访问其私有目录。&lt;/p&gt;
 
-&lt;p&gt;Android中一个应用有一个uid，可以通过一下方式获取:&lt;/p&gt;
+&lt;p&gt;Android中每一个应用都有一个uid，可以通过一下方式获取:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;try {
 	PackageManager pm = getPackageManager();
@@ -62,7 +62,7 @@ u0_a279
 
 &lt;p&gt;执行后，输出的结果是10279。&lt;/p&gt;
 
-&lt;p&gt;每个Android应用程序的u0_axxx都是不一样的，同时UID是从10000开始，u0_a后面的数字加上10000所得的值，既是UID，这个和测试应用的输出也非常的吻合，&lt;code&gt;u0_a279&lt;/code&gt; 和 &lt;code&gt;10279&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;每个Android应用程序的u0_axxx都是不一样的，同时uid是从10000开始，u0_a后面的数字加上10000所得的值，既是uid，这个和测试应用的输出也非常的吻合，即&lt;code&gt;u0_a279&lt;/code&gt; 和 &lt;code&gt;10279&lt;/code&gt;。&lt;/p&gt;
 
 &lt;h3 id=&quot;小结&quot;&gt;小结&lt;/h3&gt;
 
