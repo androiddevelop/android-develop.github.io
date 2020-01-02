@@ -62,8 +62,8 @@ author: 'Codeboy'
 参考[https://github.com/androiddevelop/DocSearch](https://github.com/androiddevelop/DocSearch)
 
 ### Demo页面
-![](doc-search-home.jpg)
-![](doc-search-result.jpg)
+![](/img/doc-search-home.jpg)
+![](/img/doc-search-result.jpg)
 
 ### 小结
 
