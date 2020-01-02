@@ -137,6 +137,30 @@
     		<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
     			
 <div class="post-preview">
+    <a href="/2015/07/28/android-trick/">
+        <h2 class="post-title">            Android开发及使用技巧
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            查看wifi密码
+
+查询连接的wifi密码，没问题，前提是手机已经root了，可以查看系统文件，android的wifi密码明文保存在一下文件中，使用root explorer查看即可。
+
+/data/misc/wifi/wpa_supplicant.conf
+
+
+查看activity堆栈情况
+
+adb shell dumpsys activity ---------------查看Actv...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on July 28, 2015</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2015/07/25/vim-chinese-display/">
         <h2 class="post-title">            Ubuntu Vim中文显示
         </h2>
@@ -491,30 +515,6 @@ public class Main {
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2014/11/02/datamine-canopy/">
-        <h2 class="post-title">            Canopy算法计算聚类的簇数
-        </h2>
-        
-        <div class="post-content-preview">
-        
-            Kmeans算是是聚类中的经典算法，过程如下：
-
-选择K个点作为初始质心
-repeat
-将每个点指派到最近的质心，形成K个簇
-重新计算每个簇的质心
-until 簇不发生变化或达到最大迭代次数
-
-
-算法中的K需要人为的指定。确定K的做法有很多，比如多次进行试探，计算误差，得出最好的K。这样需要比较长的时间。我们可以根据Canopy算法来粗略确定K值(可以认为相等)。看一下Canopy算法的过程...
-        </div>
-    </a>
-    <p class="post-meta">Posted by Codeboy on November 2, 2014</p>
-        
-</div>
-<hr>
-
 
 <!-- Pager -->
 
@@ -575,7 +575,7 @@ until 簇不发生变化或达到最大迭代次数
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; 小胖轩 2019</p>
+                <p class="copyright text-muted">Copyright &copy; 小胖轩 2020</p>
             </div>
         </div>
     </div>

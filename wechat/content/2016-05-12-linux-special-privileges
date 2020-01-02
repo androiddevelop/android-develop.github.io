@@ -46,6 +46,8 @@
     
 
     
+
+    
          <p>Linux下常用的权限的有读、写和执行，也即常说的rwx，但是除了rwx权限外，Linux系统还有着一些特殊权限，他们是setUID、setGID和setBIT，同时还有一个chattr命令来修改文件的隐藏属性，具体介绍如下:</p>
 
 <p />

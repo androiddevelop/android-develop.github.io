@@ -137,6 +137,30 @@
     		<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
     			
 <div class="post-preview">
+    <a href="/2014/11/02/datamine-canopy/">
+        <h2 class="post-title">            Canopy算法计算聚类的簇数
+        </h2>
+        
+        <div class="post-content-preview">
+        
+            Kmeans算是是聚类中的经典算法，过程如下：
+
+选择K个点作为初始质心
+repeat
+将每个点指派到最近的质心，形成K个簇
+重新计算每个簇的质心
+until 簇不发生变化或达到最大迭代次数
+
+
+算法中的K需要人为的指定。确定K的做法有很多，比如多次进行试探，计算误差，得出最好的K。这样需要比较长的时间。我们可以根据Canopy算法来粗略确定K值(可以认为相等)。看一下Canopy算法的过程...
+        </div>
+    </a>
+    <p class="post-meta">Posted by Codeboy on November 2, 2014</p>
+        
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2014/10/31/image-type-judge/">
         <h2 class="post-title">            图片格式判断
         </h2>
@@ -360,7 +384,7 @@ echo $_GET ['param'];
                     </li>
                     
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; 小胖轩 2019</p>
+                <p class="copyright text-muted">Copyright &copy; 小胖轩 2020</p>
             </div>
         </div>
     </div>

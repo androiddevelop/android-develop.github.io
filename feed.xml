@@ -5,9 +5,101 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 28 Nov 2019 08:23:34 +0800</pubDate>
-    <lastBuildDate>Thu, 28 Nov 2019 08:23:34 +0800</lastBuildDate>
+    <pubDate>Thu, 02 Jan 2020 10:02:21 +0800</pubDate>
+    <lastBuildDate>Thu, 02 Jan 2020 10:02:21 +0800</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
+    
+      <item>
+        <title>ElasticSearch内容检索</title>
+        <description>&lt;h3 id=&quot;前言&quot;&gt;前言&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;gitbook&lt;/code&gt; 是目前流行的电子书制作工具，很多文档基于此构建，团队内部文档也是一样的。由于模块比较的多且复杂，各个模块的文档分别对应一个&lt;code&gt;gitbook&lt;/code&gt;，职责明确了，但查找起来却麻烦很多，同时&lt;code&gt;gitbook&lt;/code&gt; 查看文档的方式相对简单，不能根据文档相关性进行排序。&lt;/p&gt;
+
+&lt;h3 id=&quot;需求&quot;&gt;需求&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;多个gitbook文档能够提供统一查询入口&lt;/li&gt;
+  &lt;li&gt;全文检索，根据相关性排序&lt;/li&gt;
+  &lt;li&gt;提供文章访问热度&lt;/li&gt;
+  &lt;li&gt;支持文章更新&lt;/li&gt;
+  &lt;li&gt;支持搜索结果关联词高亮&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;设计&quot;&gt;设计&lt;/h3&gt;
+
+&lt;p&gt;当前用于文档搜索的引擎有不少，比较流行的有&lt;code&gt;solr&lt;/code&gt;和&lt;code&gt;elasticSearch&lt;/code&gt;, 考虑到后者功能强大，配置简单，决定使用&lt;code&gt;elasticSearch&lt;/code&gt;(后文简称es)来存储文档，考虑到后续更灵活的扩展，使用&lt;code&gt;mysql&lt;/code&gt;记录文档访问次数，用于文章热度的获取以及自动联想等。&lt;/p&gt;
+
+&lt;p&gt;系统包含以下几部分：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;gitbook爬虫&lt;/p&gt;
+
+    &lt;p&gt;从gitbook中获取数据，存储/更新到es中，同时将标题、url存储/更新到mysql中。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;es&lt;/p&gt;
+
+    &lt;p&gt;存储/更新文档。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;mysql&lt;/p&gt;
+
+    &lt;p&gt;记录用户访问频次，提供输入框自动联想。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;技术点&quot;&gt;技术点&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;中文分词&lt;/p&gt;
+
+    &lt;p&gt;使用&lt;a href=&quot;https://github.com/medcl/elasticsearch-analysis-ik&quot;&gt;ik分词&lt;/a&gt;插件进行。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;存储到es中&lt;/p&gt;
+
+    &lt;p&gt;查询比较单一，没有使用es的The Java High Level REST Client，使用普通的查询完成通信。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;查询优化&lt;/p&gt;
+
+    &lt;p&gt;考虑到标题相对比较短，并且比较简单，调整es查询时标题和内容的权重为1:2。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;文档更新&lt;/p&gt;
+
+    &lt;p&gt;根据文档的变更，自动完成对文档修改、删除。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;部署&quot;&gt;部署&lt;/h3&gt;
+
+&lt;p&gt;参考&lt;a href=&quot;https://github.com/androiddevelop/DocSearch&quot;&gt;https://github.com/androiddevelop/DocSearch&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;demo页面&quot;&gt;Demo页面&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;doc-search-home.jpg&quot; alt=&quot;&quot; /&gt;
+&lt;img src=&quot;doc-search-result.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;小结&quot;&gt;小结&lt;/h3&gt;
+
+&lt;p&gt;结合了&lt;code&gt;elasticSearch&lt;/code&gt;、&lt;code&gt;kibana(es数据展示)&lt;/code&gt; 、&lt;code&gt;mysql&lt;/code&gt;、&lt;code&gt;springboot&lt;/code&gt;等完成了文档检索，可以在搜索引擎触及不到的地方(内网)部署一个，方便多个地方的文档聚合。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
+
+  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>Tue, 10 Sep 2019 00:00:00 +0800</pubDate>
+        <link>https://https://www.codeboy.me/2019/09/10/content-search-with-es/</link>
+        <guid isPermaLink="true">https://https://www.codeboy.me/2019/09/10/content-search-with-es/</guid>
+        
+        <category>java</category>
+        
+        
+      </item>
     
       <item>
         <title>Andorid开发调试之run-as</title>
@@ -699,7 +791,7 @@ classpath: 工程中的其他的class作为classpath
   输出目录: 工程根目录下的CodeTest目录
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&quot;实施&quot;&gt;实施&lt;/h3&gt;
+&lt;h3 id=&quot;操作&quot;&gt;操作&lt;/h3&gt;
 
 &lt;h4 id=&quot;定义javafileobject&quot;&gt;定义JavaFileObject&lt;/h4&gt;
 
@@ -1214,316 +1306,6 @@ public String[] split(String regex, int limit) // 方法2
         <guid isPermaLink="true">https://https://www.codeboy.me/2019/06/01/domain-proxy/</guid>
         
         <category>linux</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Java代理</title>
-        <description>&lt;p&gt;代理是在开发中经常用到的一种模式，不暴露真实的对象，取而代之的提供代理对象，在代理对象中可以对实际操作的前后进行一些处理，也即流行的面向切面编程(AOP)，Spring中的拦截器使用的就是代理模式。&lt;/p&gt;
-
-&lt;p&gt;我们对一个需要两步完成的任务，使用普通模式、静态代理、动态代理和cglib分别实现下：&lt;/p&gt;
-
-&lt;h3 id=&quot;准备工作&quot;&gt;准备工作&lt;/h3&gt;
-
-&lt;p&gt;定义接口 &lt;code&gt;ITask&lt;/code&gt; 和实现类 &lt;code&gt;Task&lt;/code&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.proxy;
-
-/**
- * 任务
- * Created by yuedong.li on 2019-05-27
- */
-public interface ITask {
-    /**
-     * 步骤一
-     */
-    public void step1();
-
-    /**
-     * 步骤二
-     */
-    public void step2();
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;package me.codeboy.test.proxy;
-
-/**
- * 任务
- * Created by yuedong.li on 2019-05-27
- */
-public class Task implements ITask {
-    @Override
-    public void step1() {
-        System.out.println(&quot;step1 print task!!&quot;);
-    }
-
-    @Override
-    public void step2() {
-        System.out.println(&quot;step2 print task!!&quot;);
-    }
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&quot;普通模式&quot;&gt;普通模式&lt;/h3&gt;
-
-&lt;p&gt;该模式下，创建 &lt;code&gt;Task&lt;/code&gt; 实例后，直接调用对应方法&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.proxy;
-
-/**
- * 普通模式
- * Created by yuedong.li on 2019-05-27
- */
-public class CommonMain {
-    public static void main(String[] args) {
-        ITask task = new Task();
-        task.step1();
-        task.step2();
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;运行结果&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;step1 print task!!
-step2 print task!!
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&quot;静态代理&quot;&gt;静态代理&lt;/h3&gt;
-
-&lt;p&gt;由一个代理类来进行实际方法调用&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.proxy;
-
-/**
- * 任务静态代理
- * Created by yuedong.li on 2019-05-27
- */
-public class TaskStaticProxy implements ITask {
-    private Task task;
-
-    public TaskStaticProxy(Task task) {
-        this.task = task;
-    }
-
-    @Override
-    public void step1() {
-        System.out.println(&quot;-----&amp;gt; before step1&quot;);
-        task.step1();
-        System.out.println(&quot;-----&amp;gt; after step1&quot;);
-    }
-
-    @Override
-    public void step2() {
-        System.out.println(&quot;-----&amp;gt; before step2&quot;);
-        task.step2();
-        System.out.println(&quot;-----&amp;gt; after step2&quot;);
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.proxy;
-
-/**
- * 静态代理
- * Created by yuedong.li on 2019-05-27
- */
-public class StaticProxyMain {
-    public static void main(String[] args) {
-        ITask task = new TaskStaticProxy(new Task());
-        task.step1();
-        task.step2();
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;运行结果&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;&amp;gt; -----&amp;gt; before step1
-&amp;gt; step1 print task!!
-&amp;gt; -----&amp;gt; after step1
-&amp;gt; -----&amp;gt; before step2
-&amp;gt; step2 print task!!
-&amp;gt; -----&amp;gt; after step2
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&quot;动态代理&quot;&gt;动态代理&lt;/h3&gt;
-
-&lt;p&gt;由Proxy创建一个代理 &lt;code&gt;ITask&lt;/code&gt; 接口的代理来进行实际方法调用&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.proxy;
-
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-
-/**
- * 任务动态代理
- * Created by yuedong.li on 2019-05-27
- */
-public class TaskDynamicProxy implements InvocationHandler {
-    private Task task;
-
-    public TaskDynamicProxy(Task task) {
-        this.task = task;
-    }
-
-    /**
-     * 创建动态代理
-     */
-    public ITask getProxy() {
-        return (ITask) Proxy.newProxyInstance(task.getClass().getClassLoader(), task.getClass().getInterfaces(), this);
-    }
-
-    @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        System.out.println(&quot;-----&amp;gt; before &quot; + method.getName());
-        Object ret = method.invoke(task, args); //执行真正的方法
-        System.out.println(&quot;-----&amp;gt; after &quot; + method.getName());
-        return ret;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.proxy;
-
-/**
- * 动态代理
- * Created by yuedong.li on 2019-05-27
- */
-public class DynamicProxyMain {
-    public static void main(String[] args) {
-        ITask task = new TaskDynamicProxy(new Task()).getProxy();
-        task.step1();
-        task.step2();
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;运行结果&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;-----&amp;gt; before step1
-step1 print task!!
------&amp;gt; after step1
------&amp;gt; before step2
-step2 print task!!
------&amp;gt; after step2
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&quot;cglib代理&quot;&gt;cglib代理&lt;/h3&gt;
-
-&lt;p&gt;创建一个代理 &lt;code&gt;Task&lt;/code&gt; 类的代理类来进行实际方法调用&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.proxy;
-
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
-
-import java.lang.reflect.Method;
-
-/**
- * cglib代理
- * Created by yuedong.li on 2019-05-27
- */
-public class TaskCglibProxy&amp;lt;T&amp;gt; implements MethodInterceptor {
-
-    /**
-     * 获取代理对象
-     *
-     * @param object 对象
-     * @return proxy 对象
-     */
-    public T getProxy(T object) {
-        Enhancer enhancer = new Enhancer(); //创建Enhancer来生成动态代理类
-        enhancer.setSuperclass(object.getClass());
-        enhancer.setCallback(this);  //设置回调，之后所有的方法调用将会执行intercept方法
-        return (T) enhancer.create();
-    }
-
-    /**
-     * 代理对象的执行会回调到此方法中
-     */
-    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        System.out.println(&quot;-----&amp;gt; before &quot; + method.getName());
-        Object result = proxy.invokeSuper(obj, args); //调用业务类的方法
-        System.out.println(&quot;-----&amp;gt; after &quot; + method.getName());
-        return result;
-    } 
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package me.codeboy.test.proxy;
-
-/**
- * cglib代理
- * Created by yuedong.li on 2019-05-27
- */
-public class CglibProxyMain {
-    public static void main(String[] args) {
-        ITask task = new TaskCglibProxy&amp;lt;ITask&amp;gt;().getProxy(new Task());
-        task.step1();
-        task.step2();
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;运行结果&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-nohighlight&quot;&gt;-----&amp;gt; before step1
-step1 print task!!
------&amp;gt; after step1
------&amp;gt; before step2
-step2 print task!!
------&amp;gt; after step2
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&quot;小结&quot;&gt;小结&lt;/h3&gt;
-
-&lt;p&gt;根据上面的例子，简单的总结一下几种代理模式的使用场景和特点：&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;类型&lt;/th&gt;
-      &lt;th&gt;场景&lt;/th&gt;
-      &lt;th&gt;特点&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;静态代理&lt;/td&gt;
-      &lt;td&gt;代理比较简单的类&lt;/td&gt;
-      &lt;td&gt;代理多个方法后会比较繁琐，可能会有很多重复代码&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;动态代理&lt;/td&gt;
-      &lt;td&gt;代理接口&lt;/td&gt;
-      &lt;td&gt;只能代理接口，不能代理实现类&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;cglib代理&lt;/td&gt;
-      &lt;td&gt;代理实现类&lt;/td&gt;
-      &lt;td&gt;和动态代理互补&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;如有任何知识产权、版权问题或理论错误，还请指正。&lt;/p&gt;
-
-  &lt;p&gt;转载请注明原作者及以上信息。&lt;/p&gt;
-&lt;/blockquote&gt;
-</description>
-        <pubDate>Mon, 27 May 2019 00:00:00 +0800</pubDate>
-        <link>https://https://www.codeboy.me/2019/05/27/java-proxy/</link>
-        <guid isPermaLink="true">https://https://www.codeboy.me/2019/05/27/java-proxy/</guid>
-        
-        <category>java</category>
         
         
       </item>
