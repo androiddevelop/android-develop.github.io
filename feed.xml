@@ -5,12 +5,12 @@
     <description>编码生涯的点点滴滴</description>
     <link>https://https://www.codeboy.me/</link>
     <atom:link href="https://https://www.codeboy.me/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 04 Jan 2020 11:16:07 +0800</pubDate>
-    <lastBuildDate>Sat, 04 Jan 2020 11:16:07 +0800</lastBuildDate>
+    <pubDate>Tue, 07 Jan 2020 08:27:44 +0800</pubDate>
+    <lastBuildDate>Tue, 07 Jan 2020 08:27:44 +0800</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
     
       <item>
-        <title>ElasticSearch内容检索</title>
+        <title>基于ElasticSearch的内容检索系统</title>
         <description>&lt;h3 id=&quot;前言&quot;&gt;前言&lt;/h3&gt;
 
 &lt;p&gt;&lt;code&gt;gitbook&lt;/code&gt; 是目前流行的电子书制作工具，很多文档基于此构建，团队内部文档也是一样的。由于模块比较的多且复杂，各个模块的文档分别对应一个&lt;code&gt;gitbook&lt;/code&gt;，职责明确了，但查找起来却麻烦很多，同时&lt;code&gt;gitbook&lt;/code&gt; 查看文档的方式相对简单，不能根据文档相关性进行排序。&lt;/p&gt;

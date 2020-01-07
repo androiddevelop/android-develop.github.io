@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: true
-title: 'ElasticSearch内容检索'
+title: '基于ElasticSearch的内容检索系统'
 date: '2019-09-28'
 header-img: "img/post-bg-java.jpg"
 tags:
