@@ -5,7 +5,7 @@
         var urls = new Array(); //文章地址
         $(document).keyup(function (e) {
             var time2 = new Date().getTime();
-            if (e.keyCode == 17) {
+            if (e.keyCode === 17) {
                 var gap = time2 - time1;
                 time1 = time2;
                 if (gap < 500) {
