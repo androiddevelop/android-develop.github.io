@@ -234,19 +234,21 @@ adb shell input keyevent --longpress KEYCODE_MENU  //长按菜单键
 
 <!-- Post Comments -->
 
-<script id="dsq-count-scr" src="//codeboy.disqus.com/count.js" async></script>
-<div id="disqus_thread" class="container"></div>
+<div class="container" id="gitalk-container"></div>
+<script src="/js/gitalk.min.js"></script>
+<link rel="stylesheet" href="/css/gitalk.min.css" ></link>
 <script>
-    let disqus_config = function () {
-        this.page.url = "/2015/07/28/android-trick/";
-        this.page.identifier = "Android开发及使用技巧";
-    };
-    (function () {
-        var d = document, s = d.createElement('script');
-        s.src = 'https://codeboy.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
+    var gitalk = new Gitalk({
+        clientID: '695cf175816e2172b430',
+        clientSecret: 'b9176bda89b6c216aa5ca53eddbf9e4db01d223f',
+        repo: 'androiddevelop.github.io',
+        owner: 'androiddevelop',
+        admin: ['androiddevelop'],
+        id: location.pathname,
+        distractionFreeMode: false
+    })
+
+    gitalk.render('gitalk-container')
 </script>
 
 
@@ -255,7 +257,7 @@ adb shell input keyevent --longpress KEYCODE_MENU  //长按菜单键
 
 <!-- 目录插件 -->
 <script src="/js/autoc.min.js"></script>
-<link rel="stylesheet" href="/css/autoc.css">
+<link rel="stylesheet" href="/css/autoc.css"></link>
 
 <script>
     // 创建 Outline 实例
