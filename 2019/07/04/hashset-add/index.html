@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keyword"
+          content="codeboy, @codeboy, 小胖轩, 玄恒, Blog, Github, 博客, 互联网, 前端, 服务端, 玄恒的个人网站, android, mobile, server, web, datamine ">
+    <meta name="description" content="编码生涯的点点滴滴">
+    <link rel="icon" href="/favicon.png" type="image/png"/>
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon-precomposed" href="/favicon.png" type="image/png">
+
+    <title>HashSet.add覆盖问题 - 小胖轩</title>
+
+    <link rel="canonical" href="https://https://www.codeboy.me/2019/07/04/hashset-add/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/codeboy.min.css">
+
+    <link rel="alternate" type="application/rss+xml" href="feed.xml" title="小胖轩">
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .ds-powered-by {
+            display: none !important;
+        }
+
+        .ds-post-toolbar .ds-sync {
+            display: none !important;
+        }
+    </style>
+</head>
+
+
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">小胖轩</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">首页</a>
+                </li>
+                <li>
+                    <a href="/open/">开源</a>
+                </li>
+
+                <li>
+                    <a href="/tags/">标签</a>
+                </li>
+
+                <li>
+                    <a href="/about/">关于</a>
+                </li>
+		<!--
+                
+                <li>
+                    <a href="/apps/">Apps</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/about/index2/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/open/">Open</a>
+                </li>
+                
+                <li>
+                    <a href="/privacy/">评论政策</a>
+                </li>
+                
+                <li>
+                    <a href="/tags/">Tags</a>
+                </li>
+                
+		-->
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header"
+        style="background-image: url('/img/post-bg-java.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#java" title="java">java</a>
+                        
+                    </div>
+                    <h1>HashSet.add覆盖问题</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by Codeboy on July 4, 2019</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article id="article">
+    <div class="container" style="overflow-y:hidden;">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
+
+                <h3 id="背景">背景</h3>
+
+<p>假定对象A、B的hash值相同，equals方法也想等，那么向 <code>HashSet</code> 中顺序添加A、B，最后集合中保留的是A或者B或者是A和B呢？</p>
+
+<h3 id="编码">编码</h3>
+
+<p>看以下代码，分析下输出：</p>
+
+<pre><code class="language-java">package me.codeboy.test.hash;
+
+import java.util.Objects;
+
+/**
+ * hash bean
+ * Created by yuedong.li on 2019-07-01
+ */
+public class HashBean {
+    String value;
+
+    @Override
+    public boolean equals(Object obj) {
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash("test");
+    }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+}
+</code></pre>
+
+<pre><code class="language-java">package me.codeboy.test.hash;
+
+import com.google.common.collect.Maps;
+
+import java.util.HashSet;
+import java.util.Map;
+
+/**
+ * set add问题
+ * Created by yuedong.li on 2019-07-01
+ */
+public class SetAdd {
+    public static void main(String[] args) {
+        HashBean bean = new HashBean();
+        bean.value = "first";
+        HashBean bean2 = new HashBean();
+        bean2.value = "second";
+
+        HashSet&lt;HashBean&gt; set = new HashSet&lt;&gt;();
+        set.add(bean);
+        set.add(bean2);
+        System.out.println(set.size());
+        System.out.println(set.iterator().next().value);
+
+        System.out.println();
+        Map&lt;HashBean, String&gt; map2 = Maps.newHashMap();
+        map2.put(bean, "first");
+        map2.put(bean2, "second");
+        System.out.println(map2.size());
+        System.out.println(map2.values().iterator().next());
+        System.out.println(map2.keySet().iterator().next());
+    }
+}
+</code></pre>
+
+<h3 id="分析">分析</h3>
+
+<p>这里先贴一下输出的结果:</p>
+
+<pre><code class="language-nohighlight">1
+first
+
+1
+second
+first
+</code></pre>
+
+<p>为什么会是这样的呢？我们先看一下Jdk1.8.0中 <code>HashSet.add</code> 方法的调用栈:</p>
+
+<pre><code class="language-java">## HashSet
+public boolean add(E e) {
+	return map.put(e, PRESENT)==null;  //这里直接使用的是hashMap，将值当作key记录
+}
+
+## HashMap 
+/**
+ * Associates the specified value with the specified key in this map.
+ * If the map previously contained a mapping for the key, the old
+ * value is replaced.
+ *
+ * @param key key with which the specified value is to be associated
+ * @param value value to be associated with the specified key
+ * @return the previous value associated with &lt;tt&gt;key&lt;/tt&gt;, or
+ *         &lt;tt&gt;null&lt;/tt&gt; if there was no mapping for &lt;tt&gt;key&lt;/tt&gt;.
+ *         (A &lt;tt&gt;null&lt;/tt&gt; return can also indicate that the map
+ *         previously associated &lt;tt&gt;null&lt;/tt&gt; with &lt;tt&gt;key&lt;/tt&gt;.)
+ */
+public V put(K key, V value) {
+  return putVal(hash(key), key, value, false, true);
+}
+
+/**
+ * Implements Map.put and related methods
+ *
+ * @param hash hash for key
+ * @param key the key
+ * @param value the value to put
+ * @param onlyIfAbsent if true, don't change existing value
+ * @param evict if false, the table is in creation mode.
+ * @return previous value, or null if none
+ */
+final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+               boolean evict) {
+    Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; int n, i;
+    if ((tab = table) == null || (n = tab.length) == 0)
+        n = (tab = resize()).length;
+    if ((p = tab[i = (n - 1) &amp; hash]) == null)
+        tab[i] = newNode(hash, key, value, null);
+    else {
+        Node&lt;K,V&gt; e; K k;
+        if (p.hash == hash &amp;&amp;
+            ((k = p.key) == key || (key != null &amp;&amp; key.equals(k))))
+            e = p;
+        else if (p instanceof TreeNode)
+            e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(this, tab, hash, key, value);
+        else {
+            for (int binCount = 0; ; ++binCount) {
+                if ((e = p.next) == null) {
+                    p.next = newNode(hash, key, value, null);
+                    if (binCount &gt;= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                        treeifyBin(tab, hash);
+                    break;
+                }
+                if (e.hash == hash &amp;&amp;
+                    ((k = e.key) == key || (key != null &amp;&amp; key.equals(k))))
+                    break;
+                p = e;
+            }
+        }
+        if (e != null) { // existing mapping for key
+            V oldValue = e.value;
+            if (!onlyIfAbsent || oldValue == null)
+                e.value = value;
+            afterNodeAccess(e);
+            return oldValue;
+        }
+    }
+    ++modCount;
+    if (++size &gt; threshold)
+        resize();
+    afterNodeInsertion(evict的);
+    return null;
+}
+</code></pre>
+
+<p>从代码中可以看出，<code>HashSet.add</code> 直接调用<code>HashMap.put</code> 方法，<code>HashSet</code>的内部实现也确实是<code>HashMap</code>,  <code>HashSet.add</code> 的值直接作为<code>HashMap</code>的key进行存储，从<code>HashMap.putVal</code> 方法中可以看出，<code>HashMap</code>的key并没有做替换，在 <code>onlyIfAbsent</code>是false或者原先值为null的情况下，新value会替换旧value。</p>
+
+<h3 id="小结">小结</h3>
+
+<p><code>HashSet</code>在add的时候，在两个对象相等的情况下，是不进行替换的。</p>
+
+<p><code>HashMap</code>在put的时候，在两个key相等的情况下，是不进行替换的，在两个value相同的情况下，是要根据 <code>putVal</code> 方法中的<code>onlyIfAbsent</code>字段进行决定的。</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+
+
+            </div>
+</article>
+
+<!-- Post Comments -->
+
+<script id="dsq-count-scr" src="//codeboy.disqus.com/count.js" async></script>
+<div id="disqus_thread" class="container"></div>
+<script>
+    let disqus_config = function () {
+        this.page.url = "/2019/07/04/hashset-add/";
+        this.page.identifier = "HashSet.add覆盖问题";
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codeboy.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+<!-- Post Contents -->
+
+<!-- 目录插件 -->
+<script src="/js/autoc.min.js"></script>
+<link rel="stylesheet" href="/css/autoc.css">
+
+<script>
+    // 创建 Outline 实例
+    let navigation = new AutocJs({
+        // 文章正文 DOM 节点的 ID 选择器
+        article: '#article',
+        // 要收集的标题选择器
+        selector: 'h1,h2,h3,h4,h5,h6',
+        // 侧边栏导航的标题
+        title: 'HashSet.add覆盖问题',
+        // 文章导读导航的位置
+        // outside - 以侧边栏菜单形式显示（默认值）
+        // inside - 在文章正文一开始的地方显示
+        position: 'outside',
+        // 标题图标链接的 URL 地址
+        // （默认）没有设置定制，点击链接页面滚动到标题位置
+        // 设置了链接地址，则不会滚动定位
+        anchorURL: '',
+        // 链接的显示位置
+        // front - 在标题最前面（默认值）
+        // back - 在标题后面
+        anchorAt: 'front',
+        // 是否生成文章导读导航
+        isGenerateOutline: true,
+        // 是否在文章导读导航中显示段落章节编号
+        isGenerateOutlineChapterCode: true,
+        // 是否在正文的文章标题中显示段落章节编号
+        isGenerateHeadingChapterCode: false,
+        // 是否在正文的文章标题中创建锚点
+        isGenerateHeadingAnchor: false
+    });
+    const article = document.getElementById('article');
+    const menu = document.getElementById('cb-menu');
+    menu.style.top = (article.offsetTop + 50) + 'px';
+</script>
+
+
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                        <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/codeboy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/androiddevelop">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 小胖轩 2020</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="/js/jquery.tagcloud.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $.fn.tagcloud.defaults = {
+        //size: {start: 1, end: 1, unit: 'em'},
+        color: {start: '#bbbbee', end: '#0085a1'},
+    };
+    $(function () {
+        $('#tag_cloud a').tagcloud();
+    });
+</script>
+
+<!-- Highlight.js -->
+<script src="//cdn.bootcss.com/highlight.js/9.4.0/highlight.min.js"></script>
+<link href="//cdn.bootcss.com/highlight.js/9.4.0/styles/solarized-dark.min.css" rel="stylesheet">
+
+<div class="cb-gyh visible-lg visible-xs" style="position: fixed;  bottom:100px;  right: 10px; z-index: 9998;">
+    <img src="/img/gzh-qrcode.jpg" style="width: 136px; height: 136px;  border:1px solid green;"/>
+</div>
+
+<div class="cb-search-tool" style="position: fixed; top:0 ; bottom:0; left:0; right: 0;
+      opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control cb-search-content" id="cb-search-content" style="position: fixed; top: 60px"
+           placeholder="文章标题 日期 标签">
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png" id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/codeboy.min.js"></script>
+
+<div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png" id="cb-search-btn" title="双击ctrl试一下"/>
+</div>
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
+
+
+
+</body>
+
+</html>

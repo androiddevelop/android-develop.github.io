@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keyword"
+          content="codeboy, @codeboy, 小胖轩, 玄恒, Blog, Github, 博客, 互联网, 前端, 服务端, 玄恒的个人网站, android, mobile, server, web, datamine ">
+    <meta name="description" content="编码生涯的点点滴滴">
+    <link rel="icon" href="/favicon.png" type="image/png"/>
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon-precomposed" href="/favicon.png" type="image/png">
+
+    <title>剪切板同步 - 小胖轩</title>
+
+    <link rel="canonical" href="https://https://www.codeboy.me/2019/04/17/clipboard-sync/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/codeboy.min.css">
+
+    <link rel="alternate" type="application/rss+xml" href="feed.xml" title="小胖轩">
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .ds-powered-by {
+            display: none !important;
+        }
+
+        .ds-post-toolbar .ds-sync {
+            display: none !important;
+        }
+    </style>
+</head>
+
+
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">小胖轩</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">首页</a>
+                </li>
+                <li>
+                    <a href="/open/">开源</a>
+                </li>
+
+                <li>
+                    <a href="/tags/">标签</a>
+                </li>
+
+                <li>
+                    <a href="/about/">关于</a>
+                </li>
+		<!--
+                
+                <li>
+                    <a href="/apps/">Apps</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/about/index2/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/open/">Open</a>
+                </li>
+                
+                <li>
+                    <a href="/privacy/">评论政策</a>
+                </li>
+                
+                <li>
+                    <a href="/tags/">Tags</a>
+                </li>
+                
+		-->
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header"
+        style="background-image: url('/img/post-bg-unix.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#linux" title="linux">linux</a>
+                        
+                    </div>
+                    <h1>剪切板同步</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by Codeboy on April 17, 2019</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article id="article">
+    <div class="container" style="overflow-y:hidden;">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
+
+                <p>工作中有两台主机，系统上一台macOS，一台Ubuntu，macOS作为主力机，经常需要将复制文本同步，之前的方案是登陆两个不同的微信进行分享，不过每次都需要打开，比较麻烦。</p>
+
+<p>有没有什么办法能够解决 macOS 到 Ubuntu 的单向文本复制呢？单向解决了，双向基本也没有问题，鉴于作者没有双向需求，故本文只介绍 macOS 到 Ubuntu 的单项文本同步方案,。目前可行的方案有：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>方案</th>
+      <th>优缺点</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>IM、飞鸽传书</td>
+      <td>支持双向、操作流程略长</td>
+    </tr>
+    <tr>
+      <td>剪切板同步软件</td>
+      <td>支持双向，多平台支持不够，很多没有Linux</td>
+    </tr>
+    <tr>
+      <td>SSH</td>
+      <td>支持双向，多平台支持，配置稍微复杂，使用方便</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>本次采用外能的 ssh 进行剪切板同步，考虑到不希望把 macOS 上的剪切板全部同步，只需要同步需要的即可，结合 macOS 上另外一个神器 <code>alfred</code> 进行。</p>
+
+<h3 id="一同步方案">一、同步方案</h3>
+<p>macOS上操作剪切板非常的简单，<code>pbcopy</code> 和 <code>pbpaste</code> 分别对应复制和剪切，操作示例如下:</p>
+
+<pre><code class="language-nohighlight">➜  ~ echo "Hello Codeboy" | pbcopy 
+➜  ~ pbpaste
+Hello Codeboy
+</code></pre>
+
+<p>Linux上需要安装 <code>xclip</code> 来完成，操作示例如下:</p>
+<pre><code class="language-nohighlight">➜  ~ echo "Hello Codeboy" |  xclip -in -selection clipboard
+➜  ~ xclip -o                                              
+Hello Codeboy
+</code></pre>
+
+<p>由于 <code>xclip</code> 牵扯图形操作，不能直接使用ssh在远程主机上执行命令完成，我们使用文件进行内容传输即可，接收方定时检查文件是否有更新，有更新的话使用 <code>xclip</code> 同步到剪切板。
+同时Ubuntu上需要配置 macOS 中 ssh 公钥，可以免密登陆，具体操作可以查询。</p>
+
+<h3 id="二发送方macos">二、发送方(macOS)</h3>
+
+<p>我们使用 <code>alfred</code>中的workflow自定义快捷键执行脚本，操作如下：</p>
+
+<ul>
+  <li>新建空白workflow</li>
+  <li>添加Triggers –&gt; HotKey, 定义喜欢的按键，作者选择(alt+F)，和复制键距离比较近。</li>
+  <li>新建Action –&gt; Run Script, 输入复制脚本即可。</li>
+</ul>
+
+<pre><code class="language-bash"># 将剪切板内容写入文件
+pbpaste &gt; /tmp/clip_content
+# 发送到目标主机
+scp -q /tmp/clip_content user@host:/tmp/
+</code></pre>
+
+<p>这样需要复制的时候，<code>ctrl-C</code> 后再次按下 <code>alt-F</code> 即可发送。</p>
+
+<h3 id="三接收方ubuntu">三、接收方(Ubuntu)</h3>
+
+<p>接收方监听 <code>/tmp/clip_content</code> 文件内容变化即可，脚本如下:</p>
+
+<pre><code class="language-bash">#!/bin/bash
+last_content=""
+while true
+do
+ content=`cat /tmp/clip_content`
+ if [ "$content" != "$last_content" ]
+    then
+      echo $content;
+      xclip -in -selection clipboard &lt; /tmp/clip_content
+      last_content="$content"
+ fi
+ sleep 1
+done
+</code></pre>
+
+<p>每秒钟检测该文件内容是否改变，改变的话复制到剪切板中，实时性还是很高的。打开终端，执行起来即可。</p>
+
+<h3 id="四使用">四、使用</h3>
+
+<p>macOS上遇到需要复制的文本，<code>ctrl-C --&gt; alt-F</code> 后, 切换到Ubuntu，直接粘贴即可。有更快捷的方式欢迎留言。</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+
+
+            </div>
+</article>
+
+<!-- Post Comments -->
+
+<script id="dsq-count-scr" src="//codeboy.disqus.com/count.js" async></script>
+<div id="disqus_thread" class="container"></div>
+<script>
+    let disqus_config = function () {
+        this.page.url = "/2019/04/17/clipboard-sync/";
+        this.page.identifier = "剪切板同步";
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codeboy.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+<!-- Post Contents -->
+
+<!-- 目录插件 -->
+<script src="/js/autoc.min.js"></script>
+<link rel="stylesheet" href="/css/autoc.css">
+
+<script>
+    // 创建 Outline 实例
+    let navigation = new AutocJs({
+        // 文章正文 DOM 节点的 ID 选择器
+        article: '#article',
+        // 要收集的标题选择器
+        selector: 'h1,h2,h3,h4,h5,h6',
+        // 侧边栏导航的标题
+        title: '剪切板同步',
+        // 文章导读导航的位置
+        // outside - 以侧边栏菜单形式显示（默认值）
+        // inside - 在文章正文一开始的地方显示
+        position: 'outside',
+        // 标题图标链接的 URL 地址
+        // （默认）没有设置定制，点击链接页面滚动到标题位置
+        // 设置了链接地址，则不会滚动定位
+        anchorURL: '',
+        // 链接的显示位置
+        // front - 在标题最前面（默认值）
+        // back - 在标题后面
+        anchorAt: 'front',
+        // 是否生成文章导读导航
+        isGenerateOutline: true,
+        // 是否在文章导读导航中显示段落章节编号
+        isGenerateOutlineChapterCode: true,
+        // 是否在正文的文章标题中显示段落章节编号
+        isGenerateHeadingChapterCode: false,
+        // 是否在正文的文章标题中创建锚点
+        isGenerateHeadingAnchor: false
+    });
+    const article = document.getElementById('article');
+    const menu = document.getElementById('cb-menu');
+    menu.style.top = (article.offsetTop + 50) + 'px';
+</script>
+
+
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                        <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/codeboy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/androiddevelop">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 小胖轩 2020</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="/js/jquery.tagcloud.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $.fn.tagcloud.defaults = {
+        //size: {start: 1, end: 1, unit: 'em'},
+        color: {start: '#bbbbee', end: '#0085a1'},
+    };
+    $(function () {
+        $('#tag_cloud a').tagcloud();
+    });
+</script>
+
+<!-- Highlight.js -->
+<script src="//cdn.bootcss.com/highlight.js/9.4.0/highlight.min.js"></script>
+<link href="//cdn.bootcss.com/highlight.js/9.4.0/styles/solarized-dark.min.css" rel="stylesheet">
+
+<div class="cb-gyh visible-lg visible-xs" style="position: fixed;  bottom:100px;  right: 10px; z-index: 9998;">
+    <img src="/img/gzh-qrcode.jpg" style="width: 136px; height: 136px;  border:1px solid green;"/>
+</div>
+
+<div class="cb-search-tool" style="position: fixed; top:0 ; bottom:0; left:0; right: 0;
+      opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control cb-search-content" id="cb-search-content" style="position: fixed; top: 60px"
+           placeholder="文章标题 日期 标签">
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png" id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/codeboy.min.js"></script>
+
+<div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png" id="cb-search-btn" title="双击ctrl试一下"/>
+</div>
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
+
+
+
+</body>
+
+</html>

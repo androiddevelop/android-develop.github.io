@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keyword"
+          content="codeboy, @codeboy, 小胖轩, 玄恒, Blog, Github, 博客, 互联网, 前端, 服务端, 玄恒的个人网站, android, mobile, server, web, datamine ">
+    <meta name="description" content="编码生涯的点点滴滴">
+    <link rel="icon" href="/favicon.png" type="image/png"/>
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon-precomposed" href="/favicon.png" type="image/png">
+
+    <title>Android开发及使用技巧 - 小胖轩</title>
+
+    <link rel="canonical" href="https://https://www.codeboy.me/2015/07/28/android-trick/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/codeboy.min.css">
+
+    <link rel="alternate" type="application/rss+xml" href="feed.xml" title="小胖轩">
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .ds-powered-by {
+            display: none !important;
+        }
+
+        .ds-post-toolbar .ds-sync {
+            display: none !important;
+        }
+    </style>
+</head>
+
+
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">小胖轩</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">首页</a>
+                </li>
+                <li>
+                    <a href="/open/">开源</a>
+                </li>
+
+                <li>
+                    <a href="/tags/">标签</a>
+                </li>
+
+                <li>
+                    <a href="/about/">关于</a>
+                </li>
+		<!--
+                
+                <li>
+                    <a href="/apps/">Apps</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/about/index2/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/open/">Open</a>
+                </li>
+                
+                <li>
+                    <a href="/privacy/">评论政策</a>
+                </li>
+                
+                <li>
+                    <a href="/tags/">Tags</a>
+                </li>
+                
+		-->
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header"
+        style="background-image: url('/img/post-bg-android.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#android" title="android">android</a>
+                        
+                    </div>
+                    <h1>Android开发及使用技巧</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by Codeboy on July 28, 2015</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article id="article">
+    <div class="container" style="overflow-y:hidden;">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
+
+                <h3 id="查看wifi密码">查看wifi密码</h3>
+
+<p>查询连接的wifi密码，没问题，前提是手机已经root了，可以查看系统文件，android的wifi密码明文保存在一下文件中，使用root explorer查看即可。</p>
+
+<pre><code>/data/misc/wifi/wpa_supplicant.conf
+</code></pre>
+
+<h3 id="查看activity堆栈情况">查看activity堆栈情况</h3>
+
+<pre><code>adb shell dumpsys activity ---------------查看ActvityManagerService 所有信息
+adb shell dumpsys activity activities ----------查看Activity组件信息
+adb shell dumpsys activity services -----------查看Service组件信息
+adb shell dumpsys activity providers ----------产看ContentProvider组件信息
+adb shell dumpsys activity broadcasts --------查看BraodcastReceiver信息
+adb shell dumpsys activity intents --------------查看Intent信息
+adb shell dumpsys activity processes ---------查看进程信息
+</code></pre>
+
+<h3 id="查看apk中的androidmanifestxml文件">查看apk中的AndroidManifest.xml文件</h3>
+
+<p>可以使用apktool对apk进行反编译，不过现在很多的apk都进行了加固，可以防止apktool进行反编译，我们可以使用google提供的aapt(Android Asset Packaging Tool)进行查看:</p>
+
+<pre><code>aapt dump xmltree target.apk AndroidManifest.xml
+</code></pre>
+
+<blockquote>
+  <p>其中target.apk为需要查看AndroidManifest.xml的apk包。</p>
+</blockquote>
+
+<h3 id="查看android的log">查看android的log</h3>
+
+<pre><code>adb logcat
+
+"-s"选项 : 设置输出日志的标签, 只显示该标签的日志;
+
+"-f"选项 : 将日志输出到文件, 默认输出到标准输出流中, -f 参数执行不成功;
+
+"-r"选项 : 按照每千字节输出日志, 需要 -f 参数, 不过这个命令没有执行成功;
+
+"-n"选项 : 设置日志输出的最大数目, 需要 -r 参数, 这个执行 感觉 跟 adb logcat 效果一样;
+
+"-v"选项 : 设置日志的输出格式, 注意只能设置一项;
+
+"-c"选项 : 清空所有的日志缓存信息;
+
+"-d"选项 : 将缓存的日志输出到屏幕上, 并且不会阻塞;
+
+"-t"选项 : 输出最近的几行日志, 输出完退出, 不阻塞;
+
+"-g"选项 : 查看日志缓冲区信息;
+
+"-b"选项 : 加载一个日志缓冲区, 默认是 main, 下面详解;
+
+"-B"选项 : 以二进制形式输出日志;
+</code></pre>
+
+<h3 id="模拟长按按键魅族手机长按有救了">模拟长按按键(魅族手机长按有救了)</h3>
+
+<pre><code>adb shell input keyevent --longpress KEYCODE_BACK  //长按返回键
+ 
+adb shell input keyevent --longpress KEYCODE_HOME  //长按home键
+
+adb shell input keyevent --longpress KEYCODE_MENU  //长按菜单键
+</code></pre>
+
+<h3 id="重新挂载设备为可读可写">重新挂载设备为可读可写</h3>
+
+<pre><code>mount -o rw,remount /dev/block/mmcblk0p1 /system
+</code></pre>
+
+<h3 id="屏幕截图osx">屏幕截图（osx）</h3>
+
+<pre><code>adb shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' &gt; screen.png
+</code></pre>
+
+<p>持续更新…</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+
+
+            </div>
+</article>
+
+<!-- Post Comments -->
+
+<script id="dsq-count-scr" src="//codeboy.disqus.com/count.js" async></script>
+<div id="disqus_thread" class="container"></div>
+<script>
+    let disqus_config = function () {
+        this.page.url = "/2015/07/28/android-trick/";
+        this.page.identifier = "Android开发及使用技巧";
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codeboy.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+<!-- Post Contents -->
+
+<!-- 目录插件 -->
+<script src="/js/autoc.min.js"></script>
+<link rel="stylesheet" href="/css/autoc.css">
+
+<script>
+    // 创建 Outline 实例
+    let navigation = new AutocJs({
+        // 文章正文 DOM 节点的 ID 选择器
+        article: '#article',
+        // 要收集的标题选择器
+        selector: 'h1,h2,h3,h4,h5,h6',
+        // 侧边栏导航的标题
+        title: 'Android开发及使用技巧',
+        // 文章导读导航的位置
+        // outside - 以侧边栏菜单形式显示（默认值）
+        // inside - 在文章正文一开始的地方显示
+        position: 'outside',
+        // 标题图标链接的 URL 地址
+        // （默认）没有设置定制，点击链接页面滚动到标题位置
+        // 设置了链接地址，则不会滚动定位
+        anchorURL: '',
+        // 链接的显示位置
+        // front - 在标题最前面（默认值）
+        // back - 在标题后面
+        anchorAt: 'front',
+        // 是否生成文章导读导航
+        isGenerateOutline: true,
+        // 是否在文章导读导航中显示段落章节编号
+        isGenerateOutlineChapterCode: true,
+        // 是否在正文的文章标题中显示段落章节编号
+        isGenerateHeadingChapterCode: false,
+        // 是否在正文的文章标题中创建锚点
+        isGenerateHeadingAnchor: false
+    });
+    const article = document.getElementById('article');
+    const menu = document.getElementById('cb-menu');
+    menu.style.top = (article.offsetTop + 50) + 'px';
+</script>
+
+
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                        <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/codeboy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/androiddevelop">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 小胖轩 2020</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="/js/jquery.tagcloud.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $.fn.tagcloud.defaults = {
+        //size: {start: 1, end: 1, unit: 'em'},
+        color: {start: '#bbbbee', end: '#0085a1'},
+    };
+    $(function () {
+        $('#tag_cloud a').tagcloud();
+    });
+</script>
+
+<!-- Highlight.js -->
+<script src="//cdn.bootcss.com/highlight.js/9.4.0/highlight.min.js"></script>
+<link href="//cdn.bootcss.com/highlight.js/9.4.0/styles/solarized-dark.min.css" rel="stylesheet">
+
+<div class="cb-gyh visible-lg visible-xs" style="position: fixed;  bottom:100px;  right: 10px; z-index: 9998;">
+    <img src="/img/gzh-qrcode.jpg" style="width: 136px; height: 136px;  border:1px solid green;"/>
+</div>
+
+<div class="cb-search-tool" style="position: fixed; top:0 ; bottom:0; left:0; right: 0;
+      opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control cb-search-content" id="cb-search-content" style="position: fixed; top: 60px"
+           placeholder="文章标题 日期 标签">
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png" id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/codeboy.min.js"></script>
+
+<div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png" id="cb-search-btn" title="双击ctrl试一下"/>
+</div>
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
+
+
+
+</body>
+
+</html>

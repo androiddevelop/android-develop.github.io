@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keyword"
+          content="codeboy, @codeboy, 小胖轩, 玄恒, Blog, Github, 博客, 互联网, 前端, 服务端, 玄恒的个人网站, android, mobile, server, web, datamine ">
+    <meta name="description" content="编码生涯的点点滴滴">
+    <link rel="icon" href="/favicon.png" type="image/png"/>
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon-precomposed" href="/favicon.png" type="image/png">
+
+    <title>Bootstrap输入建议库 autosuggest.js - 小胖轩</title>
+
+    <link rel="canonical" href="https://https://www.codeboy.me/2015/12/22/jquery-auto-suggest/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/codeboy.min.css">
+
+    <link rel="alternate" type="application/rss+xml" href="feed.xml" title="小胖轩">
+
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .ds-powered-by {
+            display: none !important;
+        }
+
+        .ds-post-toolbar .ds-sync {
+            display: none !important;
+        }
+    </style>
+</head>
+
+
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">小胖轩</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">首页</a>
+                </li>
+                <li>
+                    <a href="/open/">开源</a>
+                </li>
+
+                <li>
+                    <a href="/tags/">标签</a>
+                </li>
+
+                <li>
+                    <a href="/about/">关于</a>
+                </li>
+		<!--
+                
+                <li>
+                    <a href="/apps/">Apps</a>
+                </li>
+                
+                <li>
+                    <a href="/about/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/about/index2/">About</a>
+                </li>
+                
+                <li>
+                    <a href="/open/">Open</a>
+                </li>
+                
+                <li>
+                    <a href="/privacy/">评论政策</a>
+                </li>
+                
+                <li>
+                    <a href="/tags/">Tags</a>
+                </li>
+                
+		-->
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header"
+        style="background-image: url('/img/post-bg-web.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#web" title="web">web</a>
+                        
+                    </div>
+                    <h1>Bootstrap输入建议库 autosuggest.js</h1>
+                    
+                    
+                    <h2 class="subheading"></h2>
+                    
+                    <span class="meta">Posted by Codeboy on December 22, 2015</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article id="article">
+    <div class="container" style="overflow-y:hidden;">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
+
+                <p>轻量级输入提示控件auto suggest.github地址:<a href="https://github.com/androiddevelop/autosuggest.js">https://github.com/androiddevelop/autosuggest.js</a>。首先看一下下面的例子:</p>
+
+<iframe src="https://example.codeboy.me/autosuggest/index.html" width="100%" height="200px" frameborder="0" scrolling="no"> </iframe>
+
+<h1 id="autosuggestjs">autosuggest.js</h1>
+
+<p>适用于Bootstrap的Ajax输入建议控件(<a href="https://example.codeboy.me/autosuggest/index.html">Demo</a>)</p>
+
+<p>在<a href="https://github.com/getwebhelp/bootcomplete.js">bootcomplete.js</a>的基础上大幅度改进，改动如下:</p>
+
+<ol>
+  <li><strong>文本框是去焦点时自动隐藏输入提示组件</strong></li>
+  <li><strong>增加最大建议数目限制(maxNum)</strong></li>
+  <li><strong>增加键盘方向键选择</strong></li>
+  <li><strong>增加文本对齐选择(align)</strong></li>
+  <li><strong>增加回车触发函数(nextStep)</strong></li>
+  <li><strong>增加以分隔符分割的联想(split)</strong></li>
+  <li><strong>增加匹配高亮(highlight)</strong></li>
+  <li><strong>增加第一个item是否默认被选中操作(firstSelected)</strong></li>
+</ol>
+
+<h3 id="依赖">依赖</h3>
+
+<ul>
+  <li><a href="https://jquery.com/download/">jQuery</a>(&gt;=1.0)</li>
+  <li><a href="http://getbootstrap.com/getting-started/">Bootstrap</a>(&gt;=3.0)</li>
+</ul>
+
+<h3 id="基本使用">基本使用</h3>
+
+<pre><code>$('#input').autosuggest({url:'/search.php'});
+</code></pre>
+
+<h3 id="json数据格式必须">json数据格式(必须)</h3>
+
+<pre><code>[ 
+  {
+   "id" : someId, 
+   "label" : "some label name"
+  }
+]
+</code></pre>
+
+<blockquote>
+  <p>id可以是任意值
+如果服务端返回数据非此种格式，请修改。</p>
+</blockquote>
+
+<h3 id="参数">参数</h3>
+
+<h4 id="url">url:</h4>
+
+<p>提交请求地址, 可以是json文件，注意跨域问题</p>
+
+<h4 id="method非必须">method(非必须):</h4>
+
+<p>请求方式(<code>get</code>, <code>post</code>), 默认<code>get</code></p>
+
+<h4 id="queryparamname非必须">queryParamName(非必须):</h4>
+
+<p>传递当前输入框的值时的参数名称,默认 <code>query</code>,即如果是get方式并保持该值为默认值,则请求url为 <code>xxx.com?query=input_value</code> ,如果设置此值为 <code>search</code> ,则url为 <code>xxx.com?search=input_value</code></p>
+
+<h4 id="align非必须">align(非必须):</h4>
+<p>对齐方式,默认左对齐,可选项 <code>left</code> , <code>center</code> , <code>right</code></p>
+
+<h4 id="wrapperclass非必须">wrapperClass(非必须):</h4>
+
+<p>包围输入框外层div的css样式,见下面结构介绍</p>
+
+<h4 id="menuclass非必须">menuClass(非必须):</h4>
+
+<p>自动补全菜单的css样式，如果需要自定义请提供, 见下面结构介绍</p>
+
+<h4 id="minlength非必须">minLength(非必须):</h4>
+
+<p>发起请求的最小长度，只有&gt;= 此长度时才会出现建议框,默认最小长度为 <code>2</code></p>
+
+<h4 id="maxnum非必须">maxNum(非必须):</h4>
+
+<p>最大建议数目,默认最多给出 <code>10</code> 个建议提示</p>
+
+<h4 id="firstselected非必须">firstSelected(非必须):</h4>
+<p>第一个是否默认被选中，默认false</p>
+
+<h4 id="highlight非必须">highlight(非必须):</h4>
+
+<p>是否高亮显示匹配内容, 默认 <code>false</code></p>
+
+<h4 id="split非必须">split(非必须):</h4>
+<p>分隔符, 例如我们需要文本框中输入多个省份,使用逗号分开,那么我们可以设定 <code>split</code> 为 <code>,</code> , 之后 <code>autosuggest.js</code> 会根据最后一个逗号后面的内容进行建议.  默认为 <code>null</code> ，即把文本框中所有输入视为一个文本进行建议.</p>
+
+<h4 id="open非必须">open(非必须):</h4>
+
+<p>建议框由隐藏状态变为可见状态时的回调,默认null</p>
+
+<h4 id="close非必须">close(非必须):</h4>
+
+<p>建议框由可见状态变为隐藏状态时的回调,默认null</p>
+
+<h4 id="nextstep非必须">nextStep(非必须):</h4>
+
+<p>选中建议词后,建议框消失,之后点击回车要执行的函数。</p>
+
+<h4 id="immediate非必须">immediate(非必须)</h4>
+
+<p>是否鼠标选中后或者键盘选中回车后立刻执行nextStep操作, 默认 <code>false</code> ,即选中后,所选项将会填充到输入框中,需要再次回车执行nextStep操作</p>
+
+<h4 id="extra非必须">extra(非必须):</h4>
+
+<p>除了queryParam之外的其他参数. 使用:</p>
+
+<pre><code> "key1" : "value1",
+ "key2" : "value2"
+</code></pre>
+
+<h3 id="结构">结构</h3>
+
+<h4 id="初始结构">初始结构</h4>
+
+<pre><code>&lt;input type="text" class="form-control" id="text" placeholder="默认操作" autocomplete="off"/&gt;
+</code></pre>
+
+<h4 id="autosuggest作用后的结构">autosuggest作用后的结构</h4>
+
+<pre><code>&lt;div class="as-wrapper"&gt;
+    &lt;input type="text" class="form-control" id="text" placeholder="默认操作" autocomplete="off"/&gt;
+    &lt;div class="as-menu list-group" style="display: none;"&gt;
+        &lt;span href="#" class="list-group-item  as-align-left" data-id="1" data-label="beijing"&gt;beijing&lt;/span&gt;
+        &lt;span href="#" class="list-group-item  as-align-left" data-id="2" data-label="shanghai"&gt;shanghai&lt;/span&gt;
+        &lt;span href="#" class="list-group-item  as-align-left " data-id="3" data-label="hangzhou"&gt;hangzhou&lt;/span&gt;
+        &lt;span href="#" class="list-group-item  as-align-left " data-id="4" data-label="guangzhou"&gt;guangzhou&lt;/span&gt;
+        &lt;span href="#" class="list-group-item  as-align-left " data-id="5" data-label="zhengzhou"&gt;zhengzhou&lt;/span&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<h3 id="例子">例子</h3>
+
+<pre><code>//简单实例
+$("#test").autosuggest({
+    url: 'city.json',
+    queryParamName: 'search'
+});
+
+//复杂实例
+$("#test").autosuggest({
+    url: 'city.json',
+    minLength: 1,
+    maxNum: 3,
+    align: 'center',
+    queryParamName: 'search'
+    method: 'post',
+    highlight: true,
+    queryParamName: 'search',
+    extra: {
+        "key1": "value1",
+        "key2": "value2"
+    },
+    nextStep: function () {
+        alert("test");
+    },
+    split: ' ',
+    open: function(){
+        console.log("start open");
+    },
+    close: function(){
+        console.log("start close");
+    }
+});
+</code></pre>
+
+<p>有任何问题,欢迎发送邮件到<a href="mailto:app@codeboy.me">app@codeboy.me</a>交流.。</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+
+
+            </div>
+</article>
+
+<!-- Post Comments -->
+
+<script id="dsq-count-scr" src="//codeboy.disqus.com/count.js" async></script>
+<div id="disqus_thread" class="container"></div>
+<script>
+    let disqus_config = function () {
+        this.page.url = "/2015/12/22/jquery-auto-suggest/";
+        this.page.identifier = "Bootstrap输入建议库 autosuggest.js";
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://codeboy.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+<!-- Post Contents -->
+
+<!-- 目录插件 -->
+<script src="/js/autoc.min.js"></script>
+<link rel="stylesheet" href="/css/autoc.css">
+
+<script>
+    // 创建 Outline 实例
+    let navigation = new AutocJs({
+        // 文章正文 DOM 节点的 ID 选择器
+        article: '#article',
+        // 要收集的标题选择器
+        selector: 'h1,h2,h3,h4,h5,h6',
+        // 侧边栏导航的标题
+        title: 'Bootstrap输入建议库 autosuggest.js',
+        // 文章导读导航的位置
+        // outside - 以侧边栏菜单形式显示（默认值）
+        // inside - 在文章正文一开始的地方显示
+        position: 'outside',
+        // 标题图标链接的 URL 地址
+        // （默认）没有设置定制，点击链接页面滚动到标题位置
+        // 设置了链接地址，则不会滚动定位
+        anchorURL: '',
+        // 链接的显示位置
+        // front - 在标题最前面（默认值）
+        // back - 在标题后面
+        anchorAt: 'front',
+        // 是否生成文章导读导航
+        isGenerateOutline: true,
+        // 是否在文章导读导航中显示段落章节编号
+        isGenerateOutlineChapterCode: true,
+        // 是否在正文的文章标题中显示段落章节编号
+        isGenerateHeadingChapterCode: false,
+        // 是否在正文的文章标题中创建锚点
+        isGenerateHeadingAnchor: false
+    });
+    const article = document.getElementById('article');
+    const menu = document.getElementById('cb-menu');
+    menu.style.top = (article.offsetTop + 50) + 'px';
+</script>
+
+
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="/feed.xml">
+                        <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/codeboy">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/androiddevelop">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; 小胖轩 2020</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="//cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="/js/jquery.tagcloud.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    $.fn.tagcloud.defaults = {
+        //size: {start: 1, end: 1, unit: 'em'},
+        color: {start: '#bbbbee', end: '#0085a1'},
+    };
+    $(function () {
+        $('#tag_cloud a').tagcloud();
+    });
+</script>
+
+<!-- Highlight.js -->
+<script src="//cdn.bootcss.com/highlight.js/9.4.0/highlight.min.js"></script>
+<link href="//cdn.bootcss.com/highlight.js/9.4.0/styles/solarized-dark.min.css" rel="stylesheet">
+
+<div class="cb-gyh visible-lg visible-xs" style="position: fixed;  bottom:100px;  right: 10px; z-index: 9998;">
+    <img src="/img/gzh-qrcode.jpg" style="width: 136px; height: 136px;  border:1px solid green;"/>
+</div>
+
+<div class="cb-search-tool" style="position: fixed; top:0 ; bottom:0; left:0; right: 0;
+      opacity: 0.95; background-color: #111111; z-index: 9999; display: none;">
+    <input type="text" class="form-control cb-search-content" id="cb-search-content" style="position: fixed; top: 60px"
+           placeholder="文章标题 日期 标签">
+
+    <div style="position: fixed; top: 16px; right: 16px;">
+        <img src="/search/img/cb-close.png" id="cb-close-btn"/>
+    </div>
+</div>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/codeboy.min.js"></script>
+
+<div style="position: fixed; right: 16px; bottom: 20px;">
+    <img src="/search/img/cb-search.png" id="cb-search-btn" title="双击ctrl试一下"/>
+</div>
+
+<link rel="stylesheet" href="/search/css/cb-search.css">
+
+<script src="/search/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
+
+
+
+</body>
+
+</html>
