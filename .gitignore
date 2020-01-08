@@ -1,4 +1,5 @@
 _site/
 .sass-cache/
 .idea/
-source/_site/cd sou
+source/_site/
+source/_jekyll-cache/
