@@ -1,2 +1,0 @@
-I"�<p>目前gradle使用的越来越多了，自己平时也在github上放了一些代码，但是别人使用起来非常的麻烦，需要下载项目，导入项目，比较的繁碎。经历了一天的实战，终于成功了将自己在github上的一些项目规整后同步到了jcenter与maven central中。大家可以参考英文版的文档<a href="https://github.com/lopspower/gradle-jcenter-publish">https://github.com/lopspower/gradle-jcenter-publish</a></p>
-:ET
