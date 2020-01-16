@@ -1,0 +1,92 @@
+I"�<h2 id="osx图标删除">osx图标删除</h2>
+<p>安装了个parallels desktop之后，OSX中的launchpad中的图标多了不少，可是好多都不是我自己想要的，我们该怎么删除或者修改呢，下面介绍一些方法：</p>
+
+<h4 id="直接操作appications文件夹">①直接操作Appications文件夹</h4>
+<p>launchpad的应用的位置都在/Applications和/User/Name/Applications下，自行修改删除即可。</p>
+
+<h4 id="操作数据库">②操作数据库</h4>
+<p>有些图标可能程序已经已经删除了，但是图标还在Launchpad上，这时可以通过一种比较简单的办法来删除，点击图标，图标上加上了一个问号，之后直接拖拽到Trash中即可。下面说一下通过数据库来进行删除操作。</p>
+
+<p>Launchpad的数据保存位置在/Users/Name/Library/Application Support/Dock下，我的mac下的文件如下:</p>
+
+<pre><code>69CDDDAD-01D7-40C7-83A4-1E88292D5765.db desktoppicture.db
+</code></pre>
+
+<p>我们操作的就是这个名字比较长的这个db文件，这个是一个sqlite数据库保存的数据库文件，可以使用工具<a href="http://www.desertsandsoftware.com/?page_id=99">mesasqlite gui</a>工具或者命令行进行操作。下面显示了数据库中的一些信息。其中对我们有意义的是一个叫做apps的表。</p>
+
+<pre><code>sqlite&gt; .tables
+	app_sources dbinfo image_cache widgets
+	apps downloading_apps items
+	categories groups widget_sources
+sqlite&gt;
+sqlite&gt; .schema apps
+	CREATE TABLE apps (item_id INTEGER PRIMARY KEY, title VARCHAR, bundleid VARCHAR, storeid VARCHAR,category_id INTEGER, moddate REAL, bookmark BLOB);
+sqlite&gt;
+sqlite&gt; select * from apps limit 6 ;
+	7|App Store|com.apple.appstore||1|390157307.0|book?
+	9|Automator|com.apple.Automator||1|388084524.0|book?
+	10|计算器|com.apple.calculator||1|399110725.0|book?13|日历|com.apple.iCal||2|416818725.0|book?
+	14|国际象棋|com.apple.Chess||3|399107832.0|book?&lt;br /&gt;
+	17|通讯录|com.apple.AddressBook||2|434098075.0|book?
+sqlite&gt;
+</code></pre>
+
+<p>我们想要删除一些应用，可以直接对apps表进行一些sql操作就行了。</p>
+
+<h2 id="osx中使用defaults">osx中使用defaults</h2>
+
+<p>有时候需要修改osx系统的一些默认设置，这时候会用到defaults命令，查看一下defaults的man文档，对defaults的解释如下:</p>
+
+<pre><code>defaults -- access the Mac OS X user defaults system
+</code></pre>
+
+<p>defaults可以对一些系统属性进行read，write和delete操作，用到比较多的是read何write操作，下面几个简单的例子：</p>
+
+<h4 id="隐藏dashboard">①隐藏DashBoard</h4>
+
+<pre><code>defaults write com.apple.dashboard mcx-disabled -boolean YES
+killall Dock
+</code></pre>
+
+<p><em>DashBoard里面有很多小工具，可惜并不是对每个人有用，通过上述命令即可隐藏，若需恢复，将YES替换为NO即可。</em></p>
+
+<h4 id="显示隐藏文件">②显示隐藏文件</h4>
+
+<pre><code>defaults write com.apple.finder AppleShowAllFiles true
+killall Finder
+</code></pre>
+
+<p><em>还原的时候将true换成false即可。</em></p>
+
+<h4 id="显示safari调试菜单">③显示Safari调试菜单</h4>
+
+<pre><code>defaults write com.apple.safari IncludeDebugMenu -bool YES
+killall Safari
+</code></pre>
+
+<p><em>还原的时候将YES换成NO即可。</em></p>
+
+<h4 id="dock栏中只显示已打开的应用程序">④Dock栏中只显示已打开的应用程序</h4>
+
+<pre><code>defaults write com.apple.dock static-only -bool false
+killall Dock
+</code></pre>
+
+<p><em>不想展示的时候将false换成true即可。</em></p>
+
+<p>以上是几个常用的，可以google一下defaults write，需要注意的是之前版本与osx与最新的有一点区别，有一些属性已经不存在。</p>
+
+<h2 id="osx下sed命令对文件内容的替换">osx下sed命令对文件内容的替换</h2>
+<p>sed是linux/unix下得非常强大的命令，但是在osx下，sed在替换文本时有一点差异。</p>
+
+<pre><code>sed -i '' 's/src/des/' file_name
+</code></pre>
+
+<p>使用中必须添加i参数后面的后缀，否则将会提示错误.</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+:ET

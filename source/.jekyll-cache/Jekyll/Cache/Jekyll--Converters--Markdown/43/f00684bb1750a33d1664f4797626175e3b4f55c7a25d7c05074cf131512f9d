@@ -1,0 +1,89 @@
+I"	<p>Json是一种轻量级的数据交换格式，简洁和清晰的层次结构使得Json成为理想的数据交换语言，易于人阅读和编写，同时也易于机器解析和生成，并有效地提升网络传输效率。</p>
+
+<p>软件开发中经常会将对象序列化为Json，或者将对应的Json串反序列化为对象，在Android开发、服务端开发中都有很多库，如fastjson、gson等, 今天来看一下shell的json解析工具jq。</p>
+
+<h3 id="一安装">一、安装</h3>
+<p>jq的官网地址<a href="https://github.com/stedolan/jq">https://github.com/stedolan/jq</a></p>
+
+<h4 id="mac">mac</h4>
+<pre><code>brew install jq
+</code></pre>
+
+<blockquote>
+  <p>mac下安装时可能会提示更新xcode，如提示请更新。</p>
+</blockquote>
+
+<h4 id="linux">linux</h4>
+<pre><code>apt-get install jq
+</code></pre>
+
+<blockquote>
+  <p>ubuntu以及衍生版本可以直接仓库安装， 其他的发行版也可以尝试仓库或者源码编译</p>
+</blockquote>
+
+<h3 id="二基本用法">二、基本用法</h3>
+<p>解析json最常用的要数取值和获取数组长度操作了，给出一段常见的json，结合场景介绍下简单的使用：</p>
+<pre><code>{
+  "data": [
+    "张三",
+    "李四"
+  ],
+  "code": "SUCCESS"
+}
+</code></pre>
+
+<p>假定content代表上面的字符串。</p>
+
+<p>jq获取字段时的格式为<code>.字段名</code>，例如获取code值时，操作如下:</p>
+
+<pre><code>echo $content | grep '.code'
+</code></pre>
+
+<p>获取data的长度的格式如下<code>'length'</code>,直接使用不加.的length即可，操作如下:</p>
+
+<pre><code>echo $content | jq '.data|length'
+echo $content | jq '.data' | jq 'length'
+</code></pre>
+
+<blockquote>
+  <p>更加详细的文档可以参见 <a href="https://stedolan.github.io/jq/manual/">https://stedolan.github.io/jq/manual</a></p>
+</blockquote>
+
+<h3 id="三场景使用">三、场景使用</h3>
+<p>获取<a href="https://www.codeboy.me">小胖轩</a>博客中的文章列表，由于之前小胖轩网站中加入了博客搜索功能，有一个对应的文章索引<a href="https://www.codeboy.me/search/cb-search.json">https://www.codeboy.me/search/cb-search.json</a>，我们需要做的操作如下:</p>
+
+<pre><code>1. 下载cb-search.json文件
+2. 解析json文件，遍历文章列表
+3. 输出文章标题列表
+</code></pre>
+
+<p>然后使用jq进行解析即可:</p>
+
+<pre><code>#!/bin/bash
+# 获取codeboy.me中所有文章的标题
+
+json=`curl -s "https://www.codeboy.me/search/cb-search.json"`;
+
+#获取文章列表
+list=`echo $json | jq '.data'`;
+
+#获取文章长度
+length=`echo $json | jq'.data|length' `;
+
+# 解析data字段后，开始遍历每一项，取出标题
+for index in `seq 0 $length`
+do
+	echo $list | jq ".[$index].title";
+done
+
+</code></pre>
+
+<h3 id="四小结">四、小结</h3>
+<p>shell下写脚本非常的方便快捷，有了jq，可以完成更丰富的操作。</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+:ET

@@ -1,0 +1,41 @@
+I"c<p>随着互联网的发展，当前我们可以方便的在网站中找到各种各样的资源，尽管现在网络已经无处不在，但是有些时候我们仍然需要保存一些信息到本地，于是开发一个Chrome插件的想法产生了。</p>
+
+<h3 id="初衷">初衷</h3>
+
+<ul>
+  <li>所见即所存</li>
+</ul>
+
+<blockquote>
+  <p>目前很多网站都是动态产生的，而浏览器保存的是网页源码， 看到的和保存的内容是可能不一样的，特别是在没有网络的情况下打开。</p>
+
+</blockquote>
+
+<ul>
+  <li>去除无用信息</li>
+</ul>
+
+<blockquote>
+  <p>很多网站页面中充满了广告等不相关的元素，这些元素影响了信息的查看，去除了后将提升阅读体验。</p>
+
+</blockquote>
+
+<h3 id="分析">分析</h3>
+
+<ul>
+  <li>针对第一个问题，可以直接保存浏览器当前的dom树，这样就可以达到所见即所存了。</li>
+  <li>针对第二个问题，目前像chrome等浏览器已经可以非常方便的操作dom中的元素了，删除、增加、修改都可以快速的完成。</li>
+</ul>
+
+<h3 id="实施">实施</h3>
+<p>有了思路后，就可以根据Chrome插件开发的步骤开始制作插件了，考虑到动画等动态性的内容并不是那么的重要，所以在保存页面的时候，去除了所有引入的js和js代码，这样做的另一个好处是减少文件大小。</p>
+
+<h3 id="后续">后续</h3>
+<ul>
+  <li>目前尚未对引入的css进行合并，直接注入到页面中，可以完全不依赖网络，下个版本改进。</li>
+  <li>保留一些动画等元素。</li>
+</ul>
+
+<h3 id="下载">下载</h3>
+<p><a href="https://chrome.google.com/webstore/detail/just-one-file/opofajlgipfljhhlfhcpmhhjckjaacia?hl=zh-CN&amp;authuser=1">https://chrome.google.com/webstore/detail/just-one-file/opofajlgipfljhhlfhcpmhhjckjaacia?hl=zh-CN&amp;authuser=1</a></p>
+:ET

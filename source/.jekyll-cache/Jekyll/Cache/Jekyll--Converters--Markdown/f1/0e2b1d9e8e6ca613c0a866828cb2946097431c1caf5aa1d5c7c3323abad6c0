@@ -1,0 +1,181 @@
+I"�<p>有时候我们需要能够及时的更新程序的部分逻辑，在java中可以使用相关远程调用技术，将相关的逻辑代码放置在服务器上，在适当的时候进行修改替换即可。下面介绍两种常见的方法:  <code>RMI(Remote Method Invocation)</code> 与 <code>URLClassLoader</code>.</p>
+
+<h3 id="rmi">RMI</h3>
+
+<p><code>rmi</code> 即 <code>Remote Method Invocation</code> ，操作步骤如下：</p>
+
+<h4 id="定义远程接口">定义远程接口</h4>
+
+<pre><code>package me.codeboy.test.rmi;
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+/**
+ * server remote interface
+ * Created by YD on 2/5/16.
+ */
+public interface IServer extends Remote {
+    String getData() throws RemoteException; //获取数据
+}
+</code></pre>
+
+<h4 id="服务器接口实现">服务器接口实现</h4>
+
+<pre><code>package me.codeboy.test.rmi.server;
+
+import me.codeboy.test.rmi.IServer;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
+/**
+ * server implement
+ * Created by YD on 2/5/16.
+ */
+public class ServerImpl extends UnicastRemoteObject implements IServer {
+
+    public ServerImpl() throws RemoteException {
+    }
+
+    @Override
+    public String getData() throws RemoteException {
+        return "Hello, I am code boy.";
+    }
+}
+</code></pre>
+
+<h4 id="rmi服务端实现">rmi服务端实现</h4>
+
+<pre><code>import java.rmi.Naming;
+import java.rmi.registry.LocateRegistry;
+
+/**
+ * rmi server
+ * Created by YD on 2/5/16.
+ */
+public class RmiServer {
+
+    public static void main(String[] argv) {
+        try {
+            //注册rmi服务
+            LocateRegistry.createRegistry(1099);
+
+            ServerImpl server = new ServerImpl();
+
+            //绑定实例到指定的名称上
+            Naming.rebind("test", server);
+
+            CBPrint.print("Test server is ready.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+
+<h4 id="rmi客户端实现">rmi客户端实现</h4>
+
+<pre><code>package me.codeboy.test.rmi.client;
+
+import me.codeboy.common.base.log.CBPrint;
+import me.codeboy.test.rmi.IServer;
+
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+
+/**
+ * rmi client
+ * Created by YD on 2/5/16.
+ */
+public class RmiClient {
+    public static void main(String args[]) throws RemoteException, MalformedURLException, NotBoundException {
+        String url = "rmi://127.0.0.1/test";
+        IServer server = (IServer) Naming.lookup(url);
+        CBPrint.print(server.getData());
+    }
+}
+</code></pre>
+
+<h4 id="运行">运行</h4>
+<ul>
+  <li>运行rmi server</li>
+  <li>运行rmi client</li>
+</ul>
+
+<blockquote>
+  <p>其中 <code>CBPrint</code> 使用第三方库<a href="http://github.com/androiddevelop/CommonBase">http://github.com/androiddevelop/CommonBase</a></p>
+</blockquote>
+
+<h3 id="urlclassloader">URLClassLoader</h3>
+
+<p><code>URLClassLoader</code> 可以在客户端上加载服务端的jar包，利用反射机制进行方法的调用即可，Java的三个类加载器组成的初始类加载器 <code>bootstrap classloader</code> <code>extension classloader</code> <code>system classloader</code>, 其中后两个classloader都是 <code>URLClassLoader</code> 的子类。操作步骤如下:</p>
+
+<h4 id="服务端程序">服务端程序</h4>
+
+<pre><code>package me.codeboy.test;
+
+import me.codeboy.common.base.log.CBPrint;
+
+/**
+ * main function
+ * Created by YD on 2/2/16.
+ */
+public class Test {
+    public static void main(String[] args) {
+        new Test().test();
+    }
+
+    /**
+     * 测试
+     */
+    public void test() {
+        CBPrint.print("Hello, I am from codeboy.me.");
+    }
+}
+</code></pre>
+
+<p>将上面测试类编译后打包成jar包，放置在服务器上，供客户端调用。</p>
+
+<h4 id="客户端调用">客户端调用</h4>
+
+<pre><code>package me.codeboy.test;
+
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
+
+/**
+ * test
+ * Created by YD on 2/4/16.
+ */
+public class Main {
+    public static void main(String[] args) {
+        String jarURL = "http://example.codeboy.me/rmi/Test.jar";
+        try {
+            URLClassLoader classLoader = new URLClassLoader(new URL[]{new URL(jarURL)});
+            Class cls = classLoader.loadClass("me.codeboy.test.Test");
+            Method method = cls.getDeclaredMethod("test");
+            method.invoke(cls.newInstance());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+
+<p>运行后输入以下结果：</p>
+
+<pre><code>Hello, I am from codeboy.me.
+</code></pre>
+
+<p>其中<a href="http://example.codeboy.me/rmi/Test.jar">http://example.codeboy.me/rmi/Test.jar</a>即为服务端的jar包，<code>me.codeboy.test.Test</code> 是对应的类， <code>test</code> 是Test类中的方法。</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+:ET

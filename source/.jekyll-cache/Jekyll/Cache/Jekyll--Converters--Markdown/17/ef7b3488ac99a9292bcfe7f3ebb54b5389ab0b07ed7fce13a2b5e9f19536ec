@@ -1,0 +1,67 @@
+I"�<p>正则表达式是平时开发中经常用到的技巧，大部分时候我们需要的是判断字符串有没有含有固定的模式串，但是某些场景下需要使用非获取匹配，下面根据一种常见的情景:</p>
+
+<p><strong>匹配所有含有 <code>app://page.cb/myPage?id=xxxx</code>的地址，但是排除参数中携带<code>downgrade=true</code>的地址。</strong></p>
+
+<p>具体用几个例子说明一下:</p>
+
+<pre><code>原始地址: app://page.cb/myPage
+匹配结果: no， id不存在
+
+原始地址: app://page.cb/myPage?id=123456
+匹配结果: yes
+
+原始地址: app://page.cb/myPage?param=123456
+匹配结果: no, id不存在
+
+原始地址: app://page.cb/myPage?id=123456&amp;downgrade=true
+匹配结果: no, downgrade为true
+
+原始地址: app://page.cb/myPage?id=123456&amp;downgrade=false
+匹配结果: yes
+
+原始地址: app://page.cb/myPage?downgrade=false&amp;id=123456
+匹配结果: yes
+
+原始地址: app://page.cb/myPage?downgrade=true&amp;id=123456
+匹配结果: no, downgrade为true
+</code></pre>
+
+<p>匹配所有不含<code>downgrade=true</code>的<code>app://page.cb/myPage?id=xxxx</code>地址，这里可以使用正则表达式的非获取匹配，下面介绍非获取匹配的两种:</p>
+
+<h4 id="pattern">(?!pattern)</h4>
+
+<p>非获取匹配，正向否定预查，在任何不匹配pattern的字符串开始处匹配查找字符串，该匹配不需要获取供以后使用。例如“Windows(?!95|98|NT|2000)”能匹配“Windows3.1”中的“Windows”，但不能匹配“Windows2000”中的“Windows”。</p>
+
+<h4 id="pattern-1">(?&lt;!pattern)</h4>
+
+<p>非获取匹配，反向否定预查，与正向否定预查类似，只是方向相反。例如“(?&lt;!95|98|NT|2000)Windows”能匹配“3.1Windows”中的“Windows”，但不能匹配“2000Windows”中的“Windows”。</p>
+
+<p>根据非获取匹配的写法， 我们采用了正向否定查询，正则表达式如下：</p>
+
+<pre><code>app:\/\/page.cb\/myPage\?(((?!downgrade=true).)*id=\d+((?!downgrade=true).)*)
+</code></pre>
+
+<p>对其中的反向预查部分进行分割如下：</p>
+
+<p><span style="background-color:#B5EF79; font-weight: 700;">app:\/\/page.cb\/myPage</span><span style="background-color:#FDBE73; font-weight: 700;">\?</span>(<span style="background-color:#77C5FD; font-weight: 700;">((?!downgrade=true).)*</span><span style="background-color:#B5EF79">id=\d+</span><span style="background-color:#77C5FD; font-weight: 700;">((?!downgrade=true).)*</span>)</p>
+
+<p>可以在<a href="https://regex101.com/">https://regex101.com</a> 中尝试匹配。</p>
+
+<p>分析以上正则表达式，即 <code>id=\d+</code> 的前后都不能含有 <code>downgrade=true</code> ，其中 <code>((?!downgrade=true).)*</code> 从里到外看，<code>(?!downgrade=true)</code> 代表不含该字符串，然后.用于匹配id参数前后的其他参数,此处的.不能防止在 <code>(?!downgrade=true)</code> 的前面，会造成如果第一个参数是 <code>downgrade=true</code> 时被遗漏掉。</p>
+
+<p>如果需要url中参数部分，其中$1即为参数部分。</p>
+
+<p>测试case集合：</p>
+<pre><code>app://page.cb/myPage
+app://page.cb/myPage?id=123456
+app://page.cb/myPage?param=123456
+app://page.cb/myPage?id=123456&amp;downgrade=true
+app://page.cb/myPage?id=123456&amp;downgrade=false
+app://page.cb/myPage?downgrade=false&amp;id=123456
+app://page.cb/myPage?downgrade=true&amp;id=123456
+</code></pre>
+
+<blockquote>
+  <p>由于各种语言对正则表达式支持程度不同，例如非获取匹配中的反向否定预查在javascript中不支持，但是在php,python,java中是支持的，正向否定预查在javascript,php,python,java中都支持，所以使用前一定要注意，同事需要考虑正则表达式的性能问题。</p>
+</blockquote>
+:ET

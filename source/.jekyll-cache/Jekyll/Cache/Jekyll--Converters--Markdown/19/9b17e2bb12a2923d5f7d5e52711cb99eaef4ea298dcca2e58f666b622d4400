@@ -1,0 +1,81 @@
+I"d	<p>在一些按天计算的场景中，需要获取当天凌晨零点的时间，有什么快捷高效的做法呢？下面针对Java中的几种计算方式进行比较：</p>
+
+<h4 id="simpledateformat">SimpleDateFormat</h4>
+
+<p>获取当前时间对应的年月日，反向计算即可。</p>
+
+<pre><code class="language-java">private static long getTimeWay1() {
+    try {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+        return sdf.parse(sdf.format(System.currentTimeMillis())).getTime();
+    } catch (ParseException e) {
+        e.printStackTrace();
+    }
+    return -1;
+}
+</code></pre>
+
+<h4 id="calendar">Calendar</h4>
+
+<p>使用 <code>java.util.Calendar</code> 类，可以便捷去除时分秒以及毫秒的数值，</p>
+
+<pre><code class="language-java">private static long getTimeWay2() {
+    Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+    //注意，这里不是Calendar.HOUR, 需要按照24小时的Calendar.HOUR_OF_DAY进行
+    calendar.set(Calendar.HOUR_OF_DAY, 0);
+    calendar.set(Calendar.MINUTE, 0);
+    calendar.set(Calendar.SECOND, 0);
+    calendar.set(Calendar.MILLISECOND, 0);
+    return calendar.getTimeInMillis();
+}
+</code></pre>
+
+<h4 id="除法">除法</h4>
+
+<p>借鉴 <code>SimpleDateFormat</code> 的方式，本次直接使用除法操作即可，需要注意一点的是时区问题，东八区相对于零时区增加了八个小时，处理中需要处理一下。</p>
+
+<pre><code class="language-java">private static long getTimeWay3() {
+    long ONE_DAY = 24 * 3600 * 1000;
+    long now = System.currentTimeMillis();
+    long offset = TimeZone.getDefault().getRawOffset();
+    return (now + offset) / ONE_DAY * ONE_DAY - offset;
+}
+</code></pre>
+
+<h4 id="小结">小结</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>方式</th>
+      <th>性能</th>
+      <th>使用</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>SimpleDateFormat</td>
+      <td>一般</td>
+      <td>一般</td>
+    </tr>
+    <tr>
+      <td>Calendar</td>
+      <td>高</td>
+      <td>方便</td>
+    </tr>
+    <tr>
+      <td>除法</td>
+      <td>最高</td>
+      <td>时区问题需要注意</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>对比下来, 推荐使用第二种</p>
+
+<blockquote>
+  <p>如有任何知识产权、版权问题或理论错误，还请指正。</p>
+
+  <p>转载请注明原作者及以上信息。</p>
+</blockquote>
+:ET
