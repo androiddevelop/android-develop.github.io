@@ -3,3 +3,4 @@ _site/
 .idea/
 source/_site/
 source/_jekyll-cache/
+source/.jekyll-cache/
